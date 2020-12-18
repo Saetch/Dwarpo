@@ -7,6 +7,6 @@
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PWSTR szCmdLine, int CmdShow)
 {
-
+	system("pause");
 }
 
