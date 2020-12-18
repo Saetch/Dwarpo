@@ -19,22 +19,25 @@
     <Filter Include="Quelldateien\model">
       <UniqueIdentifier>{2a4b2e6f-98b7-43c0-a5e9-bd0bb0f8f001}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Quelldateien\DwarPoEngine">
-      <UniqueIdentifier>{e187271b-e28e-4d50-b73d-204bda118781}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headerdateien\basic">
       <UniqueIdentifier>{154dc985-85f8-4a36-b403-0a04f073c895}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\DwarPoEngine">
-      <UniqueIdentifier>{81b1a283-0dcf-4e96-ab7b-1343aaa0d956}</UniqueIdentifier>
+    <Filter Include="DwarPoEngine">
+      <UniqueIdentifier>{55d8be5c-07ea-4d2d-9df4-fd8219a6c517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DwarPoEngine\DwarPoEngine-Headerdateien">
+      <UniqueIdentifier>{2547fa8a-0dc0-4f10-adfe-0d15b42d88d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DwarPoEngine\DwarPoEngine-Quelldateien">
+      <UniqueIdentifier>{551f633c-d79f-4003-ac48-5a51de53e130}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="DwarPoEngine.cpp">
-      <Filter>Quelldateien\DwarPoEngine</Filter>
+    <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp">
+      <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,8 +47,8 @@
     <ClInclude Include="QueueTypeLinkedList.h">
       <Filter>Headerdateien\basic</Filter>
     </ClInclude>
-    <ClInclude Include="DwarPoEngine.h">
-      <Filter>Headerdateien\DwarPoEngine</Filter>
+    <ClInclude Include="DwarPoEngine\DwarPoEngine.h">
+      <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

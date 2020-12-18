@@ -143,10 +143,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp" />
-    <ClCompile Include="DwarPoEngine.cpp" />
+    <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DwarPoEngine.h" />
+    <ClInclude Include="DwarPoEngine\DwarPoEngine.h" />
     <ClInclude Include="QueueTypeLinkedList.h" />
     <ClInclude Include="QueueTypeLinkedList_impl.h" />
   </ItemGroup>
