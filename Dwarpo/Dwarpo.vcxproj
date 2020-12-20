@@ -119,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>DwarPoEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,12 +144,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp" />
+    <ClCompile Include="DPEngine_instance.cpp" />
+    <ClCompile Include="DrawableEntity.cpp" />
+    <ClCompile Include="DrawObject.cpp" />
+    <ClCompile Include="DwarPoEngine\BaseWindow.cpp" />
     <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp" />
+    <ClCompile Include="StaticEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DPEngine_instance.h" />
+    <ClInclude Include="DrawableEntity.h" />
+    <ClInclude Include="DrawObject.h" />
+    <ClInclude Include="DwarPoEngine\BaseWindow.h" />
     <ClInclude Include="DwarPoEngine\DwarPoEngine.h" />
     <ClInclude Include="QueueTypeLinkedList.h" />
     <ClInclude Include="QueueTypeLinkedList_impl.h" />
+    <ClInclude Include="StaticEntity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

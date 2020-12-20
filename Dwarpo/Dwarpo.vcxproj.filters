@@ -31,6 +31,15 @@
     <Filter Include="DwarPoEngine\DwarPoEngine-Quelldateien">
       <UniqueIdentifier>{551f633c-d79f-4003-ac48-5a51de53e130}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\model">
+      <UniqueIdentifier>{90de52c9-4a1b-4dbc-bfbc-34d469948f11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\viewController">
+      <UniqueIdentifier>{bd8f6c65-232c-4501-9382-54843cb3d9f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\viewController">
+      <UniqueIdentifier>{faef7e41-bbb3-47d9-b151-22011086bfdb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -38,6 +47,21 @@
     </ClCompile>
     <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp">
       <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawableEntity.cpp">
+      <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticEntity.cpp">
+      <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawObject.cpp">
+      <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="DwarPoEngine\BaseWindow.cpp">
+      <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="DPEngine_instance.cpp">
+      <Filter>Quelldateien\viewController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +73,21 @@
     </ClInclude>
     <ClInclude Include="DwarPoEngine\DwarPoEngine.h">
       <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableEntity.h">
+      <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticEntity.h">
+      <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawObject.h">
+      <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="DwarPoEngine\BaseWindow.h">
+      <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="DPEngine_instance.h">
+      <Filter>Headerdateien\viewController</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
