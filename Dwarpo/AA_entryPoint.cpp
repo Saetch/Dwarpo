@@ -11,15 +11,15 @@ void addHouse(DPEngine_instance* viewc);
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PWSTR szCmdLine, int CmdShow)
 {
-    //initialize random function
-    srand(time(NULL));
+    //Initialisiere random function
+    srand((int)time(NULL));
 	
 
-	//initialize
+	//initialisiere Engine
 	DPEngine_instance* viewCntrlr = new DPEngine_instance();
 
 
-    if (!viewCntrlr->Create(L"Circle", WS_OVERLAPPEDWINDOW | WS_VISIBLE))
+    if (!viewCntrlr->Create(L"Dwarpo!", WS_OVERLAPPEDWINDOW | WS_VISIBLE))
     {
         return 0;
     }
