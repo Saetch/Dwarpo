@@ -12,8 +12,8 @@ void DPEngine_instance::CalculateLayout()
         height = size.height;
         left = disX - width / 2;
         right = disX + width/2;
-        top = disY - width / 2;
-        bottom = disY + width / 2;
+        top = disY - height / 2;
+        bottom = disY + height / 2;
     }
 }
 
@@ -100,6 +100,8 @@ void DPEngine_instance::Resize()
     }
 }
 
+
+
 void DPEngine_instance::addEntityL(DrawableEntity* pnewE, unsigned short int layer)
 {   
 
@@ -141,10 +143,11 @@ int DPEngine_instance::onUpdate()
         curr = this->drawEntities->firstListElem();
         unsigned short drawOSize = 0;
         while(curr!=NULL) {
+
             pToDraw = curr->element->getObjectStart();
             drawOSize = curr->element->drawObjectsSize;
             for (int i = 0; i < drawOSize; i++) {
-                this->handleDrawObject(pToDraw);
+                this->handleDrawObject(curr->element->x, curr->element->y,pToDraw);
                 pToDraw++;
             }
             curr = curr->next;
@@ -171,18 +174,24 @@ int DPEngine_instance::onUpdate()
     return 1;
 }
 
-inline void DPEngine_instance::handleDrawObject(DrawObject* pDrawO) {
+inline void DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pDrawO) {
+    float displayX;
+    float displayY;
+    displayX = (x - disX) - left;
+    displayY = (y - disY) - top;
+
+
     switch (pDrawO->drawType) {
     case DrawO_RECT_FILL:
     case DrawO_RECT_DRAW:
         printf_s("HANDLEDRAWOBJECT case not yet implemented");
     case DrawO_LINE:
-        D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1(), pDrawO->getY1());
-        D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2(), pDrawO->getY2());
+        D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1()+displayX, pDrawO->getY1()+displayY);
+        D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2()+displayX, pDrawO->getY2()+displayY);
         this->pRenderTarget->DrawLine(start, end, this->pBrushes[pDrawO->color], pDrawO->width);
         break;
     default: 
-        printf_s("WRONG drawType for DrawObject\n");
+        printf_s("ILLEGAL drawType for DrawObject\n");
         return;
     }
 }
@@ -197,8 +206,11 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
         if (FAILED(D2D1CreateFactory(
             D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory)))
         {
+            printf_s("FAILED to create Resource DPEngine_instance.pFactory (ID2D1HwndRenderTarget)\n");
             return -1;  // Fail CreateWindowEx.
+
         }
+        this->onCreate();
         return 0;
 
     case WM_DESTROY:

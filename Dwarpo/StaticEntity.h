@@ -5,14 +5,12 @@ class StaticEntity: public DrawableEntity
 private:
 	bool Animated = false;
 public:
-
 	StaticEntity(const int size);
-	virtual ~StaticEntity()=0;
+	virtual ~StaticEntity();
 
 
-	void addDrawObject(DrawObject newO);
-
-	virtual bool isAnimated();
+	void addDrawObject(int type, int color, float x1, float y1, float x2, float y2, float width);
+	inline bool isAnimated() { return Animated; }
 
 
 	inline int getType() {

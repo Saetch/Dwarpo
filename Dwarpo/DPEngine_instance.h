@@ -18,7 +18,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         HRESULT CreateGraphicsResources();
         void    DiscardGraphicsResources();
         void    Resize();
-        inline void handleDrawObject(DrawObject* pDrawO);
+        inline void handleDrawObject(float x, float y, DrawObject* pDrawO);
 
     public:
         void setBkgrnd(unsigned short int newBkgrnd);

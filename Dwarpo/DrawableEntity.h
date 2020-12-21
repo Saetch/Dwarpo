@@ -8,8 +8,8 @@ class DrawableEntity
 {
 public:
 	//Bildschirmkoordinaten der Entity
-	float x;
-	float y;
+	float x = 0;
+	float y = 0;
 
 
 
@@ -17,11 +17,12 @@ public:
 	int drawObjectsSize;
 
 	DrawableEntity() {};
-	virtual ~DrawableEntity() = 0;
+	virtual ~DrawableEntity() {};
 
 	DrawObject* getObjectStart() {
 		return drawObjects;
 	}
+	virtual void addDrawObject(int type, int color, float x1, float y1, float x2, float y2, float width) = 0;
 	virtual int getType() = 0;
 	virtual bool isAnimated() = 0;
 };
