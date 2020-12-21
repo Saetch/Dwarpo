@@ -11,13 +11,13 @@ public:
 	float x;
 	float y;
 
-	//LAYER definiert, wann die Entity gezeichnet wird ( Hintergrund -> Mitte -> Vordergrund )
 
-	const int LAYER;
 
 	DrawObject* drawObjects;
 	int drawObjectsSize;
 
+	DrawableEntity() {};
+	virtual ~DrawableEntity() = 0;
 
 	DrawObject* getObjectStart() {
 		return drawObjects;

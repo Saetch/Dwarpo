@@ -52,10 +52,12 @@ public:
     )
     {
         WNDCLASS wc = { 0 };
-
+        
         wc.lpfnWndProc = DERIVED_TYPE::WindowProc;
         wc.hInstance = GetModuleHandle(NULL);
         wc.lpszClassName = ClassName();
+        wc.hCursor= LoadCursor(NULL, IDC_ARROW);
+
 
         RegisterClass(&wc);
 
@@ -82,7 +84,7 @@ public:
 
 protected:
 
-    virtual PCWSTR  ClassName() const = 0;
+    virtual const PCWSTR  ClassName() = 0;
     virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
 
     HWND m_hwnd;
