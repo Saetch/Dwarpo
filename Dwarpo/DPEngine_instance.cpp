@@ -181,14 +181,11 @@ inline void DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pD
     float displayY;
 
     //relative positioning
-    displayX = left+ width* ((100.0f + x - disX)/100.0f);
-    displayY = top+ height* ((100.0f + y - disY)/100.0f);
+    float x1 = left + width* ((100.0f+ x + pDrawO->getX1() -disX)/100.0f);
+    float y1 = top + height * (( 100.0f+ y +pDrawO->getY1()- disY) / 100.0f);
 
-    float x1 = displayX + width* ((pDrawO->getX1())/100.0f);
-    float y1 = displayY + height * (( pDrawO->getY1()) / 100.0f);
-
-    float x2 = displayX + width * (( pDrawO->getX2()) / 100.0f);
-    float y2 = displayY + height * (( pDrawO->getY2()) / 100.0f);
+    float x2 = left  + width * (( 100.0f+ x+pDrawO->getX2()-disX) / 100.0f);
+    float y2 = top + height * (( 100.0f+y+pDrawO->getY2()-disY) / 100.0f);
     switch (pDrawO->drawType) {
     case DrawO_RECT_FILL:
     case DrawO_RECT_DRAW:

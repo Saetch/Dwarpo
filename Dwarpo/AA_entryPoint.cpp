@@ -34,12 +34,12 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
     StaticEntity* phouse = new StaticEntity(6);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -10.0f, 0.0f, -10.0f, -15.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -10.0f, -15.0f, 0.0f, -30.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -30.0f, 10.0f, -15.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -10.0f, -15.0f, 10.0f, -15.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -10.0f, 0.0f, 10.0f, 0.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 10.0f, 0.0f, 10.0f, -15.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -7.0f, 0.0f, -7.0f, -15.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -7.0f, -15.0f, 0.0f, -30.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -30.0f, 7.0f, -15.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -7.0f, -15.0f, 7.0f, -15.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -7.0f, 0.0f, 7.0f, 0.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
     //center
     phouse->x = viewCntrlr->disX;
     phouse->y = viewCntrlr->disY;
