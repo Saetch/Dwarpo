@@ -102,6 +102,8 @@ void DPEngine_instance::Resize()
 
 
 
+
+
 void DPEngine_instance::addEntityL(DrawableEntity* pnewE, unsigned short int layer)
 {   
 
@@ -177,17 +179,23 @@ int DPEngine_instance::onUpdate()
 inline void DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pDrawO) {
     float displayX;
     float displayY;
-    displayX = (x - disX) - left;
-    displayY = (y - disY) - top;
 
+    //relative positioning
+    displayX = left+ width* ((100.0f + x - disX)/100.0f);
+    displayY = top+ height* ((100.0f + y - disY)/100.0f);
 
+    float x1 = displayX + width* ((pDrawO->getX1())/100.0f);
+    float y1 = displayY + height * (( pDrawO->getY1()) / 100.0f);
+
+    float x2 = displayX + width * (( pDrawO->getX2()) / 100.0f);
+    float y2 = displayY + height * (( pDrawO->getY2()) / 100.0f);
     switch (pDrawO->drawType) {
     case DrawO_RECT_FILL:
     case DrawO_RECT_DRAW:
         printf_s("HANDLEDRAWOBJECT case not yet implemented");
     case DrawO_LINE:
-        D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1()+displayX, pDrawO->getY1()+displayY);
-        D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2()+displayX, pDrawO->getY2()+displayY);
+        D2D1_POINT_2F start = D2D1::Point2F(x1, y1);
+        D2D1_POINT_2F end = D2D1::Point2F(x2, y2);
         this->pRenderTarget->DrawLine(start, end, this->pBrushes[pDrawO->color], pDrawO->width);
         break;
     default: 

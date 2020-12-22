@@ -34,12 +34,12 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
     StaticEntity* phouse = new StaticEntity(6);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -40.0f, 0.0f, -40.0f, -60.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -40.0f, -60.0f, 0.0f, -110.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -110.0f, 40.0f, -60.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -40.0f, -60.0f, 40.0f, -60.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -40.0f, 0.0f, 40.0f, 0.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 40.0f, 0.0f, 40.0f, -60.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -10.0f, 0.0f, -10.0f, -15.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -10.0f, -15.0f, 0.0f, -30.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -30.0f, 10.0f, -15.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -10.0f, -15.0f, 10.0f, -15.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -10.0f, 0.0f, 10.0f, 0.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 10.0f, 0.0f, 10.0f, -15.0f, 3.0f);
     //center
     phouse->x = viewCntrlr->disX;
     phouse->y = viewCntrlr->disY;
@@ -86,11 +86,11 @@ void moveHouse(StaticEntity** pphouse, HWND hwnd) {
         //60fps -->update x and y
 
             callMs = callMs + (std::chrono::milliseconds) 16;
-            phouse->x += 7.0f * directionToMove;
-            if ((phouse->x) > 500.0f) {
+            phouse->x += 0.5f * directionToMove;
+            if ((phouse->x) > 50.0f) {
                 directionToMove = -1;
             }
-            else if (phouse->x < -500.0f) {
+            else if (phouse->x < -50.0f) {
                 directionToMove = 1;
             }
             SendMessage(hwnd, WM_PAINT, 0, 0);
