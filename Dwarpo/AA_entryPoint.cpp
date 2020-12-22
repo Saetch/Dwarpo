@@ -97,11 +97,11 @@ void moveHouse(StaticEntity** pphouse, HWND hwnd) {
         //60fps -->update x and y
 
             callMs = callMs + (std::chrono::milliseconds) 16;
-            phouse->x += 0.5f * directionToMove;
-            if ((phouse->x) > 50.0f) {
+            phouse->x += 5.0f * directionToMove;
+            if ((phouse->x) > 400.0f) {
                 directionToMove = -1;
             }
-            else if (phouse->x < -50.0f) {
+            else if (phouse->x < -400.0f) {
                 directionToMove = 1;
             }
             SendMessage(hwnd, WM_PAINT, 0, 0);
