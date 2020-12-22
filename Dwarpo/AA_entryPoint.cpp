@@ -34,12 +34,23 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
     StaticEntity* phouse = new StaticEntity(6);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -7.0f, 0.0f, -7.0f, -15.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -7.0f, -15.0f, 0.0f, -30.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -30.0f, 7.0f, -15.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -7.0f, -15.0f, 7.0f, -15.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -7.0f, 0.0f, 7.0f, 0.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
+    
+
+    
+    phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 50.0f, 0.0f, 50.0f, -90.0f, 3.0f);
+    //this way, added objects can be changed. Tho if the entity holds a reference that is shared
+    //between multiple entitites, the changes will be visible for all of them
+    //use this carefully, outside of game setup
+    phouse->getObjectStart()[0].drawType = DrawO_LINE;
+    
+
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, -90.0f, 0.0f, -140.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -140.0f, 50.0f, -90.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, -90.0f, 50.0f, -90.0f, 3.0f);
+    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, 50.0f, 0.0f, 3.0f);
+    //phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
+    
     //center
     phouse->x = viewCntrlr->disX;
     phouse->y = viewCntrlr->disY;

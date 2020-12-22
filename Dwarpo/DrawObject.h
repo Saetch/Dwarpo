@@ -49,6 +49,11 @@ public:
 	inline float getY2();
 	inline float getBottom();
 
+
+	inline void setWidth(float newWidth) { width = newWidth; }
+	inline float getWidth() { return width; }
+	inline void setAngle(float newAngle) { angle = newAngle; }
+	inline float getAngle() { return angle; }
 	//Vektoren der Endpunkte der Form, in je x und y koordinate für Line, 
 	//left, right, up und down für rect
 	float x1;
@@ -59,6 +64,7 @@ public:
 
 	//breite der Linie bei draw (nicht fill) functions
 	float width;
+	float angle = 0.0f;
 };
 
 

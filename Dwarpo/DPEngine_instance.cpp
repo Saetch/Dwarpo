@@ -41,22 +41,22 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
             cur++;
             switch (i){
             case DrawO_COLOR_WHITE:
-                color = D2D1::ColorF(1.0f, 1.0f, 1.0f);
+                color = D2D1::ColorF(1.0f, 1.0f, 1.0f,1.0f);
                 break;
             case DrawO_COLOR_BROWN:
-                color = D2D1::ColorF(0.6f, 0.3f, 0.0f);
+                color = D2D1::ColorF(0.6f, 0.3f, 0.0f, 1.0f);
                 break;
             case DrawO_COLOR_BLUE:
-                color = D2D1::ColorF(0.2f, 0.0f, 0.8f);
+                color = D2D1::ColorF(0.2f, 0.0f, 0.8f, 1.0f);
                 break;
             case DrawO_COLOR_RED:
-                color = D2D1::ColorF(0.9f, 0.0f, 0.1f);
+                color = D2D1::ColorF(0.9f, 0.0f, 0.1f, 1.0f);
                 break;
             case DrawO_COLOR_YELLOW:
-                color = D2D1::ColorF(0.8f, 0.8f, 0.0f);
+                color = D2D1::ColorF(0.8f, 0.8f, 0.0f, 1.0f);
                 break;
             case DrawO_COLOR_ORANGE:
-                color = D2D1::ColorF(0.9f, 0.6f, 0.0f);
+                color = D2D1::ColorF(0.9f, 0.6f, 0.0f, 1.0f);
                 break;
             case DrawO_COLOR_GREEN:
                 color = D2D1::ColorF(0.3f, 0.7f, 0.0f);
@@ -160,8 +160,6 @@ int DPEngine_instance::onUpdate()
 
 
 
-        // Restore the identity transformation.
-        pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
         hr = pRenderTarget->EndDraw();
         if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
@@ -179,26 +177,44 @@ int DPEngine_instance::onUpdate()
 inline void DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pDrawO) {
     float displayX;
     float displayY;
+    displayX = (x - disX) - left;
+    displayY = (y - disY) - top;
 
+ 
     //relative positioning
-    float x1 = left + width* ((100.0f+ x + pDrawO->getX1() -disX)/100.0f);
-    float y1 = top + height * (( 100.0f+ y +pDrawO->getY1()- disY) / 100.0f);
 
-    float x2 = left  + width * (( 100.0f+ x+pDrawO->getX2()-disX) / 100.0f);
-    float y2 = top + height * (( 100.0f+y+pDrawO->getY2()-disY) / 100.0f);
     switch (pDrawO->drawType) {
     case DrawO_RECT_FILL:
-    case DrawO_RECT_DRAW:
         printf_s("HANDLEDRAWOBJECT case not yet implemented");
+        break;
+    case DrawO_RECT_DRAW:
+
+
+        
+        pRenderTarget->SetTransform(
+            D2D1::Matrix3x2F::Translation(displayX, displayY)*D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
+        );
+        D2D1_RECT_F rectangle = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(),pDrawO->getBottom());
+        this->pRenderTarget->DrawRectangle(&rectangle,this->pBrushes[pDrawO->color],pDrawO->width);
+
+        printf_s("%lf-->%lf-->%lf-->%lf-->%lf-->%f\n", rectangle.left, rectangle.top, rectangle.right, rectangle.bottom, pDrawO->width, this->pBrushes[pDrawO->color]->GetColor().a);
+
+        break;
     case DrawO_LINE:
-        D2D1_POINT_2F start = D2D1::Point2F(x1, y1);
-        D2D1_POINT_2F end = D2D1::Point2F(x2, y2);
+
+        D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1()+displayX, pDrawO->getY1()+displayY);
+        D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2()+displayX, pDrawO->getY2()+displayY);
         this->pRenderTarget->DrawLine(start, end, this->pBrushes[pDrawO->color], pDrawO->width);
+        printf_s("%lf-->%lf-->%lf-->%lf\n", pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
+
         break;
     default: 
         printf_s("ILLEGAL drawType for DrawObject\n");
         return;
     }
+
+    pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+
 }
 
 
