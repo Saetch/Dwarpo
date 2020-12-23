@@ -150,6 +150,7 @@
     <ClCompile Include="DwarPoEngine\BaseWindow.cpp" />
     <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp" />
     <ClCompile Include="DwarpoModel.cpp" />
+    <ClCompile Include="groundTile.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +160,7 @@
     <ClInclude Include="DwarPoEngine\BaseWindow.h" />
     <ClInclude Include="DwarPoEngine\DwarPoEngine.h" />
     <ClInclude Include="DwarpoModel.h" />
+    <ClInclude Include="groundTile.h" />
     <ClInclude Include="QueueTypeLinkedList.h" />
     <ClInclude Include="QueueTypeLinkedList_impl.h" />
     <ClInclude Include="StaticEntity.h" />

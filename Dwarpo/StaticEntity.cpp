@@ -1,10 +1,12 @@
 #include "StaticEntity.h"
 #include <malloc.h>
+#include <stdio.h>
 //static entities sollen sich nicht bewegen (auf dem Bildschirm),
 //also sind für den Background und UI Elemente gemacht und haben keine Referenz auf ein Model-Objekt
 
 StaticEntity::StaticEntity(const int size)
 {
+	printf_s("StaticEntity Constructor called\n");
 	drawObjectsSize = size;
 	drawObjects = (DrawObject**)calloc(size, sizeof(DrawObject*));
 }

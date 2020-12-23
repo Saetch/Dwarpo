@@ -4,12 +4,14 @@
 #include <Windows.h>
 #include "DPEngine_instance.h"
 #include "StaticEntity.h"
+#include "DwarpoModel.h"
 #include <chrono>
 #include <thread>
 //
 void moveHouse(StaticEntity** pphouse, HWND hwnd);
 void addEntity(DPEngine_instance* viewc, StaticEntity* phouse);
 int globalBool = 1;
+DPEngine_instance* viewCntrlr;
 
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PWSTR szCmdLine, int CmdShow)
@@ -18,7 +20,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     srand((int)time(NULL));
 
 	//initialisiere Engine
-	DPEngine_instance* viewCntrlr = new DPEngine_instance();
+	viewCntrlr = new DPEngine_instance();
 
 
     if (!viewCntrlr->Create(L"Dwarpo!", WS_OVERLAPPEDWINDOW | WS_VISIBLE))
@@ -28,45 +30,112 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     //es gibt momentan 8 versch. Farben (#include DrawObject.h::DRAW_LOADCOLOR_NUM)
     //8 ist schwarz, das wird beim Zufall rausgenommen
-    viewCntrlr->setBkgrnd((rand() % (DRAW_LOADCOLOR_NUM-1)) + 1);
-
-
-
-
+    viewCntrlr->setBkgrnd(DrawO_COLOR_LIGHTGREY);
     StaticEntity* phouse = new StaticEntity(6);
-    
 
-    
-    phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 50.0f, 0.0f, 50.0f, -90.0f, 3.0f);
-    //this way, added objects can be changed. Tho if the entity holds a reference that is shared
-    //between multiple entitites, the changes will be visible for all of them
-    //use this carefully, outside of game setup
-    phouse->getObjectStart()[0]->drawType = DrawO_LINE;
-    
+    /*
+    {
 
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, -90.0f, 0.0f, -140.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -140.0f, 50.0f, -90.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, -90.0f, 50.0f, -90.0f, 3.0f);
-    phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, 50.0f, 0.0f, 3.0f);
-    //phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
-    
-    //center
-    phouse->x = viewCntrlr->disX;
-    phouse->y = viewCntrlr->disY;
-    addEntity(viewCntrlr, phouse);
 
-    for (int c = 0; c < 800; c++) {
+
+
+        phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 50.0f, 0.0f, 50.0f, -90.0f, 3.0f);
+        //this way, added objects can be changed. Tho if the entity holds a reference that is shared
+        //between multiple entitites, the changes will be visible for all of them
+        //use this carefully, outside of game setup
+        phouse->getObjectStart()[0]->drawType = DrawO_LINE;
+
+
+        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
+        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, -90.0f, 0.0f, -140.0f, 3.0f);
+        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -140.0f, 50.0f, -90.0f, 3.0f);
+        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, -90.0f, 50.0f, -90.0f, 3.0f);
+        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, 50.0f, 0.0f, 3.0f);
+        //phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
+
+        //center
+        phouse->x = viewCntrlr->disX;
+        phouse->y = viewCntrlr->disY;
+        addEntity(viewCntrlr, phouse);
         StaticEntity* phouse2 = new StaticEntity(6);
-        for (int i = 0; i < 6; i++) {
-            phouse2->addDrawObjectReference(phouse->getObjectStart()[i]);
+
+        StaticEntity* phouse3 = new StaticEntity(6);
+
+        {
+
+            phouse2->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLUE, 50.0f, 0.0f, 50.0f, -90.0f, 3.0f);
+            //this way, added objects can be changed. Tho if the entity holds a reference that is shared
+            //between multiple entitites, the changes will be visible for all of them
+            //use this carefully, outside of game setup
+            phouse2->getObjectStart()[0]->drawType = DrawO_LINE;
+
+
+            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
+            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, -50.0f, -90.0f, 0.0f, -140.0f, 3.0f);
+            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, 0.0f, -140.0f, 50.0f, -90.0f, 3.0f);
+            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, -50.0f, -90.0f, 50.0f, -90.0f, 3.0f);
+            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, -50.0f, 0.0f, 50.0f, 0.0f, 3.0f);
+            //phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
+
+            //center
+            phouse2->x = viewCntrlr->disX;
+            phouse2->y = viewCntrlr->disY;
+            addEntity(viewCntrlr, phouse2);
         }
-        phouse2->x = -600 + (rand() % 1200);
-        phouse2->y = -600 + (rand() % 1200);
-        addEntity(viewCntrlr, phouse2);
+        {
+
+            phouse3->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BROWN, 50.0f, 0.0f, 50.0f, -90.0f, 3.0f);
+            //this way, added objects can be changed. Tho if the entity holds a reference that is shared
+            //between multiple entitites, the changes will be visible for all of them
+            //use this carefully, outside of game setup
+            phouse3->getObjectStart()[0]->drawType = DrawO_LINE;
+
+
+            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
+            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, -50.0f, -90.0f, 0.0f, -140.0f, 3.0f);
+            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, 0.0f, -140.0f, 50.0f, -90.0f, 3.0f);
+            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, -50.0f, -90.0f, 50.0f, -90.0f, 3.0f);
+            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, -50.0f, 0.0f, 50.0f, 0.0f, 3.0f);
+            //phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
+
+            //center
+            phouse3->x = viewCntrlr->disX;
+            phouse3->y = viewCntrlr->disY;
+            addEntity(viewCntrlr, phouse3);
+        }
+
+        int r;
+        for (int c = 0; c < 800; c++) {
+            r = rand() % 3;
+            StaticEntity* phouse4 = new StaticEntity(6);
+            for (int i = 0; i < 6; i++) {
+                switch (r) {
+                case 0:
+                    phouse4->addDrawObjectReference(phouse->getObjectStart()[i]);
+                    break;
+                case 1:
+                    phouse4->addDrawObjectReference(phouse2->getObjectStart()[i]);
+                    break;
+                case 2:
+                    phouse4->addDrawObjectReference(phouse3->getObjectStart()[i]);
+                    break;
+                }
+            }
+            phouse4->x = -600 + (rand() % 1200);
+            phouse4->y = -600 + (rand() % 1200);
+            addEntity(viewCntrlr, phouse4);
+        }
     }
 
+    */
+    
+    DwarpoModel* model = new DwarpoModel;
 
+    model->viewcontroller = viewCntrlr;
+    model->constructMap();
+
+    viewCntrlr->disX -= 20.0f;
+    viewCntrlr->disY -= 20.0f;
 
 
 
@@ -85,8 +154,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
             delete thr1;
         }
         DispatchMessage(&msg);
-        //draw the canvas anew (potentially unlimited framerate)
-        //SendMessage(viewCntrlr->Window(), WM_PAINT, 0, 0);
+
     }
 
     return 0;

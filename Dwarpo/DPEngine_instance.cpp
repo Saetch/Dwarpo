@@ -10,10 +10,10 @@ void DPEngine_instance::CalculateLayout()
         D2D1_SIZE_F size = pRenderTarget->GetSize(); //GetSize returns in dip (device independent pixels), which is the correct measurement for all layout options
         width = size.width;
         height = size.height;
-        left = disX - width / 2;
-        right = disX + width/2;
-        top = disY - height / 2;
-        bottom = disY + height / 2;
+        left = disX;
+        right = disX + width;
+        top = disY;
+        bottom = disY + height ;
     }
 }
 
@@ -59,15 +59,20 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
                 color = D2D1::ColorF(0.9f, 0.6f, 0.0f, 1.0f);
                 break;
             case DrawO_COLOR_GREEN:
-                color = D2D1::ColorF(0.3f, 0.7f, 0.0f);
+                color = D2D1::ColorF(0.f, 0.5f, 0.0f, 1.0f);
                 break;
             case DrawO_COLOR_BLACK:
-                color = D2D1::ColorF(0.1f, 0.1f, 0.1f);
+                color = D2D1::ColorF(0.1f, 0.1f, 0.1f, 1.0f);
                 break;
+            case DrawO_COLOR_LIGHTGREY:
+                color = D2D1::ColorF(0.5f, 0.5f, 0.5f, 1.0f);
             }
+         
             printf_s(" %d ", i);
             hr = pRenderTarget->CreateSolidColorBrush(color, cur);
-            if (i >= DRAW_LOADCOLOR_NUM) break;
+            if (i >= DRAW_LOADCOLOR_NUM) {
+                break;
+            }
         }
         if (SUCCEEDED(hr))
         {
@@ -174,19 +179,27 @@ int DPEngine_instance::onUpdate()
     return 1;
 }
 
-inline void DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pDrawO) {
+inline void __fastcall DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pDrawO) {
     float displayX;
     float displayY;
-    displayX = (x - disX) - left;
-    displayY = (y - disY) - top;
+    displayX = (x - disX);
+    displayY = (y - disY);
 
  
     //relative positioning
 
     switch (pDrawO->drawType) {
+
     case DrawO_RECT_FILL:
-        printf_s("HANDLEDRAWOBJECT case not yet implemented");
-        break;
+        pRenderTarget->SetTransform(
+            D2D1::Matrix3x2F::Translation(displayX, displayY) * D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
+        );
+        D2D1_RECT_F rectangle = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
+        this->pRenderTarget->FillRectangle(&rectangle, this->pBrushes[pDrawO->color]);
+        return;
+
+
+
     case DrawO_RECT_DRAW:
 
 
@@ -194,24 +207,59 @@ inline void DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pD
         pRenderTarget->SetTransform(
             D2D1::Matrix3x2F::Translation(displayX, displayY)*D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
         );
-        D2D1_RECT_F rectangle = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(),pDrawO->getBottom());
-        this->pRenderTarget->DrawRectangle(&rectangle,this->pBrushes[pDrawO->color],pDrawO->width);
+        D2D1_RECT_F rectangle2 = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(),pDrawO->getBottom());
+        this->pRenderTarget->DrawRectangle(&rectangle2,this->pBrushes[pDrawO->color],pDrawO->width);
 
 
-        break;
+        return;
     case DrawO_LINE:
 
         D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1()+displayX, pDrawO->getY1()+displayY);
         D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2()+displayX, pDrawO->getY2()+displayY);
         this->pRenderTarget->DrawLine(start, end, this->pBrushes[pDrawO->color], pDrawO->width);
 
-        break;
+        return;
     default: 
         printf_s("ILLEGAL drawType for DrawObject\n");
         return;
     }
 
-    pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+
+}
+
+void __thiscall DPEngine_instance::fillBuffer()
+{
+    {
+        drawObjectBuffer[0].angle = 0.0f;
+        drawObjectBuffer[0].color = DrawO_COLOR_GREEN;
+        drawObjectBuffer[0].drawType = DrawO_RECT_FILL;
+        drawObjectBuffer[0].width = 1.0f;
+        drawObjectBuffer[0].x1 = 0.0f;
+        drawObjectBuffer[0].y1 = tileSize();
+        drawObjectBuffer[0].x2 = 0.0f;
+        drawObjectBuffer[0].y2 = tileSize();
+    }
+    {
+        //this is for debug purposes, to be removed later
+        drawObjectBuffer[490].angle = 0.0f;
+        drawObjectBuffer[490].color = DrawO_COLOR_BLACK;
+        drawObjectBuffer[490].drawType = DrawO_RECT_DRAW;
+        drawObjectBuffer[490].width = 1.3f;
+        drawObjectBuffer[490].x1 = 0.0f;
+        drawObjectBuffer[490].y1 = tileSize();
+        drawObjectBuffer[490].x2 = 0.0f;
+        drawObjectBuffer[490].y2 = tileSize();
+    }
+}
+
+void DPEngine_instance::constructGrassTileEntity(StaticEntity* pEnt)
+{
+    if (pEnt->drawObjectsSize != 2) {
+        printf_s("ERR: Tried constructing GrassTileEntity from static entity with drawObjectSize: %d (2allowed)", pEnt->drawObjectsSize);
+        return ;
+    }
+    pEnt->addDrawObjectReference(drawObjectBuffer);
+    pEnt->addDrawObjectReference(drawObjectBuffer + 490);
 
 }
 
@@ -223,7 +271,7 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
     {
     case WM_CREATE:
         if (FAILED(D2D1CreateFactory(
-            D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory)))
+            D2D1_FACTORY_TYPE_MULTI_THREADED, &pFactory)))
         {
             printf_s("FAILED to create Resource DPEngine_instance.pFactory (ID2D1HwndRenderTarget)\n");
             return -1;  // Fail CreateWindowEx.
@@ -243,6 +291,7 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
 
     case WM_DWARPO_DRAW:
         onUpdate();
+        pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
         return 0;
 
 

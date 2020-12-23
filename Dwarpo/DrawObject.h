@@ -6,16 +6,17 @@
 
 
 //update this number if more colors get added
-#define DRAW_LOADCOLOR_NUM 8
+#define DRAW_LOADCOLOR_NUM 9
 
-#define DrawO_COLOR_WHITE	 0x001
-#define DrawO_COLOR_BROWN	 0x002
-#define DrawO_COLOR_BLUE	 0x003
-#define DrawO_COLOR_RED		 0x004
-#define DrawO_COLOR_YELLOW   0x005
-#define DrawO_COLOR_ORANGE	 0x006
-#define DrawO_COLOR_GREEN	 0x007
-#define DrawO_COLOR_BLACK    0x008
+#define DrawO_COLOR_WHITE	  0x001
+#define DrawO_COLOR_BROWN	  0x002
+#define DrawO_COLOR_BLUE	  0x003
+#define DrawO_COLOR_RED		  0x004
+#define DrawO_COLOR_YELLOW    0x005
+#define DrawO_COLOR_ORANGE	  0x006
+#define DrawO_COLOR_GREEN	  0x007
+#define DrawO_COLOR_BLACK     0x008
+#define DrawO_COLOR_LIGHTGREY 0x009
 
 class DrawObject
 {
