@@ -141,7 +141,7 @@ int DPEngine_instance::onUpdate()
         pRenderTarget->BeginDraw();
         //background
         pRenderTarget->Clear(pBrushes[this->backgroundColor]->GetColor());
-        DrawObject* pToDraw = NULL;
+        DrawObject** pToDraw = NULL;
         curr = this->drawEntities->firstListElem();
         unsigned short drawOSize = 0;
         while(curr!=NULL) {
@@ -149,7 +149,7 @@ int DPEngine_instance::onUpdate()
             pToDraw = curr->element->getObjectStart();
             drawOSize = curr->element->drawObjectsSize;
             for (int i = 0; i < drawOSize; i++) {
-                this->handleDrawObject(curr->element->x, curr->element->y,pToDraw);
+                this->handleDrawObject(curr->element->x, curr->element->y,*pToDraw);
                 pToDraw++;
             }
             curr = curr->next;
@@ -197,7 +197,6 @@ inline void DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pD
         D2D1_RECT_F rectangle = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(),pDrawO->getBottom());
         this->pRenderTarget->DrawRectangle(&rectangle,this->pBrushes[pDrawO->color],pDrawO->width);
 
-        printf_s("%lf-->%lf-->%lf-->%lf-->%lf-->%f\n", rectangle.left, rectangle.top, rectangle.right, rectangle.bottom, pDrawO->width, this->pBrushes[pDrawO->color]->GetColor().a);
 
         break;
     case DrawO_LINE:
@@ -205,7 +204,6 @@ inline void DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pD
         D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1()+displayX, pDrawO->getY1()+displayY);
         D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2()+displayX, pDrawO->getY2()+displayY);
         this->pRenderTarget->DrawLine(start, end, this->pBrushes[pDrawO->color], pDrawO->width);
-        printf_s("%lf-->%lf-->%lf-->%lf\n", pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
 
         break;
     default: 
@@ -241,9 +239,11 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
         return 0;
 
     case WM_PAINT:
-        onUpdate();
         return 0;
 
+    case WM_DWARPO_DRAW:
+        onUpdate();
+        return 0;
 
 
     case WM_SIZE:

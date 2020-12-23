@@ -12,6 +12,15 @@ public:
 	StaticEntity(const int size);
 	virtual ~StaticEntity();
 
+	inline void addDrawObjectReference(DrawObject* ref)
+	{
+		DrawObject** curr = drawObjects;
+		while (*curr != 0) {
+			curr++;
+		}
+		*curr = ref;
+	}
+
 	void addDrawObject(int type, int color, float x1, float y1, float x2, float y2, float width);
 	inline bool isAnimated() { return Animated; }
 

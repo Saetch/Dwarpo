@@ -13,13 +13,13 @@ public:
 
 
 
-	DrawObject* drawObjects;
+	DrawObject** drawObjects;
 	int drawObjectsSize;
 
 	DrawableEntity() {};
 	virtual ~DrawableEntity() {};
 
-	DrawObject* getObjectStart() {
+	DrawObject** getObjectStart() {
 		return drawObjects;
 	}
 	virtual void addDrawObject(int type, int color, float x1, float y1, float x2, float y2, float width) = 0;

@@ -6,7 +6,7 @@
 
 #pragma comment(lib, "user32.lib")
 
-
+#define WM_DWARPO_DRAW 0x2411
 class DrawableEntity;
 
 template <class DERIVED_TYPE>

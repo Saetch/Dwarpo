@@ -41,7 +41,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     //this way, added objects can be changed. Tho if the entity holds a reference that is shared
     //between multiple entitites, the changes will be visible for all of them
     //use this carefully, outside of game setup
-    phouse->getObjectStart()[0].drawType = DrawO_LINE;
+    phouse->getObjectStart()[0]->drawType = DrawO_LINE;
     
 
     phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
@@ -55,6 +55,20 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     phouse->x = viewCntrlr->disX;
     phouse->y = viewCntrlr->disY;
     addEntity(viewCntrlr, phouse);
+
+    for (int c = 0; c < 800; c++) {
+        StaticEntity* phouse2 = new StaticEntity(6);
+        for (int i = 0; i < 6; i++) {
+            phouse2->addDrawObjectReference(phouse->getObjectStart()[i]);
+        }
+        phouse2->x = -600 + (rand() % 1200);
+        phouse2->y = -600 + (rand() % 1200);
+        addEntity(viewCntrlr, phouse2);
+    }
+
+
+
+
 
     std:: thread* thr1 = new std::thread(moveHouse, &phouse, viewCntrlr->Window());
   
@@ -91,11 +105,7 @@ void moveHouse(StaticEntity** pphouse, HWND hwnd) {
     auto callMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
 
     while (globalBool) {
-
-
-        
         //60fps -->update x and y
-
             callMs = callMs + (std::chrono::milliseconds) 16;
             phouse->x += 5.0f * directionToMove;
             if ((phouse->x) > 400.0f) {
@@ -104,7 +114,7 @@ void moveHouse(StaticEntity** pphouse, HWND hwnd) {
             else if (phouse->x < -400.0f) {
                 directionToMove = 1;
             }
-            SendMessage(hwnd, WM_PAINT, 0, 0);
+            SendMessage(hwnd, WM_DWARPO_DRAW, 0, 0);
             std::this_thread::sleep_until(callMs);
 
     }

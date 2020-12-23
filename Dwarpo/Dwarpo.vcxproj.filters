@@ -63,6 +63,9 @@
     <ClCompile Include="DPEngine_instance.cpp">
       <Filter>Quelldateien\viewController</Filter>
     </ClCompile>
+    <ClCompile Include="DwarpoModel.cpp">
+      <Filter>Quelldateien\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="DPEngine_instance.h">
       <Filter>Headerdateien\viewController</Filter>
+    </ClInclude>
+    <ClInclude Include="DwarpoModel.h">
+      <Filter>Headerdateien\model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
