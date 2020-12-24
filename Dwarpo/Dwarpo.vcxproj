@@ -154,16 +154,27 @@
     <ClCompile Include="StaticEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Deer.h" />
     <ClInclude Include="DPEngine_instance.h" />
     <ClInclude Include="DrawableEntity.h" />
     <ClInclude Include="DrawObject.h" />
     <ClInclude Include="DwarPoEngine\BaseWindow.h" />
     <ClInclude Include="DwarPoEngine\DwarPoEngine.h" />
     <ClInclude Include="DwarpoModel.h" />
+    <ClInclude Include="Goblin.h" />
     <ClInclude Include="groundTile.h" />
+    <ClInclude Include="BaseCreature.h" />
+    <ClInclude Include="Dwarf.h" />
+    <ClInclude Include="Carnivore.h" />
+    <ClInclude Include="Herbivore.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Job.h" />
+    <ClInclude Include="Omnivore.h" />
+    <ClInclude Include="Personality.h" />
     <ClInclude Include="QueueTypeLinkedList.h" />
     <ClInclude Include="QueueTypeLinkedList_impl.h" />
     <ClInclude Include="StaticEntity.h" />
+    <ClInclude Include="Wolf.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

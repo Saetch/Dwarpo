@@ -15,6 +15,9 @@ public:
 
 	void constructMap();
 
+	void placeCreatures();
+
+	void createJob();
 
 	inline groundTile* getTileAt(int w, int h) {
 		return &map[w + h * DWARPO_GRID_HEIGHT];

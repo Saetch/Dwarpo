@@ -6,14 +6,19 @@ class groundTile
 {
 public:
 
-	bool solid;
+	bool isSolid;
 
 	float groundSpeedModifier = 1.0f;
 
 	StaticEntity drawableEntity;
 
+	float waterLevel = 0.0f;
 
+	float lavaLevel = 0.0f;
 
+	bool isHomeArea;
+
+	float dirtienessLevel;
 
 
 };

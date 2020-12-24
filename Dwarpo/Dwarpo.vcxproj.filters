@@ -40,6 +40,12 @@
     <Filter Include="Quelldateien\viewController">
       <UniqueIdentifier>{faef7e41-bbb3-47d9-b151-22011086bfdb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\model\Creatures">
+      <UniqueIdentifier>{8c3eb062-74b3-4b6f-b786-78dc1d5f7e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\model\Dwarf">
+      <UniqueIdentifier>{f1308b35-abe1-4b11-86ff-4640943994d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -100,6 +106,39 @@
     </ClInclude>
     <ClInclude Include="groundTile.h">
       <Filter>Headerdateien\model</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCreature.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Deer.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Goblin.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Carnivore.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Omnivore.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Herbivore.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Wolf.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Job.h">
+      <Filter>Headerdateien\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Dwarf.h">
+      <Filter>Headerdateien\model\Dwarf</Filter>
+    </ClInclude>
+    <ClInclude Include="Personality.h">
+      <Filter>Headerdateien\model\Dwarf</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Headerdateien\model\Dwarf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
