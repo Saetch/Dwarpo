@@ -1,10 +1,12 @@
 #pragma once
 #include "groundTile.h"
-#include "DPEngine_instance.h"
 #include <malloc.h>
-#define DWARPO_GRID_WIDTH 40
-#define DWARPO_GRID_HEIGHT 40
+#include "DPEngine_instance.h"
 
+#define DWARPO_GRID_WIDTH 200
+#define DWARPO_GRID_HEIGHT 200
+
+class DPEngine_instance;
 
 class DwarpoModel
 {
@@ -20,7 +22,7 @@ public:
 	void createJob();
 
 	inline groundTile* getTileAt(int w, int h) {
-		return &map[w + h * DWARPO_GRID_HEIGHT];
+		return &(map[w + h * DWARPO_GRID_WIDTH]);
 	}
 
 };

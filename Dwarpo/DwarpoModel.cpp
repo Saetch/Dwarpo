@@ -20,7 +20,17 @@ void DwarpoModel::constructMap()
 			//the view gets built from top to bottom --> thus up is down and vice versa
 			curr->drawableEntity.y = h * this->viewcontroller->tileSize();
 			//add the tile representation to the viewcontroller
+
 			this->viewcontroller->addEntityL(&curr->drawableEntity, 0);
+			
+
+			ListElem<DrawableEntity>* p;
+			p = viewcontroller->drawEntities->firstListElem();
+
 		}
 	}
+
+
+
+
 }
