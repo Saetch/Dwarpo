@@ -1,7 +1,6 @@
 #include "DPEngine_instance.h"
 #include "DrawObject.h"
 #include "QueueTypeLinkedList_impl.h"
-
 //TODO Layout (Anpassung je nach Länge/Breite des Bildschirms) ist eventuell nicht nötig
 void DPEngine_instance::CalculateLayout()
 {
@@ -21,24 +20,36 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
 {
     HRESULT hr = S_OK;
 
-    if (pRenderTarget == NULL)
+    if (pRenderTarget == NULL || pbkBufferTarget == NULL)
     {
         RECT rc;
         GetClientRect(m_hwnd, &rc);
 
         D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
+        if (pRenderTarget == NULL) {
+            hr = pFactory->CreateHwndRenderTarget(
+                D2D1::RenderTargetProperties(),
+                D2D1::HwndRenderTargetProperties(m_hwnd, size),
+                &pRenderTarget);
+        }
 
-        hr = pFactory->CreateHwndRenderTarget(
-            D2D1::RenderTargetProperties(),
-            D2D1::HwndRenderTargetProperties(m_hwnd, size),
-            &pRenderTarget);
+        //create Buffers
+        if (SUCCEEDED(hr)) {
+            hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize()*DWARPO_GRID_WIDTH,tileSize()*DWARPO_GRID_HEIGHT),&pbkBufferTarget);
+            if (SUCCEEDED(hr)) {
+                hr = pbkBufferTarget->GetBitmap(&bkbuffer);
+            }
+        }
+
         int i = 0;
         D2D1_COLOR_F color;
         ID2D1SolidColorBrush** cur = this->pBrushes;
+        ID2D1SolidColorBrush** bkbuffcurr = this->pbkBufferBrushes;
         while (SUCCEEDED(hr))
         {
             i++;
             cur++;
+            bkbuffcurr++;
             switch (i){
             case DrawO_COLOR_WHITE:
                 color = D2D1::ColorF(1.0f, 1.0f, 1.0f,1.0f);
@@ -72,6 +83,9 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
             hr = pRenderTarget->CreateSolidColorBrush(color, cur);
             if (i >= DRAW_LOADCOLOR_NUM) {
                 break;
+            }
+            if (SUCCEEDED(hr)) {
+                hr = pbkBufferTarget->CreateSolidColorBrush(color, bkbuffcurr);
             }
         }
         if (SUCCEEDED(hr))
@@ -111,9 +125,10 @@ void DPEngine_instance::Resize()
 
 void DPEngine_instance::addEntityL(DrawableEntity* pnewE, unsigned short int layer)
 {   
+    QueueTypeLinkedList<DrawableEntity>* list = &layers[layer];
+    list->pushBack(pnewE);
 
-    this->drawEntities->pushBack(pnewE);
-    printf_s("Called addEntityL, layer not implemented yet, fix this\n");
+    //this->drawEntities->pushBack(pnewE);
 }
 
 void DPEngine_instance::setBkgrnd(unsigned short int newBK)
@@ -132,6 +147,7 @@ unsigned short int DPEngine_instance::getBkgrnd()
 int DPEngine_instance::onCreate()
 {
     this->CalculateLayout();
+    
     return 0;
 }
 
@@ -146,14 +162,22 @@ int DPEngine_instance::onUpdate()
         pRenderTarget->BeginDraw();
         //background
         pRenderTarget->Clear(pBrushes[this->backgroundColor]->GetColor());
+        //get first element of background
+        
+        DrawableEntity* pDE;
+        pDE = this->layers[0].firstListElem()->element;
+        pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-disX, -disY, tileSize()*DWARPO_GRID_WIDTH-disX, tileSize()*DWARPO_GRID_HEIGHT-disY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+
         DrawObject** pToDraw = NULL;
         curr = this->drawEntities->firstListElem();
+        int i = 0;
         unsigned short drawOSize = 0;
         while(curr!=NULL) {
-
+            //printf_s("index: %d\n", i++);
             pToDraw = curr->element->getObjectStart();
             drawOSize = curr->element->drawObjectsSize;
             for (int i = 0; i < drawOSize; i++) {
+                //printf_s("X: %lf Y:%lf\n", curr->element->x, curr->element->y);
                 this->handleDrawObject(curr->element->x, curr->element->y,*pToDraw);
                 pToDraw++;
             }
@@ -185,7 +209,7 @@ inline void __fastcall DPEngine_instance::handleDrawObject(float x, float y, Dra
     displayX = (x - disX);
     displayY = (y - disY);
 
- 
+
     //relative positioning
 
     switch (pDrawO->drawType) {
@@ -203,23 +227,23 @@ inline void __fastcall DPEngine_instance::handleDrawObject(float x, float y, Dra
     case DrawO_RECT_DRAW:
 
 
-        
+
         pRenderTarget->SetTransform(
-            D2D1::Matrix3x2F::Translation(displayX, displayY)*D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
+            D2D1::Matrix3x2F::Translation(displayX, displayY) * D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
         );
-        D2D1_RECT_F rectangle2 = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(),pDrawO->getBottom());
-        this->pRenderTarget->DrawRectangle(&rectangle2,this->pBrushes[pDrawO->color],pDrawO->width);
+        D2D1_RECT_F rectangle2 = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
+        this->pRenderTarget->DrawRectangle(&rectangle2, this->pBrushes[pDrawO->color], pDrawO->width);
 
 
         return;
     case DrawO_LINE:
 
-        D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1()+displayX, pDrawO->getY1()+displayY);
-        D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2()+displayX, pDrawO->getY2()+displayY);
+        D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1() + displayX, pDrawO->getY1() + displayY);
+        D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2() + displayX, pDrawO->getY2() + displayY);
         this->pRenderTarget->DrawLine(start, end, this->pBrushes[pDrawO->color], pDrawO->width);
 
         return;
-    default: 
+    default:
         printf_s("ILLEGAL drawType for DrawObject\n");
         return;
     }
@@ -250,6 +274,96 @@ void __thiscall DPEngine_instance::fillBuffer()
         drawObjectBuffer[490].x2 = 0.0f;
         drawObjectBuffer[490].y2 = tileSize();
     }
+}
+
+inline void __fastcall DPEngine_instance::drawBkObject(float x, float y, DrawObject* pDrawO)
+{
+    float displayX;
+    float displayY;
+    displayX = (x);
+    displayY = (y);
+    //this->pbkBufferTarget->BeginDraw(); //debug
+
+    switch (pDrawO->drawType) {
+
+    case DrawO_RECT_FILL:
+        pbkBufferTarget->SetTransform(
+            D2D1::Matrix3x2F::Translation(displayX, displayY) * D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
+        );
+        D2D1_RECT_F rectangle = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
+        this->pbkBufferTarget->FillRectangle(&rectangle, this->pbkBufferBrushes[pDrawO->color]);
+        break;
+
+
+
+    case DrawO_RECT_DRAW:
+
+
+
+        pbkBufferTarget->SetTransform(
+            D2D1::Matrix3x2F::Translation(displayX, displayY) * D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
+        );
+        D2D1_RECT_F rectangle2 = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
+        this->pbkBufferTarget->DrawRectangle(&rectangle2, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
+
+
+        break;
+    case DrawO_LINE:
+
+        D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1() + displayX, pDrawO->getY1() + displayY);
+        D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2() + displayX, pDrawO->getY2() + displayY);
+        this->pbkBufferTarget->DrawLine(start, end, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
+
+        break;
+    default:
+        printf_s("ILLEGAL drawType for DrawObject\n");
+        return;
+    }
+    /* debug
+    HRESULT hr = this->pbkBufferTarget->EndDraw();
+     if (SUCCEEDED(hr)) {
+      printf_s("Updated bkgrndBuffer\n");
+  }
+  else {
+      printf_s("Failed updating the bkgrndBuffer\n");
+      printf_s("%d\n", hr);
+  }
+     */
+}
+
+void DPEngine_instance::drawBkBuffer()
+{
+    HRESULT hr = CreateGraphicsResources();
+    if (!SUCCEEDED(hr)) {
+        printf_s("COULD NOT CREATE GRAPHICS RESOURCES");
+        return;
+    }
+    QueueTypeLinkedList<DrawableEntity>* bkgrnd = this->layers;
+    ListElem<DrawableEntity>* currentEntityElem = bkgrnd->firstListElem();
+    unsigned int bkgrndSize = bkgrnd->getSize();
+    DrawableEntity* ent;
+    DrawObject** obj;
+    this->pbkBufferTarget->BeginDraw();
+    for (unsigned int index = 0; index < bkgrndSize; index++) {
+        ent = currentEntityElem->element;
+        obj = ent->getObjectStart();
+        for (int object_i = 0; object_i < ent->drawObjectsSize; object_i++) {
+            drawBkObject(ent->x, ent->y, *obj);
+            obj++;
+        }
+
+
+        currentEntityElem = currentEntityElem->next;
+    }
+
+    if (SUCCEEDED(this->pbkBufferTarget->EndDraw())) {
+        printf_s("Updated bkgrndBuffer");
+    }
+    else {
+        printf_s("Failed updating the bkgrndBuffer");
+    }
+    bkSrcRect = D2D1::RectF(0.0f, 0.0f, tileSize()* DWARPO_GRID_WIDTH, tileSize()*DWARPO_GRID_HEIGHT );
+    
 }
 
 void DPEngine_instance::constructGrassTileEntity(StaticEntity* pEnt)

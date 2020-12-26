@@ -4,9 +4,12 @@
 #include "BaseCreature.h"
 #include "Dwarf.h"
 #include <malloc.h>
-#define DWARPO_GRID_WIDTH 40
-#define DWARPO_GRID_HEIGHT 40
+#include "DPEngine_instance.h"
 
+#define DWARPO_GRID_WIDTH 409
+#define DWARPO_GRID_HEIGHT 409
+
+class DPEngine_instance;
 
 class DwarpoModel
 {

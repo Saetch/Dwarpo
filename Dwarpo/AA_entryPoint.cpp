@@ -134,6 +134,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     model->viewcontroller = viewCntrlr;
     model->init();
 
+    viewCntrlr->drawBkBuffer();
     viewCntrlr->disX -= 20.0f;
     viewCntrlr->disY -= 20.0f;
 
