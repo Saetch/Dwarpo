@@ -11,7 +11,7 @@ void BaseCreature::roam()
 }
 
 void BaseCreature::initSpeed() {
-	float speedModifier;
+	float speedModifier = 0.0f;
 	int random = rand();
 	if (random % 5 == 0) {
 		if (random % 2 == 0) {
@@ -20,10 +20,10 @@ void BaseCreature::initSpeed() {
 		else {
 			speedModifier = 1 / (random % 3);
 		}
+		baseSpeed *= speedModifier;
+		huntingSpeed *= speedModifier;
+		fleeingSpeed *= speedModifier;
 	}
-	baseSpeed *= speedModifier;
-	huntingSpeed *= speedModifier;
-	fleeingSpeed *= speedModifier;
 
 }
 
