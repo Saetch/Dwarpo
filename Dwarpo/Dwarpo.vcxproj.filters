@@ -46,6 +46,12 @@
     <Filter Include="Headerdateien\model\Dwarf">
       <UniqueIdentifier>{f1308b35-abe1-4b11-86ff-4640943994d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\model\Creatures">
+      <UniqueIdentifier>{a9b0a16c-e3a8-4dd3-bd59-1beaaa7125f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\model\Dwarf">
+      <UniqueIdentifier>{2c34db3e-b30d-4a09-a5d7-a00b6cfac283}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -74,6 +80,36 @@
     </ClCompile>
     <ClCompile Include="groundTile.cpp">
       <Filter>Quelldateien\model</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCreature.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Carnivore.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Deer.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Dwarf.cpp">
+      <Filter>Quelldateien\model\Dwarf</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Quelldateien\model\Dwarf</Filter>
+    </ClCompile>
+    <ClCompile Include="Personality.cpp">
+      <Filter>Quelldateien\model\Dwarf</Filter>
+    </ClCompile>
+    <ClCompile Include="Herbivore.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Omnivore.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Wolf.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

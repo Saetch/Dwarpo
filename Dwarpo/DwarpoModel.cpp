@@ -1,5 +1,16 @@
 #include "DwarpoModel.h"
 
+
+QueueTypeLinkedList<groundTile> walkableTiles;
+
+int DwarpoModel::init()
+{
+	constructMap();
+	placeOres();
+	placeCreatures();
+	placePlants();
+}
+
 void DwarpoModel::constructMap()
 {
 
@@ -23,4 +34,42 @@ void DwarpoModel::constructMap()
 			this->viewcontroller->addEntityL(&curr->drawableEntity, 0);
 		}
 	}
+}
+
+void DwarpoModel::placeCreatures(){
+	placeDwarfs();
+	placeAnimals();
+}
+
+void DwarpoModel::placeDwarfs() {
+
+}
+
+void DwarpoModel::placeOres() {
+
+}
+
+void DwarpoModel::placePlants() {
+
+}
+
+void DwarpoModel::placeAnimals() {
+
+}
+
+void DwarpoModel::collectWalkableTiles()
+{
+	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
+		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
+			walkableTiles.add(getTileAt(w, h));
+		}
+	}
+}
+
+void DwarpoModel::migratingAnimals()
+{
+}
+
+void DwarpoModel::createJob()
+{
 }

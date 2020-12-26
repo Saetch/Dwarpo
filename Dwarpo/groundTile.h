@@ -1,5 +1,6 @@
 #pragma once
 #include "StaticEntity.h"
+#include "QueueTypeLinkedList_impl.h"
 
 
 class groundTile
@@ -7,6 +8,8 @@ class groundTile
 public:
 
 	bool isSolid;
+
+	bool isObstruted;
 
 	float groundSpeedModifier = 1.0f;
 
@@ -19,7 +22,5 @@ public:
 	bool isHomeArea;
 
 	float dirtienessLevel;
-
-
 };
 

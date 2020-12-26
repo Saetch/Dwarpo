@@ -132,7 +132,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     DwarpoModel* model = new DwarpoModel;
 
     model->viewcontroller = viewCntrlr;
-    model->constructMap();
+    model->init();
 
     viewCntrlr->disX -= 20.0f;
     viewCntrlr->disY -= 20.0f;

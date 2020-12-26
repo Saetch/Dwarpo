@@ -1,17 +1,12 @@
 #pragma once
 #include "Omnivore.h"
+#include "Personality.h"
+#include "Job.h"
+#include "Inventory.h"
 
-class Dwarf : Omnivore{
+class Dwarf : Omnivore {
 
-	int* p_inventory;
-
-	float* thirst;
-
-	float* sanity;
-
-	float* dirtieness;
-
-	float baseSpeed;
+	float baseSpeed = 1.0f;
 
 	float fleeingSpeed;
 
@@ -19,11 +14,29 @@ class Dwarf : Omnivore{
 
 	float carryStrength;
 
-	int* personality;
+	Personality* personality;
 
-	//mason,lumber,woodworker
+	Inventory* p_inventory;
+
+	float* thirst;
+
+	float* sanity;
+
+	float* dirtieness;
+
+	//is the dwarf fat? Overweight dwarfs need more time to pass each other on the same field
+	float walkTroughModifier;
+
+	//professin = mason,lumber,woodworker etc.
 	int* profession;
 
-	//extract this particular resorce from there
-	int* job;
+	//job = extract this particular resorce from there
+	Job* job;
+
+	void initDwarf();
+
+	void initSpeed();
+
+	void initStrength();
+
 };

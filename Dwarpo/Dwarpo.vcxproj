@@ -144,14 +144,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp" />
+    <ClCompile Include="BaseCreature.cpp" />
+    <ClCompile Include="Carnivore.cpp" />
     <ClCompile Include="DPEngine_instance.cpp" />
     <ClCompile Include="DrawableEntity.cpp" />
     <ClCompile Include="DrawObject.cpp" />
+    <ClCompile Include="Dwarf.cpp" />
     <ClCompile Include="DwarPoEngine\BaseWindow.cpp" />
     <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp" />
     <ClCompile Include="DwarpoModel.cpp" />
+    <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="groundTile.cpp" />
+    <ClCompile Include="Deer.cpp" />
+    <ClCompile Include="Herbivore.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Omnivore.cpp" />
+    <ClCompile Include="Personality.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
+    <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Deer.h" />
