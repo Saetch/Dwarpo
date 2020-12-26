@@ -158,6 +158,7 @@
     <ClCompile Include="Deer.cpp" />
     <ClCompile Include="Herbivore.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Job.cpp" />
     <ClCompile Include="Omnivore.cpp" />
     <ClCompile Include="Personality.cpp" />
     <ClCompile Include="StaticEntity.cpp" />

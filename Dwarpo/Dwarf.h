@@ -3,9 +3,12 @@
 #include "Personality.h"
 #include "Job.h"
 #include "Inventory.h"
+#include <string>
+using namespace std;
+
 
 class Dwarf : Omnivore {
-
+		
 	float baseSpeed;
 
 	float fleeingSpeed;
@@ -31,7 +34,9 @@ class Dwarf : Omnivore {
 	int* profession;
 
 	//job = extract this particular resorce from there
-	Job* job;
+	Job job;
+
+	string name;
 
 	void initDwarf();
 
@@ -39,4 +44,10 @@ class Dwarf : Omnivore {
 
 	void initStrength();
 
+	inline void initName() {
+		string arr[] = { "Agegg Darkroar","Ugohm Starkarm","Huladrahr Paleroar","Kaldougirn Cragpike","Sargokunn Smugroar",
+			"Urkognium Slowbeard","Hjengol Marblepass","Akond Deepsteel","Krernen Boulderrock","Eliggs Mountainhost" };
+		int random = rand() % (sizeof(arr) / sizeof(*arr));
+		name = arr[random];
+	}
 };

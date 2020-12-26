@@ -1,6 +1,7 @@
 #pragma once
 #include "groundTile.h"
-#include "Dwarf.h"
+#include <string>
+using namespace std;
 
 class Job {
 
@@ -8,4 +9,6 @@ class Job {
 
 	groundTile* position;
 
+	string jobToString();
+	 
 };

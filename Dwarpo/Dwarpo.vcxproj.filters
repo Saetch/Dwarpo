@@ -111,6 +111,9 @@
     <ClCompile Include="Wolf.cpp">
       <Filter>Quelldateien\model\Creatures</Filter>
     </ClCompile>
+    <ClCompile Include="Job.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">

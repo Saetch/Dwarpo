@@ -4,6 +4,8 @@
 void Dwarf::initDwarf()
 {
 	initSpeed();
+	initStrength();
+	initName();
 
 
 }
