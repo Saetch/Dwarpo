@@ -20,17 +20,19 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
 {
     HRESULT hr = S_OK;
 
-    if (pRenderTarget == NULL)
+    if (pRenderTarget == NULL || pbkBufferTarget == NULL)
     {
         RECT rc;
         GetClientRect(m_hwnd, &rc);
 
         D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
+        if (pRenderTarget == NULL) {
+            hr = pFactory->CreateHwndRenderTarget(
+                D2D1::RenderTargetProperties(),
+                D2D1::HwndRenderTargetProperties(m_hwnd, size),
+                &pRenderTarget);
+        }
 
-        hr = pFactory->CreateHwndRenderTarget(
-            D2D1::RenderTargetProperties(),
-            D2D1::HwndRenderTargetProperties(m_hwnd, size),
-            &pRenderTarget);
         //create Buffers
         if (SUCCEEDED(hr)) {
             hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize()*DWARPO_GRID_WIDTH,tileSize()*DWARPO_GRID_HEIGHT),&pbkBufferTarget);
@@ -161,6 +163,7 @@ int DPEngine_instance::onUpdate()
         //background
         pRenderTarget->Clear(pBrushes[this->backgroundColor]->GetColor());
         //get first element of background
+        
         DrawableEntity* pDE;
         pDE = this->layers[0].firstListElem()->element;
         pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-disX, -disY, tileSize()*DWARPO_GRID_WIDTH-disX, tileSize()*DWARPO_GRID_HEIGHT-disY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);

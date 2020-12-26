@@ -3,8 +3,8 @@
 #include <malloc.h>
 #include "DPEngine_instance.h"
 
-#define DWARPO_GRID_WIDTH 200
-#define DWARPO_GRID_HEIGHT 200
+#define DWARPO_GRID_WIDTH 409
+#define DWARPO_GRID_HEIGHT 409
 
 class DPEngine_instance;
 
