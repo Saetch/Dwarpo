@@ -1,11 +1,5 @@
 #include "BaseCreature.h"
 
-float baseSpeed = 1.0f;
-
-float fleeingSpeed = 1.2f;
-
-float huntingSpeed = 1.1f;
-
 void BaseCreature::roam()
 {
 }

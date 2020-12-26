@@ -1,14 +1,12 @@
 #include "DwarpoModel.h"
 
-
-QueueTypeLinkedList<groundTile> walkableTiles;
-
 int DwarpoModel::init()
 {
 	constructMap();
 	placeOres();
 	placeCreatures();
 	placePlants();
+	return 0;
 }
 
 void DwarpoModel::constructMap()
@@ -61,7 +59,7 @@ void DwarpoModel::collectWalkableTiles()
 {
 	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
 		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
-			walkableTiles.add(getTileAt(w, h));
+			walkableTiles.push(getTileAt(w, h));
 		}
 	}
 }

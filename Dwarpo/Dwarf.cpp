@@ -1,31 +1,6 @@
 #include "Dwarf.h"
 #include <stdlib.h>
 
-
-float baseSpeed = 1.0f;
-
-float fleeingSpeed = 1.2f;
-
-float huntingSpeed = 1.1f;
-
-float carryStrength = 1.0f;
-
-Personality* personality;
-
-Inventory* p_inventory;
-
-float thirst = 0.0f;
-
-float sanity;
-
-float dirtieness;
-
-float walkTroughModifier;
-
-int profession;
-
-Job job;
-
 void Dwarf::initDwarf()
 {
 	initSpeed();

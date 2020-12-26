@@ -42,7 +42,7 @@ public:
 
 	void createJob();
 
-	QueueTypeLinkedList<groundTile*> walkableTiles;
+	QueueTypeLinkedList<groundTile> walkableTiles;
 
 	inline groundTile* getTileAt(int w, int h) {
 		return &map[w + h * DWARPO_GRID_HEIGHT];

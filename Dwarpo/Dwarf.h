@@ -6,7 +6,7 @@
 
 class Dwarf : Omnivore {
 
-	float baseSpeed = 1.0f;
+	float baseSpeed;
 
 	float fleeingSpeed;
 

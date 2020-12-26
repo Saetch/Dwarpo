@@ -13,9 +13,9 @@ class BaseCreature {
 
 	float* yPos;
 
-	float baseSpeed = 1.0f;
-	float huntingSpeed = 1.0f;
-	float fleeingSpeed = 1.0f;
+	float baseSpeed;
+	float huntingSpeed;
+	float fleeingSpeed;
 
 	//how much are ceatures slowed down if passing each other on the same field?
 	float baseWalkTrough = 0.5f;
