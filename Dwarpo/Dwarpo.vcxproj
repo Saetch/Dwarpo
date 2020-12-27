@@ -152,6 +152,7 @@
     <ClCompile Include="DwarpoModel.cpp" />
     <ClCompile Include="groundTile.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
+    <ClCompile Include="Structure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Deer.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="QueueTypeLinkedList.h" />
     <ClInclude Include="QueueTypeLinkedList_impl.h" />
     <ClInclude Include="StaticEntity.h" />
+    <ClInclude Include="Structure.h" />
     <ClInclude Include="Wolf.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

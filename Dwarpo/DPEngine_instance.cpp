@@ -279,7 +279,40 @@ void __thiscall DPEngine_instance::fillBuffer()
         drawObjectBuffer[0].y2 = tileSize();
     }
     {
-        //this is for debug purposes, to be removed later
+        //house(2x3) left
+        drawObjectBuffer[1].angle = 0.0f;
+        drawObjectBuffer[1].color = DrawO_COLOR_BLACK;
+        drawObjectBuffer[1].drawType = DrawO_LINE;
+        drawObjectBuffer[1].width = 1.0f;
+        drawObjectBuffer[1].x1 = 0.2f * tileSize();
+        drawObjectBuffer[1].y1 = 0.0f;
+        drawObjectBuffer[1].x2 = 0.2f * tileSize();
+        drawObjectBuffer[1].y2 = -0.6f * tileSize();
+    } 
+    {
+        //house(2x3) right
+        drawObjectBuffer[2].angle = 0.0f;
+        drawObjectBuffer[2].color = DrawO_COLOR_BLACK;
+        drawObjectBuffer[2].drawType = DrawO_LINE;
+        drawObjectBuffer[2].width = 1.0f;
+        drawObjectBuffer[2].x1 = 1.8f * tileSize();
+        drawObjectBuffer[2].y1 = 0.0f;
+        drawObjectBuffer[2].x2 = 1.8f * tileSize();
+        drawObjectBuffer[2].y2 = -0.6f * tileSize();
+    }
+    {
+        //house(2x3) bkgrnd
+        drawObjectBuffer[3].angle = 0.0f;
+        drawObjectBuffer[3].color = DrawO_COLOR_BROWN;
+        drawObjectBuffer[3].drawType = DrawO_RECT_FILL;
+        drawObjectBuffer[3].width = 1.0f;
+        drawObjectBuffer[3].x1 = 0.2f * tileSize();
+        drawObjectBuffer[3].y1 = 1.8f * tileSize();
+        drawObjectBuffer[3].x2 = 0.0f * tileSize();
+        drawObjectBuffer[3].y2 = 2.0f * tileSize();
+    }
+    {
+        //this is for debug purposes, to be removed later, maybe
         drawObjectBuffer[490].angle = 0.0f;
         drawObjectBuffer[490].color = DrawO_COLOR_BLACK;
         drawObjectBuffer[490].drawType = DrawO_RECT_DRAW;

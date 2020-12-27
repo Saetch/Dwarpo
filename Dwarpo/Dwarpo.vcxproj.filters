@@ -46,6 +46,12 @@
     <Filter Include="Headerdateien\model\Dwarf">
       <UniqueIdentifier>{f1308b35-abe1-4b11-86ff-4640943994d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\model\Structures">
+      <UniqueIdentifier>{d3101234-6043-4995-bbfe-0e2654978104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\model\Dwarf\Structures">
+      <UniqueIdentifier>{70852f44-08f5-4fd0-a4ad-88088086914a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -74,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="groundTile.cpp">
       <Filter>Quelldateien\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Structure.cpp">
+      <Filter>Quelldateien\model\Structures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>Headerdateien\model\Dwarf</Filter>
+    </ClInclude>
+    <ClInclude Include="Structure.h">
+      <Filter>Headerdateien\model\Dwarf\Structures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
