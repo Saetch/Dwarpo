@@ -1,18 +1,22 @@
 #pragma once
 #include "StaticEntity.h"
 #include "QueueTypeLinkedList_impl.h"
-#include "Entity.h"
 
+class Dwarf;
+
+class BaseCreature;
 
 class groundTile
 {
 public:
 
-	QueueTypeLinkedList<Entity> content;
+	QueueTypeLinkedList<Dwarf> dwarfs;
+
+	QueueTypeLinkedList<BaseCreature> enemy;
 
 	bool isSolid;
 
-	bool isObstruted;
+	bool isBlocked;
 
 	float groundSpeedModifier = 1.0f;
 

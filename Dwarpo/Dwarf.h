@@ -1,16 +1,19 @@
 #pragma once
+//#include "BaseCreature.h"
 #include "Omnivore.h"
 #include "Personality.h"
 #include "Job.h"
 #include "Inventory.h"
 #include <string>
-using namespace std;
 
+class Dwarf :public Omnivore {
 
-class Dwarf : Omnivore {
+public:
 
-	Dwarf(){}
-		
+	virtual void virt() {};
+
+	Dwarf() {}
+
 	float baseSpeed = 1.0f;
 
 	float fleeingSpeed = 1.0f;
@@ -25,14 +28,14 @@ class Dwarf : Omnivore {
 
 	float hunger = 0.0f;
 
-	float thirst=0.0f;
+	float thirst = 0.0f;
 
-	float sanity =1.0f;
+	float sanity = 1.0f;
 
-	float dirtieness=0.0f;
+	float dirtieness = 0.0f;
 
 	//is the dwarf fat? Overweight dwarfs need more time to pass each other on the same field
-	float walkTroughModifier=1.0;
+	float walkTroughModifier = 1.0;
 
 	//professin = mason,lumber,woodworker etc.
 	//int* profession;
@@ -40,7 +43,7 @@ class Dwarf : Omnivore {
 	//job = extract this particular resorce from there
 	Job job;
 
-	string name;
+	std::string name;
 
 	void initDwarf();
 
@@ -49,7 +52,7 @@ class Dwarf : Omnivore {
 	void initStrength();
 
 	inline void initName() {
-		string arr[] = { "Agegg Darkroar","Ugohm Starkarm","Huladrahr Paleroar","Kaldougirn Cragpike","Sargokunn Smugroar",
+		std::string arr[] = { "Agegg Darkroar","Ugohm Starkarm","Huladrahr Paleroar","Kaldougirn Cragpike","Sargokunn Smugroar",
 			"Urkognium Slowbeard","Hjengol Marblepass","Akond Deepsteel","Krernen Boulderrock","Eliggs Mountainhost" };
 		int random = rand() % (sizeof(arr) / sizeof(*arr));
 		name = arr[random];

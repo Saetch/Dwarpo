@@ -2,7 +2,6 @@
 class Entity
 {
 public:
-	Entity() {}
 
 	float xPos=0.0f;
 

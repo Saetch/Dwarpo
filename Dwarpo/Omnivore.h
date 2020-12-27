@@ -1,9 +1,12 @@
 #pragma once
 #include "BaseCreature.h"
 
- class Omnivore : BaseCreature {
+class BaseCreature;
+
+ class Omnivore : public BaseCreature {
  public:
-	 Omnivore() {};
+
+	 virtual void virt() = 0;
 
 	float baseSpeed = 1.0f;
 

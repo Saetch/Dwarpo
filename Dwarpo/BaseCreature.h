@@ -1,11 +1,9 @@
 #pragma once
 #include"groundTile.h"
-#include "Entity.h"
 
-class BaseCreature:public Entity {
+class BaseCreature {
 
 public:
-	BaseCreature(){}
 
 	float baseSpeed = 1.0f;
 	

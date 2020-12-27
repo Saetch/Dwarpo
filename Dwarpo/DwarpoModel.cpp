@@ -1,6 +1,8 @@
 #include "DwarpoModel.h"
 #include <iostream>
 
+
+
 int DwarpoModel::init()
 {
 	constructMap();
@@ -47,7 +49,7 @@ void DwarpoModel::constructMap()
 
 void DwarpoModel::placeCreatures() {
 	placeDwarfs();
-	placeAnimals();
+	//placeAnimals();
 }
 
 void DwarpoModel::placeDwarfs() {
@@ -55,9 +57,9 @@ void DwarpoModel::placeDwarfs() {
 	int startposY = rand() % DWARPO_GRID_HEIGHT;
 	for (int i = 0; i < INITIAL_DWARF_COUNT; i++)
 	{
-		Dwarf d();
+		Dwarf* d= new Dwarf();
 		groundTile* curr = getTileAt(startposY, startposY);
-		//curr->content.add(d);
+		curr->dwarfs.push(d);
 	}
 }
 

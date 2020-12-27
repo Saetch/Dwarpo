@@ -1,7 +1,7 @@
 #include "Job.h"
 
-string Job::jobToString()
+std::string Job::jobToString()
 {
-    string ret ="DWARFNAME, ACTIVITY at POSITION";
+    std::string ret ="DWARFNAME, ACTIVITY at POSITION";
     return ret;
 }

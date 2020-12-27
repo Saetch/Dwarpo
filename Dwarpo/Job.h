@@ -1,7 +1,8 @@
 #pragma once
 #include "groundTile.h"
 #include <string>
-using namespace std;
+
+class groundTile;
 
 class Job {
 
@@ -9,6 +10,6 @@ class Job {
 
 	groundTile* position;
 
-	string jobToString();
+	std::string jobToString();
 	 
 };

@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Entity" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAQAAAAA=</HashCode>
+      <FileName>Entity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListElem&lt;T&gt;" Collapsed="true">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>QueueTypeLinkedList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QueueTypeLinkedList&lt;T&gt;" Collapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAACACRJACAAAAQIAQSoASAAAAgAAAIAAIAQBCAAA=</HashCode>
+      <FileName>QueueTypeLinkedList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="simpleList" Collapsed="true">
+    <Position X="13.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>QueueTypeLinkedList_impl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DwarpoModel" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACGAEQAAAAAIABAACAAAAIEAIIAAIcgAAAAEIAAAA=</HashCode>
+      <FileName>DwarpoModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Job" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAIAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Job.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Deer" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Deer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Goblin" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Goblin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseCreature" Collapsed="true">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABABAAAAAAAAAAAAEAQQAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>BaseCreature.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Carnivore" Collapsed="true">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAIAAAAAEAAAAAAAAAAAACAAAAAAIA=</HashCode>
+      <FileName>Carnivore.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Herbivore" Collapsed="true">
+    <Position X="3" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAIAAAAAAAAAAAAQAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Herbivore.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Omnivore" Collapsed="true">
+    <Position X="6.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAIAAAAAEABAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Omnivore.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wolf" Collapsed="true">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Wolf.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dwarf" Collapsed="true">
+    <Position X="7.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAhAAAAAAAAAQAAkIgAACEAAAAQEggAACRAIA=</HashCode>
+      <FileName>Dwarf.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Inventory" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Inventory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Personality" Collapsed="true">
+    <Position X="10" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAQAAQAAAAAAgCAAAAAAAAAAAAA=</HashCode>
+      <FileName>Personality.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DPEngine_instance" Collapsed="true">
+    <Position X="0.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>A5AAQABAAQKAADAACQEAAAAQIRIAAAggAAAAJAEAYQA=</HashCode>
+      <FileName>DPEngine_instance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DrawableEntity" Collapsed="true">
+    <Position X="3.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQABAAAAAAAQABAAQgAQAAAABBgAAAAAAA=</HashCode>
+      <FileName>DrawableEntity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DrawObject" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAABEAAjAAIAwAAQJABAIEAC4AAAACAAQAwEBhAAAA=</HashCode>
+      <FileName>DrawObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseWindow&lt;DERIVED_TYPE&gt;" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIABAAACAAAAAAAAAAEBAAAAAAEAAAAAADAAAAAA=</HashCode>
+      <FileName>DwarPoEngine\BaseWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DwarPoEngine&lt;DERIVED_TYPE&gt;" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAABAMAAAADQAQAAAAAgAAAAKAAAgAAAAAAAAgAA=</HashCode>
+      <FileName>DwarPoEngine\DwarPoEngine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StaticEntity" Collapsed="true">
+    <Position X="3.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAABBAQAAAAAAAAAQAAAAQAAAAAAQABAAAAAAAA=</HashCode>
+      <FileName>StaticEntity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="groundTile" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAIAABAQABAACAQAAACAAAAIAAAAAAAI=</HashCode>
+      <FileName>groundTile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

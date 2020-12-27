@@ -1,7 +1,7 @@
 #pragma once
 #include "groundTile.h"
 #include "DPEngine_instance.h"
-#include "BaseCreature.h"
+//#include "BaseCreature.h"
 #include "Dwarf.h"
 #include "QueueTypeLinkedList_impl.h"
 #include <malloc.h>
@@ -9,6 +9,7 @@
 #define DWARPO_GRID_WIDTH 409
 #define DWARPO_GRID_HEIGHT 409
 
+class Dwarf;
 class DPEngine_instance;
 
 class DwarpoModel
