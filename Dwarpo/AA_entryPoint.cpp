@@ -171,20 +171,21 @@ void addEntity(DPEngine_instance* viewc, StaticEntity* pHouse) {
 void moveHouse(StaticEntity** pphouse, HWND hwnd) {
     StaticEntity* phouse = *pphouse;
     signed short int directionToMove = 1;
-    auto callMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
-
+    float diff;
+    auto nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
+    auto lastcall = nowMs;
     while (globalBool) {
         //60fps -->update x and y
-            callMs = callMs + (std::chrono::milliseconds) 16;
-            phouse->x += 5.0f * directionToMove;
-            if ((phouse->x) > 400.0f) {
-                directionToMove = -1;
-            }
-            else if (phouse->x < -400.0f) {
-                directionToMove = 1;
-            }
+            
+        
+            nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());            
+            diff = (float)(nowMs.time_since_epoch().count() - lastcall.time_since_epoch().count());
+
+
+
             SendMessage(hwnd, WM_DWARPO_DRAW, 0, 0);
-            std::this_thread::sleep_until(callMs);
+            lastcall = nowMs;
+            viewCntrlr->updateCameraPos(diff);
 
     }
 }
