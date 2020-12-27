@@ -114,6 +114,9 @@
     <ClCompile Include="Job.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>Headerdateien\model\Dwarf</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

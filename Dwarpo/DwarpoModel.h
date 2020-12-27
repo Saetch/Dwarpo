@@ -3,8 +3,8 @@
 #include "DPEngine_instance.h"
 #include "BaseCreature.h"
 #include "Dwarf.h"
+#include "QueueTypeLinkedList_impl.h"
 #include <malloc.h>
-#include "DPEngine_instance.h"
 
 #define DWARPO_GRID_WIDTH 409
 #define DWARPO_GRID_HEIGHT 409
@@ -14,15 +14,18 @@ class DPEngine_instance;
 class DwarpoModel
 {
 public:
+	int INITIAL_DWARF_COUNT = 7;
+	int INITIAL_ANIMAL_COUNT = 10;
+
 	DPEngine_instance* viewcontroller;
 
 	groundTile* map;
 
 	groundTile* homeArea;
 
-	BaseCreature* animals;
+	QueueTypeLinkedList<Dwarf**> dwarfs;
 
-	Dwarf* dwarfs;
+	QueueTypeLinkedList<BaseCreature**> animals;
 
 	int init();
 

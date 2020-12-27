@@ -1,11 +1,14 @@
 #pragma once
 #include "StaticEntity.h"
 #include "QueueTypeLinkedList_impl.h"
+#include "Entity.h"
 
 
 class groundTile
 {
 public:
+
+	QueueTypeLinkedList<Entity> content;
 
 	bool isSolid;
 

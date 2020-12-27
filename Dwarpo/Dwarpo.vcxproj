@@ -153,6 +153,7 @@
     <ClCompile Include="DwarPoEngine\BaseWindow.cpp" />
     <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp" />
     <ClCompile Include="DwarpoModel.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="groundTile.cpp" />
     <ClCompile Include="Deer.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="DwarPoEngine\BaseWindow.h" />
     <ClInclude Include="DwarPoEngine\DwarPoEngine.h" />
     <ClInclude Include="DwarpoModel.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="groundTile.h" />
     <ClInclude Include="BaseCreature.h" />

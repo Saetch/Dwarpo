@@ -1,13 +1,15 @@
 #pragma once
 #include "BaseCreature.h"
 
-class Omnivore : BaseCreature {
+ class Omnivore : BaseCreature {
+ public:
+	 Omnivore() {};
 
-	float baseSpeed;
+	float baseSpeed = 1.0f;
 
-	float fleeingSpeed;
+	float fleeingSpeed = 1.0f;
 
-	float huntingSpeed;
+	float huntingSpeed = 1.0f;
 
-	float baseAggroValue;
+	float baseAggroValue = 1.0f;
 };

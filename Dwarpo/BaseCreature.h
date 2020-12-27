@@ -1,25 +1,19 @@
 #pragma once
 #include"groundTile.h"
+#include "Entity.h"
 
-class BaseCreature {
+class BaseCreature:public Entity {
 
-	groundTile* map;
+public:
+	BaseCreature(){}
 
-	float health = 1.0f;
-
-	float hunger = 0.0f;
-
-	float* xPos;
-
-	float* yPos;
-
-	float baseSpeed;
-	float huntingSpeed;
-	float fleeingSpeed;
-
-	//how much are ceatures slowed down if passing each other on the same field?
-	float baseWalkTrough = 0.5f;
-
+	float baseSpeed = 1.0f;
+	
+	float huntingSpeed = 1.0f;
+	
+	float fleeingSpeed = 1.0f;
+	
 	void roam();
+	
 	void initSpeed();
 };

@@ -8,30 +8,34 @@ using namespace std;
 
 
 class Dwarf : Omnivore {
+
+	Dwarf(){}
 		
-	float baseSpeed;
+	float baseSpeed = 1.0f;
 
-	float fleeingSpeed;
+	float fleeingSpeed = 1.0f;
 
-	float huntingSpeed;
+	float huntingSpeed = 1.0f;
 
-	float carryStrength;
+	float carryStrength = 1.0f;
 
-	Personality* personality;
+	Personality personality;
 
-	Inventory* p_inventory;
+	Inventory inventory;
 
-	float* thirst;
+	float hunger = 0.0f;
 
-	float* sanity;
+	float thirst=0.0f;
 
-	float* dirtieness;
+	float sanity =1.0f;
+
+	float dirtieness=0.0f;
 
 	//is the dwarf fat? Overweight dwarfs need more time to pass each other on the same field
-	float walkTroughModifier;
+	float walkTroughModifier=1.0;
 
 	//professin = mason,lumber,woodworker etc.
-	int* profession;
+	//int* profession;
 
 	//job = extract this particular resorce from there
 	Job job;
