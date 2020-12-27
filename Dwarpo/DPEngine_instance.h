@@ -58,7 +58,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
     public:
         void drawBkBuffer();
-        constexpr float tileSize() { return 40.0f; }
+        constexpr float tileSize() { return 30.0f; }
         void setBkgrnd(unsigned short int newBkgrnd);
         unsigned short int getBkgrnd();
         void addEntityL(DrawableEntity*, unsigned short int layer);

@@ -86,12 +86,13 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
          
             printf_s(" %d ", i);
             hr = pRenderTarget->CreateSolidColorBrush(color, cur);
-            if (i >= DRAW_LOADCOLOR_NUM) {
-                break;
-            }
             if (SUCCEEDED(hr)) {
                 hr = pbkBufferTarget->CreateSolidColorBrush(color, bkbuffcurr);
             }
+            if (i >= DRAW_LOADCOLOR_NUM) {
+                break;
+            }
+
         }
         if (SUCCEEDED(hr))
         {
@@ -103,10 +104,14 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
 
 void DPEngine_instance::DiscardGraphicsResources()
 {
-    BaseWindow::SafeRelease(&this->pRenderTarget);
+
     for (int i = 0; i <= DRAW_LOADCOLOR_NUM; i++) {
         BaseWindow::SafeRelease(&this->pBrushes[i]);
+        BaseWindow::SafeRelease(&this->pbkBufferBrushes[i]);
     }
+    BaseWindow::SafeRelease(&this->pRenderTarget);
+    BaseWindow::SafeRelease(&this->pbkBufferTarget);
+    BaseWindow::SafeRelease(&this->bkbuffer);
 }
 
 void DPEngine_instance::Resize()
