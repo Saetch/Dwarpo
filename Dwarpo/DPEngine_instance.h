@@ -5,6 +5,7 @@
 #include "StaticEntity.h"
 #include "DwarpoModel.h"
 #include <mutex>
+
 class DwarpoModel;
 
 #define DPENGINE_LAYER_AMOUNT 3
@@ -36,7 +37,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         DwarpoModel* model;
         signed short camMovX = 0;
         signed short camMovY = 0;
-        DrawObject drawObjectBuffer[500] = { 0 };
+        DrawObject drawObjectBuffer[491] = { 0 };
 
 
 
