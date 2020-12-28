@@ -28,6 +28,9 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         ID2D1SolidColorBrush** pbkBufferBrushes;
         D2D1_RECT_F bkSrcRect;
 
+        IDXGIFactory* pdxgiFactory;
+        ID2D1DeviceContext* pd2dDeviceContext;
+        ID3D10Device1* pd3dDevice;
 
         QueueTypeLinkedList<DrawableEntity>* layers;
         DwarpoModel* model;
@@ -45,7 +48,12 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         inline void __fastcall handleDrawObject(float x, float y, DrawObject* pDrawO);
         void __thiscall fillBuffer();
         inline void __fastcall drawBkObject(float x, float y, DrawObject* pDrawO);
-
+        HRESULT __stdcall CreateD3DDevice(
+            IDXGIAdapter* pAdapter,
+            D3D10_DRIVER_TYPE driverType,
+            UINT flags,
+            ID3D10Device1** ppDevice
+        );
         void CALLBACK WKey();
         void CALLBACK WKeyUp();
         void CALLBACK AKey();

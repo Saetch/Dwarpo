@@ -2,6 +2,9 @@
 #include "DPEngine_instance.h"
 #include "DrawObject.h"
 #include "QueueTypeLinkedList_impl.h"
+#define debugI(x) printf_s(#x": %d\n", x);
+#define debugF(x) printf_s(#x": %lf\n", x);
+#define debugP(x) printf_s(#x": %p\n", x);
 
 
 void DPEngine_instance::CalculateLayout()
@@ -37,7 +40,6 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
                 D2D1::HwndRenderTargetProperties(m_hwnd, size),
                 &pRenderTarget);
         }
-
         //create Buffers
         if (SUCCEEDED(hr)) {
             hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize()*DWARPO_GRID_WIDTH,tileSize()*DWARPO_GRID_HEIGHT),&pbkBufferTarget);
@@ -379,6 +381,46 @@ inline void __fastcall DPEngine_instance::drawBkObject(float x, float y, DrawObj
      */
 }
 
+HRESULT __stdcall DPEngine_instance::CreateD3DDevice(IDXGIAdapter* pAdapter, D3D10_DRIVER_TYPE driverType, UINT flags, ID3D10Device1** ppDevice)
+{
+    {
+        HRESULT hr = S_OK;
+
+        static const D3D10_FEATURE_LEVEL1 levelAttempts[] =
+        {
+            D3D10_FEATURE_LEVEL_10_0,
+            D3D10_FEATURE_LEVEL_9_3,
+            D3D10_FEATURE_LEVEL_9_2,
+            D3D10_FEATURE_LEVEL_9_1,
+        };
+
+        for (UINT level = 0; level < ARRAYSIZE(levelAttempts); level++)
+        {
+            ID3D10Device1* pDevice = NULL;
+            hr = D3D10CreateDevice1(
+                pAdapter,
+                driverType,
+                NULL,
+                flags,
+                levelAttempts[level],
+                D3D10_1_SDK_VERSION,
+                &pDevice
+            );
+
+            if (SUCCEEDED(hr))
+            {
+                // transfer reference
+                *ppDevice = pDevice;
+                pDevice = NULL;
+                break;
+            }
+
+        }
+
+        return hr;
+    }
+}
+
 void DPEngine_instance::WKey()
 {
     
@@ -512,6 +554,28 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
             printf_s("FAILED to create Resource DPEngine_instance.pFactory (ID2D1HwndRenderTarget)\n");
             return -1;  // Fail CreateWindowEx.
 
+        }
+        /*
+        if (FAILED(CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&pdxgiFactory))) {
+            printf_s("FAILED t create Resource DPEngine_instance.pdxgiFactory");
+            return -1;
+        }*/
+        
+        if (FAILED(this->CreateD3DDevice(
+            NULL,
+            D3D10_DRIVER_TYPE_HARDWARE,
+            D3D10_CREATE_DEVICE_SINGLETHREADED | D3D10_CREATE_DEVICE_BGRA_SUPPORT,
+            &this->pd3dDevice
+            ))) {
+            printf_s("FAILED creating DRIVER_TYPE_HARDWARE d3d10Device, falling back to WARP\n");
+            if (FAILED(this->CreateD3DDevice(
+                NULL,
+                D3D10_DRIVER_TYPE_WARP,
+                D3D10_CREATE_DEVICE_SINGLETHREADED | D3D10_CREATE_DEVICE_BGRA_SUPPORT,
+                &this->pd3dDevice
+            ))) {
+                return -1;
+            }
         }
         this->onCreate();
         return 0;

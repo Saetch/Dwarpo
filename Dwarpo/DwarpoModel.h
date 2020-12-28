@@ -6,8 +6,8 @@
 #include "QueueTypeLinkedList_impl.h"
 #include <malloc.h>
 
-#define DWARPO_GRID_WIDTH 409
-#define DWARPO_GRID_HEIGHT 409
+#define DWARPO_GRID_WIDTH 100
+#define DWARPO_GRID_HEIGHT 100
 
 class Dwarf;
 class DPEngine_instance;
