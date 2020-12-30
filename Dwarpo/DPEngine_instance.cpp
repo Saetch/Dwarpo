@@ -1,7 +1,9 @@
+#pragma once
 #include "DPEngine_instance.h"
 #include "DrawObject.h"
 #include "QueueTypeLinkedList_impl.h"
-//TODO Layout (Anpassung je nach Länge/Breite des Bildschirms) ist eventuell nicht nötig
+
+
 void DPEngine_instance::CalculateLayout()
 {
     if (pRenderTarget != NULL)
@@ -9,10 +11,13 @@ void DPEngine_instance::CalculateLayout()
         D2D1_SIZE_F size = pRenderTarget->GetSize(); //GetSize returns in dip (device independent pixels), which is the correct measurement for all layout options
         width = size.width;
         height = size.height;
+        camera_mutex.lock();
         left = disX;
-        right = disX + width;
         top = disY;
-        bottom = disY + height ;
+        camera_mutex.unlock();
+        right = left + width;
+        bottom = top + height ;
+        
     }
 }
 
@@ -81,12 +86,13 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
          
             printf_s(" %d ", i);
             hr = pRenderTarget->CreateSolidColorBrush(color, cur);
-            if (i >= DRAW_LOADCOLOR_NUM) {
-                break;
-            }
             if (SUCCEEDED(hr)) {
                 hr = pbkBufferTarget->CreateSolidColorBrush(color, bkbuffcurr);
             }
+            if (i >= DRAW_LOADCOLOR_NUM) {
+                break;
+            }
+
         }
         if (SUCCEEDED(hr))
         {
@@ -98,10 +104,14 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
 
 void DPEngine_instance::DiscardGraphicsResources()
 {
-    BaseWindow::SafeRelease(&this->pRenderTarget);
+
     for (int i = 0; i <= DRAW_LOADCOLOR_NUM; i++) {
         BaseWindow::SafeRelease(&this->pBrushes[i]);
+        BaseWindow::SafeRelease(&this->pbkBufferBrushes[i]);
     }
+    BaseWindow::SafeRelease(&this->pRenderTarget);
+    BaseWindow::SafeRelease(&this->pbkBufferTarget);
+    BaseWindow::SafeRelease(&this->bkbuffer);
 }
 
 void DPEngine_instance::Resize()
@@ -158,6 +168,10 @@ int DPEngine_instance::onUpdate()
     {
         PAINTSTRUCT ps;
         ListElem<DrawableEntity>* curr;
+        camera_mutex.lock();
+        float cameraX = disX;
+        float cameraY = disY;
+        camera_mutex.unlock();
         BeginPaint(m_hwnd, &ps);
         pRenderTarget->BeginDraw();
         //background
@@ -166,7 +180,7 @@ int DPEngine_instance::onUpdate()
         
         DrawableEntity* pDE;
         pDE = this->layers[0].firstListElem()->element;
-        pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-disX, -disY, tileSize()*DWARPO_GRID_WIDTH-disX, tileSize()*DWARPO_GRID_HEIGHT-disY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize()*DWARPO_GRID_WIDTH-cameraX, tileSize()*DWARPO_GRID_HEIGHT-cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
         DrawObject** pToDraw = NULL;
         curr = this->drawEntities->firstListElem();
@@ -206,9 +220,10 @@ int DPEngine_instance::onUpdate()
 inline void __fastcall DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pDrawO) {
     float displayX;
     float displayY;
+    camera_mutex.lock();
     displayX = (x - disX);
     displayY = (y - disY);
-
+    camera_mutex.unlock();
 
     //relative positioning
 
@@ -264,7 +279,40 @@ void __thiscall DPEngine_instance::fillBuffer()
         drawObjectBuffer[0].y2 = tileSize();
     }
     {
-        //this is for debug purposes, to be removed later
+        //house(2x3) left
+        drawObjectBuffer[1].angle = 0.0f;
+        drawObjectBuffer[1].color = DrawO_COLOR_BLACK;
+        drawObjectBuffer[1].drawType = DrawO_LINE;
+        drawObjectBuffer[1].width = 1.0f;
+        drawObjectBuffer[1].x1 = 0.2f * tileSize();
+        drawObjectBuffer[1].y1 = 0.0f;
+        drawObjectBuffer[1].x2 = 0.2f * tileSize();
+        drawObjectBuffer[1].y2 = -0.6f * tileSize();
+    } 
+    {
+        //house(2x3) right
+        drawObjectBuffer[2].angle = 0.0f;
+        drawObjectBuffer[2].color = DrawO_COLOR_BLACK;
+        drawObjectBuffer[2].drawType = DrawO_LINE;
+        drawObjectBuffer[2].width = 1.0f;
+        drawObjectBuffer[2].x1 = 1.8f * tileSize();
+        drawObjectBuffer[2].y1 = 0.0f;
+        drawObjectBuffer[2].x2 = 1.8f * tileSize();
+        drawObjectBuffer[2].y2 = -0.6f * tileSize();
+    }
+    {
+        //house(2x3) bkgrnd
+        drawObjectBuffer[3].angle = 0.0f;
+        drawObjectBuffer[3].color = DrawO_COLOR_BROWN;
+        drawObjectBuffer[3].drawType = DrawO_RECT_FILL;
+        drawObjectBuffer[3].width = 1.0f;
+        drawObjectBuffer[3].x1 = 0.2f * tileSize();
+        drawObjectBuffer[3].y1 = 1.8f * tileSize();
+        drawObjectBuffer[3].x2 = 0.0f * tileSize();
+        drawObjectBuffer[3].y2 = 2.0f * tileSize();
+    }
+    {
+        //this is for debug purposes, to be removed later, maybe
         drawObjectBuffer[490].angle = 0.0f;
         drawObjectBuffer[490].color = DrawO_COLOR_BLACK;
         drawObjectBuffer[490].drawType = DrawO_RECT_DRAW;
@@ -331,6 +379,79 @@ inline void __fastcall DPEngine_instance::drawBkObject(float x, float y, DrawObj
      */
 }
 
+void DPEngine_instance::WKey()
+{
+    
+    cameraKey_mutex.lock();
+    if (camMovY >= 0) {
+        camMovY--;
+    }
+    cameraKey_mutex.unlock();
+}
+
+void DPEngine_instance::WKeyUp()
+{
+    cameraKey_mutex.lock();
+    if (camMovY <= 0) {
+        camMovY++;
+    }
+    cameraKey_mutex.unlock();
+}
+
+void DPEngine_instance::AKey()
+{
+    cameraKey_mutex.lock();
+    if (camMovX >= 0) {
+        camMovX--;
+    }
+    cameraKey_mutex.unlock();
+}
+
+void DPEngine_instance::AKeyUp()
+{
+    cameraKey_mutex.lock();
+    if (camMovX <= 0) {
+        camMovX++;
+    }
+    cameraKey_mutex.unlock();
+}
+
+void DPEngine_instance::SKey()
+{
+    cameraKey_mutex.lock();
+    if (camMovY <= 0) {
+        camMovY++;
+    }
+    cameraKey_mutex.unlock();
+}
+
+void DPEngine_instance::SKeyUp()
+{
+    cameraKey_mutex.lock();
+    if (camMovY >= 0) {
+        camMovY--;
+    }
+    cameraKey_mutex.unlock();
+}
+
+void DPEngine_instance::DKey()
+{
+    cameraKey_mutex.lock();
+    if (camMovX <= 0) {
+        camMovX++;
+    }
+    cameraKey_mutex.unlock();
+}
+
+void DPEngine_instance::DKeyUp()
+{
+    cameraKey_mutex.lock();
+    if (camMovX >= 0) {
+        camMovX--;
+    }
+    cameraKey_mutex.unlock();
+}
+
 void DPEngine_instance::drawBkBuffer()
 {
     HRESULT hr = CreateGraphicsResources();
@@ -381,6 +502,7 @@ void DPEngine_instance::constructGrassTileEntity(StaticEntity* pEnt)
 
 LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    int ret;
     switch (uMsg)
     {
     case WM_CREATE:
@@ -408,6 +530,69 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
         pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
         return 0;
 
+    case WM_KEYDOWN:
+        switch(wParam)
+        {
+        case VK_ESCAPE:
+            ret = MessageBoxW(this->Window(), L"Verlassen?",
+                L"Quit?", MB_OKCANCEL);
+
+            if (ret == IDOK) {
+                SendMessage(this->Window(), WM_CLOSE, 0, 0);
+            }
+            break;
+        case 0x46:
+            //PAUSE -> F-key
+            break;
+        case VK_SPACE:
+            // cntrl->spaceBar();
+            break;
+        case VK_LEFT:
+            // cntrl->left();
+            break;
+        case VK_RIGHT:
+            // cntrl->right();
+            break;
+        case 0x57: //W
+            this->WKey();
+            break;
+        case 0x41: //A
+            this->AKey();
+            break;
+        case 0x53: //S
+            this->SKey();
+            break;
+        case 0x44: //D
+            this->DKey();
+            break;
+        }
+        break;
+    case WM_KEYUP:
+        switch (wParam)
+        {
+        case VK_SPACE:
+            // cntrl->spaceBar();
+            break;
+        case VK_LEFT:
+            // cntrl->left();
+            break;
+        case VK_RIGHT:
+            // cntrl->right();
+            break;
+        case 0x57: //W
+            this->WKeyUp();
+            break;
+        case 0x41: //A
+            this->AKeyUp();
+            break;
+        case 0x53: //S
+            this->SKeyUp();
+            break;
+        case 0x44: //D
+            this->DKeyUp();
+            break;
+        }
+        break;
 
     case WM_SIZE:
         Resize();
