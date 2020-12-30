@@ -14,6 +14,8 @@ public:
 
 	Dwarf() {}
 
+	DrawableEntity* drawnDwarf;
+
 	float baseSpeed = 1.0f;
 
 	float fleeingSpeed = 1.0f;

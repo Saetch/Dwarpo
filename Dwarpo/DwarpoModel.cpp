@@ -57,7 +57,7 @@ void DwarpoModel::placeDwarfs() {
 	int startposY = rand() % DWARPO_GRID_HEIGHT;
 	for (int i = 0; i < INITIAL_DWARF_COUNT; i++)
 	{
-		Dwarf* d= new Dwarf();
+		Dwarf* d = new Dwarf();	
 		groundTile* curr = getTileAt(startposY, startposY);
 		curr->dwarfs.push(d);
 	}

@@ -1,7 +1,8 @@
 #pragma once
 #include"groundTile.h"
+#include "Entity.h"
 
-class BaseCreature {
+class BaseCreature :public Entity{
 
 public:
 
@@ -14,4 +15,8 @@ public:
 	void roam();
 	
 	void initSpeed();
+
+	bool isDead;
+
+	bool isUnconscious;
 };
