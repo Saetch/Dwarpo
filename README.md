@@ -12,15 +12,15 @@
 
     -Inventar:
   
-    -1 Platz für Ressourcen (stackable)
+     -1 Platz für Ressourcen (stackable)
     
-    -1 PLatz für KLeidung
+     -1 PLatz für KLeidung
     
-    -1  PLatz für Schuhe
+     -1  PLatz für Schuhe
     
-    -1 Platz für Werkzeug
+     -1 Platz für Werkzeug
     
-    -muss gewechselt werden beim Jobwechsel
+      -muss gewechselt werden beim Jobwechsel
   
     -Name
   
