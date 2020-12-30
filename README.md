@@ -10,7 +10,7 @@
 
 -Dwarfs:
 
-  -Inventar
+    -Inventar:
   
     -1 Platz für Ressourcen (stackable)
     
@@ -22,34 +22,34 @@
     
     -muss gewechselt werden beim Jobwechsel
   
-   -Name
+    -Name
   
-   -Geschlecht
+    -Geschlecht
   
-   -HP
+    -HP
   
-   -Happiness
+    -Happiness:
   
-   -Dwarfs machen Fehler und verletzten sich, arbeiten langsamer, legen ihre Arbeit nieder und murren, wenn man sie anklickt bei geringer Happiness
+     -Dwarfs machen Fehler und verletzten sich, arbeiten langsamer, legen ihre Arbeit nieder und murren, wenn man sie anklickt bei geringer Happiness
   
-   -Dwarfs benötigen den Kontakt zu Freunden oder Bier um den Happiness level zu erhöhen
+     -Dwarfs benötigen den Kontakt zu Freunden oder Bier um den Happiness level zu erhöhen
   
-   -Hunger
+    -Hunger
   
-   -Durst
+    -Durst
   
-   -Beruf
+    -Beruf
   
-   -Arbeitsplatz (insofern vorhanden)
+    -Arbeitsplatz (insofern vorhanden)
   
-   -thickness (Zwerge laufen langsamer wenn sie sich aneinander vorbeizwängen müssen)
+    -thickness (Zwerge laufen langsamer wenn sie sich aneinander vorbeizwängen müssen)
 
- -Welt
+  -Welt
 
-  -besteht aus 5 Layern
+    -besteht aus 5 Layern
 
-  -Luft
+    -Luft
 
-  -Boden
+    -Boden
 
-  -3xErde
+    -3xErde
