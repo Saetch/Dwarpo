@@ -36,11 +36,14 @@ void DwarpoModel::constructMap()
 			this->viewcontroller->addEntityL(&curr->drawableEntity, 0);
 
 
-			ListElem<DrawableEntity>* p;
-			p = viewcontroller->drawEntities->firstListElem();
-
+			
 		}
 	}
+
+
+
+
+
 
 
 

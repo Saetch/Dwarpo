@@ -132,6 +132,9 @@
     <ClCompile Include="SpriteManager.cpp">
       <Filter>Quelldateien\viewController</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteWrapper.cpp">
+      <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="SpriteManager.h">
       <Filter>Headerdateien\viewController</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteWrapper.h">
+      <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

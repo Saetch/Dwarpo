@@ -164,6 +164,7 @@
     <ClCompile Include="Omnivore.cpp" />
     <ClCompile Include="Personality.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
+    <ClCompile Include="SpriteWrapper.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
     <ClCompile Include="Structure.cpp" />
     <ClCompile Include="Wolf.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="QueueTypeLinkedList.h" />
     <ClInclude Include="QueueTypeLinkedList_impl.h" />
     <ClInclude Include="SpriteManager.h" />
+    <ClInclude Include="SpriteWrapper.h" />
     <ClInclude Include="StaticEntity.h" />
     <ClInclude Include="Structure.h" />
     <ClInclude Include="Wolf.h" />
