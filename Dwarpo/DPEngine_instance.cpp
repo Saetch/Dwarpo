@@ -369,16 +369,8 @@ inline void __fastcall DPEngine_instance::drawBkObject(float x, float y, DrawObj
         printf_s("ILLEGAL drawType for DrawObject\n");
         return;
     }
-    /* debug
-    HRESULT hr = this->pbkBufferTarget->EndDraw();
-     if (SUCCEEDED(hr)) {
-      printf_s("Updated bkgrndBuffer\n");
-  }
-  else {
-      printf_s("Failed updating the bkgrndBuffer\n");
-      printf_s("%d\n", hr);
-  }
-     */
+ 
+
 }
 
 HRESULT __stdcall DPEngine_instance::CreateD3DDevice(IDXGIAdapter* pAdapter, D3D10_DRIVER_TYPE driverType, UINT flags, ID3D10Device1** ppDevice)

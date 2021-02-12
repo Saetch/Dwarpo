@@ -5,7 +5,7 @@
 #include "StaticEntity.h"
 #include "DwarpoModel.h"
 #include <mutex>
-
+#include "SpriteManager.h"
 class DwarpoModel;
 
 #define DPENGINE_LAYER_AMOUNT 3
@@ -40,7 +40,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         DrawObject drawObjectBuffer[491] = { 0 };
 
 
-
+        SpriteManager* spriteManager;
 
         void    CalculateLayout();
         HRESULT CreateGraphicsResources();
@@ -93,6 +93,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
             drawEntities = new QueueTypeLinkedList<DrawableEntity>;
 
+            spriteManager = new SpriteManager();
 
             fillBuffer();
 

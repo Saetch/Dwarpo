@@ -129,6 +129,9 @@
     <ClCompile Include="Structure.cpp">
       <Filter>Quelldateien\model\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteManager.cpp">
+      <Filter>Quelldateien\viewController</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteManager.h">
+      <Filter>Headerdateien\viewController</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
