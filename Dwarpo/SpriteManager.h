@@ -11,10 +11,16 @@
 #pragma comment(lib, "DXGI.lib")
 #pragma comment(lib, "d2d1")
 
-
 #pragma comment(lib, "user32.lib")
 
-template <class T> void SafeRelease(T** ppT);
+template <class T> void SafeRelease(T** ppT)
+{
+    if (*ppT)
+    {
+        (*ppT)->Release();
+        *ppT = NULL;
+    }
+}
 
 class SpriteManager
 {
@@ -31,8 +37,8 @@ public:
     IWICImagingFactory* pIWICFactory;
     ID2D1RenderTarget* pMainRenderTarget;
 
-    UINT defaultWidth;
-    UINT defaultHeight;
+    UINT defaultWidth = 0;
+    UINT defaultHeight = 0;
 
 
     HRESULT LoadBitmapFromFileTrgt(
@@ -51,11 +57,21 @@ public:
     );
 
 
-    SpriteManager() {
+    SpriteManager(ID2D1RenderTarget* pMainRenderTarget) {
+        HRESULT hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, __uuidof( IWICImagingFactory ), reinterpret_cast<void**>(&pIWICFactory));
+
+        if (FAILED(hr)) {
+            printf_s("FAILED CREATING IWICFactory in SpriteManager.h\n");
+            return;
+        }
+        this->pIWICFactory = pIWICFactory;
+        this->pMainRenderTarget = pMainRenderTarget;
+
         //TODO allocate Graphics Resources
     }
 
     ~SpriteManager() {
+        SafeRelease(&pIWICFactory);
         SafeRelease(&staticBuffer);
         SafeRelease(&pstaticBufferTarget);
         SafeRelease(&animationbuffer);

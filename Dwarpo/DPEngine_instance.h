@@ -93,7 +93,6 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
             drawEntities = new QueueTypeLinkedList<DrawableEntity>;
 
-            spriteManager = new SpriteManager();
 
             fillBuffer();
 
@@ -107,6 +106,9 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
 
         }
+
+
+
 
         ~DPEngine_instance() {
             free(pBrushes);

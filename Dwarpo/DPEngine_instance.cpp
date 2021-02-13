@@ -40,6 +40,9 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
                 D2D1::HwndRenderTargetProperties(m_hwnd, size),
                 &pRenderTarget);
         }
+
+
+
         //create Buffers
         if (SUCCEEDED(hr)) {
             hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize()*DWARPO_GRID_WIDTH,tileSize()*DWARPO_GRID_HEIGHT),&pbkBufferTarget);
@@ -48,6 +51,14 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
             }
         }
 
+        if (SUCCEEDED(hr)) {
+            if (spriteManager != NULL) {
+                delete spriteManager;
+            }
+
+            spriteManager = new SpriteManager(pRenderTarget);
+
+        }
         int i = 0;
         D2D1_COLOR_F color;
         ID2D1SolidColorBrush** cur = this->pBrushes;
@@ -540,6 +551,7 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
     switch (uMsg)
     {
     case WM_CREATE:
+        CoInitializeEx(NULL, COINIT_MULTITHREADED);
         if (FAILED(D2D1CreateFactory(
             D2D1_FACTORY_TYPE_MULTI_THREADED, &pFactory)))
         {
@@ -547,6 +559,8 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
             return -1;  // Fail CreateWindowEx.
 
         }
+
+
         /*
         if (FAILED(CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&pdxgiFactory))) {
             printf_s("FAILED t create Resource DPEngine_instance.pdxgiFactory");
