@@ -7,11 +7,18 @@
 #include <d3d10_1.h>
 #include <wincodec.h>
 #include "SpriteWrapper.h"
+#include <math.h>
 #pragma comment(lib, "d3d10_1.lib")
 #pragma comment(lib, "DXGI.lib")
 #pragma comment(lib, "d2d1")
-
 #pragma comment(lib, "user32.lib")
+
+
+#define ANIMATION_BUFFER_WIDTH 8000
+#define ANIMATION_BUFFER_HEIGHT 8000
+#define STATIC_BUFFER_WIDTH 4000
+#define STATIC_BUFFER_HEIGHT 4000
+
 
 template <class T> void SafeRelease(T** ppT)
 {
@@ -25,49 +32,79 @@ template <class T> void SafeRelease(T** ppT)
 class SpriteManager
 {
 private:
-    ID2D1Bitmap* staticBuffer;
+    ID2D1Bitmap* staticBuffer = NULL;
     ID2D1BitmapRenderTarget* pstaticBufferTarget;
     //ID2D1SolidColorBrush** pstaticBufferBrushes;
 
-    ID2D1Bitmap* animationbuffer;
-    ID2D1BitmapRenderTarget* panimationBufferTarget;
+    ID2D1Bitmap* animationbuffer = NULL;
+    ID2D1BitmapRenderTarget* panimationBufferTarget = NULL;
 
-public:
 
-    IWICImagingFactory* pIWICFactory;
+
+    IWICImagingFactory* pIWICFactory = NULL;
     ID2D1RenderTarget* pMainRenderTarget;
 
-    UINT defaultWidth = 0;
-    UINT defaultHeight = 0;
+   
 
 
     HRESULT LoadBitmapFromFileTrgt(
         ID2D1RenderTarget* pRenderTarget,
         PCWSTR uri,
-        UINT destinationWidth,
-        UINT destinationHeight,
-        ID2D1Bitmap** ppBitmap
+        D2D1_RECT_F destinationRect ,
+        D2D1_RECT_F sourceRect
     );
 
     HRESULT LoadBitmapFromFile(
         PCWSTR uri,
-        UINT destinationWidth,
-        UINT destinationHeight,
-        ID2D1Bitmap** ppBitmap
+        D2D1_RECT_F destinationRect,
+        D2D1_RECT_F sourceRect
     );
 
 
-    SpriteManager(ID2D1RenderTarget* pMainRenderTarget) {
-        HRESULT hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, __uuidof( IWICImagingFactory ), reinterpret_cast<void**>(&pIWICFactory));
+    HRESULT loadKnightToAnimBuffer();
+
+    HRESULT loadSpritesToAnimBuffer();
+    HRESULT loadSpritesToStaticBuffer();
+
+public:
+    float defaultWidth = 0;
+    float defaultHeight = 0;
+
+    SpriteManager(ID2D1RenderTarget* pMainRenderTarget, float defWidth, float defHeight) {
+
+
+        this->defaultWidth = defWidth;
+
+        this->defaultHeight = defHeight;
+
+        this->pMainRenderTarget = pMainRenderTarget;
+
+        HRESULT hr = pMainRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(STATIC_BUFFER_WIDTH, STATIC_BUFFER_HEIGHT), &pstaticBufferTarget);
+
+        if (FAILED(hr)) goto failed;
+
+        hr = pstaticBufferTarget->GetBitmap(&staticBuffer);
+
+        if (FAILED(hr)) goto failed;
+
+        hr = pMainRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(ANIMATION_BUFFER_WIDTH, ANIMATION_BUFFER_HEIGHT), &panimationBufferTarget);
+
+        if (FAILED(hr)) goto failed;
+
+        hr = panimationBufferTarget->GetBitmap(&animationbuffer);
+
+        if (FAILED(hr)) goto failed;
+
+        hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, __uuidof( IWICImagingFactory ), reinterpret_cast<void**>(&pIWICFactory));
 
         if (FAILED(hr)) {
             printf_s("FAILED CREATING IWICFactory in SpriteManager.h\n");
-            return;
         }
-        this->pIWICFactory = pIWICFactory;
-        this->pMainRenderTarget = pMainRenderTarget;
 
-        //TODO allocate Graphics Resources
+        return;
+
+    failed:
+        printf_s("FAILED CREATING SPRITEMANAGER!\n");
     }
 
     ~SpriteManager() {
@@ -78,8 +115,27 @@ public:
         SafeRelease(&panimationBufferTarget);
     }
 
+    HRESULT loadSpritesToBuffer() {
+
+        HRESULT hr = loadSpritesToStaticBuffer();
+
+        if (SUCCEEDED(hr)) {
+            printf_s("Loading Sprites to AnimBuffer!\n");
+            hr = loadSpritesToAnimBuffer();
+        }
+        if (FAILED(hr)) {
+            printf_s("FAILED LOADING SPRITES!\n");
+        }
+        return hr;
+    }
+
     void setRenderTarget(ID2D1RenderTarget* pMainTarget) {
         pMainRenderTarget = pMainTarget;
+    }
+
+    
+    ID2D1Bitmap* getp_StaticBitMap() {
+        return this->staticBuffer;
     }
 };
 

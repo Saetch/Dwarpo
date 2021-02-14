@@ -14,6 +14,9 @@ class DwarpoModel;
 
 #define DPENGINE_CAMSPEED 1
 
+
+class SpriteManager;
+
 class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 {
         std::mutex camera_mutex;
@@ -67,7 +70,12 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
     public:
         void drawBkBuffer();
+
+
         constexpr float tileSize() { return 30.0f; }
+        static constexpr float staticTileSize() { return 30.0f; }
+
+
         void setBkgrnd(unsigned short int newBkgrnd);
         unsigned short int getBkgrnd();
         void addEntityL(DrawableEntity*, unsigned short int layer);

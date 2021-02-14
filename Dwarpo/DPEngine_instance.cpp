@@ -46,6 +46,8 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
         //create Buffers
         if (SUCCEEDED(hr)) {
             hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize()*DWARPO_GRID_WIDTH,tileSize()*DWARPO_GRID_HEIGHT),&pbkBufferTarget);
+
+            printf_s("BackgroundBufferSize: %lf x %lf \n", (float)tileSize() * DWARPO_GRID_WIDTH, (float)tileSize() * DWARPO_GRID_HEIGHT);
             if (SUCCEEDED(hr)) {
                 hr = pbkBufferTarget->GetBitmap(&bkbuffer);
             }
@@ -55,8 +57,16 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
             if (spriteManager != NULL) {
                 delete spriteManager;
             }
+            
+            spriteManager = new SpriteManager(pRenderTarget, tileSize(), tileSize());
+            hr = spriteManager->loadSpritesToBuffer();
 
-            spriteManager = new SpriteManager(pRenderTarget);
+            if (SUCCEEDED(hr)) {
+                printf_s("SUCC1!\n");
+            }
+            else {
+                printf_s("FAIL1!\n");
+            }
 
         }
         int i = 0;
@@ -195,6 +205,10 @@ int DPEngine_instance::onUpdate()
         pDE = this->layers[0].firstListElem()->element;
         pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize()*DWARPO_GRID_WIDTH-cameraX, tileSize()*DWARPO_GRID_HEIGHT-cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
+
+
+
+        //TODO: this needs rewriting to work with the buffered Sprites
         DrawObject** pToDraw = NULL;
         curr = this->drawEntities->firstListElem();
         int i = 0;
@@ -214,7 +228,10 @@ int DPEngine_instance::onUpdate()
 
 
 
+        //DEBUG: in Order to be able to correctly point Rectangles to Buffers, these will output the buffers (static and animation on top of the playing fields if unquotet)
 
+        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
 
         hr = pRenderTarget->EndDraw();
@@ -551,7 +568,10 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
     switch (uMsg)
     {
     case WM_CREATE:
-        CoInitializeEx(NULL, COINIT_MULTITHREADED);
+        if (FAILED(CoInitializeEx(NULL, COINIT_MULTITHREADED))) {
+            printf_s("FAILED initializing COM-Components");
+            return -1;
+        }
         if (FAILED(D2D1CreateFactory(
             D2D1_FACTORY_TYPE_MULTI_THREADED, &pFactory)))
         {
@@ -589,6 +609,7 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
     case WM_DESTROY:
         DiscardGraphicsResources();
         SafeRelease(&pFactory);
+        CoUninitialize();
         PostQuitMessage(0);
         return 0;
 
