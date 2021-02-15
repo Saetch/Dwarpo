@@ -5,6 +5,9 @@
 #include "StaticEntity.h"
 #include "DwarpoModel.h"
 #include <mutex>
+#include "SpriteManager.h"
+#include "BaseCreature.h"
+
 class DwarpoModel;
 
 #define DPENGINE_LAYER_AMOUNT 3
@@ -12,6 +15,9 @@ class DwarpoModel;
 
 
 #define DPENGINE_CAMSPEED 1
+
+
+class SpriteManager;
 
 class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 {
@@ -28,15 +34,18 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         ID2D1SolidColorBrush** pbkBufferBrushes;
         D2D1_RECT_F bkSrcRect;
 
+        IDXGIFactory* pdxgiFactory;
+        ID2D1DeviceContext* pd2dDeviceContext;
+        ID3D10Device1* pd3dDevice;
 
         QueueTypeLinkedList<DrawableEntity>* layers;
         DwarpoModel* model;
         signed short camMovX = 0;
         signed short camMovY = 0;
-        DrawObject drawObjectBuffer[500] = { 0 };
+        DrawObject drawObjectBuffer[491] = { 0 };
 
 
-
+        SpriteManager* spriteManager;
 
         void    CalculateLayout();
         HRESULT CreateGraphicsResources();
@@ -45,7 +54,12 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         inline void __fastcall handleDrawObject(float x, float y, DrawObject* pDrawO);
         void __thiscall fillBuffer();
         inline void __fastcall drawBkObject(float x, float y, DrawObject* pDrawO);
-
+        HRESULT __stdcall CreateD3DDevice(
+            IDXGIAdapter* pAdapter,
+            D3D10_DRIVER_TYPE driverType,
+            UINT flags,
+            ID3D10Device1** ppDevice
+        );
         void CALLBACK WKey();
         void CALLBACK WKeyUp();
         void CALLBACK AKey();
@@ -57,8 +71,21 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
 
     public:
+
+        QueueTypeLinkedList<Entity>* yOrderedEntityList;
+        std::mutex yOrderedEntityList_mutex;
+
+
+        void addToYOrderedEntityList(Entity* newCreature);
+
+
         void drawBkBuffer();
+
+
         constexpr float tileSize() { return 30.0f; }
+        static constexpr float staticTileSize() { return 30.0f; }
+
+
         void setBkgrnd(unsigned short int newBkgrnd);
         unsigned short int getBkgrnd();
         void addEntityL(DrawableEntity*, unsigned short int layer);
@@ -76,6 +103,8 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         DPEngine_instance() : pFactory(NULL), pRenderTarget(NULL), pBrushes(NULL)
         {
+            yOrderedEntityList = new QueueTypeLinkedList<Entity>();
+
             pBrushes = (ID2D1SolidColorBrush **)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));
             pbkBufferBrushes = (ID2D1SolidColorBrush**)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));
             disX = 0.0f;
@@ -98,8 +127,14 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         }
 
+
+
+
         ~DPEngine_instance() {
+            free(pbkBufferBrushes);
+            free(layers);
             free(pBrushes);
+            delete yOrderedEntityList;
         }
 
         int onCreate();

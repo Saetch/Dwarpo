@@ -2,6 +2,9 @@
 #include "DPEngine_instance.h"
 #include "DrawObject.h"
 #include "QueueTypeLinkedList_impl.h"
+#define debugI(x) printf_s(#x": %d\n", x);
+#define debugF(x) printf_s(#x": %lf\n", x);
+#define debugP(x) printf_s(#x": %p\n", x);
 
 
 void DPEngine_instance::CalculateLayout()
@@ -38,14 +41,34 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
                 &pRenderTarget);
         }
 
+
+
         //create Buffers
         if (SUCCEEDED(hr)) {
             hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize()*DWARPO_GRID_WIDTH,tileSize()*DWARPO_GRID_HEIGHT),&pbkBufferTarget);
+
+            printf_s("BackgroundBufferSize: %lf x %lf \n", (float)tileSize() * DWARPO_GRID_WIDTH, (float)tileSize() * DWARPO_GRID_HEIGHT);
             if (SUCCEEDED(hr)) {
                 hr = pbkBufferTarget->GetBitmap(&bkbuffer);
             }
         }
 
+        if (SUCCEEDED(hr)) {
+            if (spriteManager != NULL) {
+                delete spriteManager;
+            }
+            
+            spriteManager = new SpriteManager(pRenderTarget, tileSize(), tileSize());
+            hr = spriteManager->loadSpritesToBuffer();
+
+            if (SUCCEEDED(hr)) {
+                printf_s("SUCC1!\n");
+            }
+            else {
+                printf_s("FAIL1!\n");
+            }
+
+        }
         int i = 0;
         D2D1_COLOR_F color;
         ID2D1SolidColorBrush** cur = this->pBrushes;
@@ -172,6 +195,10 @@ int DPEngine_instance::onUpdate()
         float cameraX = disX;
         float cameraY = disY;
         camera_mutex.unlock();
+        float dummy_x;
+        float dummy_y;
+        ListElem<Entity>* currEntity;
+        Entity* ent;
         BeginPaint(m_hwnd, &ps);
         pRenderTarget->BeginDraw();
         //background
@@ -182,6 +209,35 @@ int DPEngine_instance::onUpdate()
         pDE = this->layers[0].firstListElem()->element;
         pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize()*DWARPO_GRID_WIDTH-cameraX, tileSize()*DWARPO_GRID_HEIGHT-cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
+
+
+        //drawYOrderedEntities
+
+        currEntity = yOrderedEntityList->firstListElem();
+        while (currEntity != NULL) {
+            ent = currEntity->element;
+            if (ent->animated) {
+                dummy_x = -cameraX + tileSize() * ent->xPos;
+                dummy_y = -cameraY + tileSize() * ent->yPos;
+                pRenderTarget->DrawBitmap(
+
+                    spriteManager->animationbuffer,
+                    D2D1::RectF(dummy_x, dummy_y, tileSize() + dummy_x, tileSize() + dummy_y),
+                    1.0f,
+                    D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+                    ent->currentFrame                       
+                );
+            }
+            else {
+                //TODO STRUCTURES
+            }
+
+            currEntity = currEntity->next;
+
+        }
+
+
+        //TODO: this needs rewriting to work with the buffered Sprites
         DrawObject** pToDraw = NULL;
         curr = this->drawEntities->firstListElem();
         int i = 0;
@@ -201,7 +257,10 @@ int DPEngine_instance::onUpdate()
 
 
 
+        //DEBUG: in Order to be able to correctly point Rectangles to Buffers, these will output the buffers (static and animation on top of the playing fields if unquotet)
 
+        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
 
         hr = pRenderTarget->EndDraw();
@@ -367,16 +426,48 @@ inline void __fastcall DPEngine_instance::drawBkObject(float x, float y, DrawObj
         printf_s("ILLEGAL drawType for DrawObject\n");
         return;
     }
-    /* debug
-    HRESULT hr = this->pbkBufferTarget->EndDraw();
-     if (SUCCEEDED(hr)) {
-      printf_s("Updated bkgrndBuffer\n");
-  }
-  else {
-      printf_s("Failed updating the bkgrndBuffer\n");
-      printf_s("%d\n", hr);
-  }
-     */
+ 
+
+}
+
+HRESULT __stdcall DPEngine_instance::CreateD3DDevice(IDXGIAdapter* pAdapter, D3D10_DRIVER_TYPE driverType, UINT flags, ID3D10Device1** ppDevice)
+{
+    {
+        HRESULT hr = S_OK;
+
+        static const D3D10_FEATURE_LEVEL1 levelAttempts[] =
+        {
+            D3D10_FEATURE_LEVEL_10_0,
+            D3D10_FEATURE_LEVEL_9_3,
+            D3D10_FEATURE_LEVEL_9_2,
+            D3D10_FEATURE_LEVEL_9_1,
+        };
+
+        for (UINT level = 0; level < ARRAYSIZE(levelAttempts); level++)
+        {
+            ID3D10Device1* pDevice = NULL;
+            hr = D3D10CreateDevice1(
+                pAdapter,
+                driverType,
+                NULL,
+                flags,
+                levelAttempts[level],
+                D3D10_1_SDK_VERSION,
+                &pDevice
+            );
+
+            if (SUCCEEDED(hr))
+            {
+                // transfer reference
+                *ppDevice = pDevice;
+                pDevice = NULL;
+                break;
+            }
+
+        }
+
+        return hr;
+    }
 }
 
 void DPEngine_instance::WKey()
@@ -452,6 +543,35 @@ void DPEngine_instance::DKeyUp()
     cameraKey_mutex.unlock();
 }
 
+void DPEngine_instance::addToYOrderedEntityList(Entity* newCreature)
+{
+
+    ListElem<Entity>* listE = yOrderedEntityList->firstListElem();
+
+    if (listE == NULL) {  //empty list
+        yOrderedEntityList->pushBack(newCreature);
+    }
+    else {
+        Entity* pbC = listE->element;
+
+        while (pbC->yPos < newCreature->yPos) { //finding the spot to put the new entity
+            if (listE->next == NULL || listE->next->element->yPos > newCreature->yPos) {
+                break;
+            }
+            listE = listE->next;
+            pbC = listE->element;
+        }
+        ListElem<Entity>* newListElem = (ListElem<Entity>*) (malloc(sizeof(newListElem)));
+        newListElem->element = newCreature;
+        newListElem->next = listE->next;
+        listE->next = newListElem;
+        this->yOrderedEntityList->incSize();
+    }
+ 
+
+
+}
+
 void DPEngine_instance::drawBkBuffer()
 {
     HRESULT hr = CreateGraphicsResources();
@@ -506,6 +626,10 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
     switch (uMsg)
     {
     case WM_CREATE:
+        if (FAILED(CoInitializeEx(NULL, COINIT_MULTITHREADED))) {
+            printf_s("FAILED initializing COM-Components");
+            return -1;
+        }
         if (FAILED(D2D1CreateFactory(
             D2D1_FACTORY_TYPE_MULTI_THREADED, &pFactory)))
         {
@@ -513,12 +637,37 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
             return -1;  // Fail CreateWindowEx.
 
         }
+
+
+        /*
+        if (FAILED(CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&pdxgiFactory))) {
+            printf_s("FAILED t create Resource DPEngine_instance.pdxgiFactory");
+            return -1;
+        }*/
+        
+        if (FAILED(this->CreateD3DDevice(
+            NULL,
+            D3D10_DRIVER_TYPE_HARDWARE,
+            D3D10_CREATE_DEVICE_SINGLETHREADED | D3D10_CREATE_DEVICE_BGRA_SUPPORT,
+            &this->pd3dDevice
+            ))) {
+            printf_s("FAILED creating DRIVER_TYPE_HARDWARE d3d10Device, falling back to WARP\n");
+            if (FAILED(this->CreateD3DDevice(
+                NULL,
+                D3D10_DRIVER_TYPE_WARP,
+                D3D10_CREATE_DEVICE_SINGLETHREADED | D3D10_CREATE_DEVICE_BGRA_SUPPORT,
+                &this->pd3dDevice
+            ))) {
+                return -1;
+            }
+        }
         this->onCreate();
         return 0;
 
     case WM_DESTROY:
         DiscardGraphicsResources();
         SafeRelease(&pFactory);
+        CoUninitialize();
         PostQuitMessage(0);
         return 0;
 

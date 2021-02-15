@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "BaseWindow.h"
 #include "../QueueTypeLinkedList.h"
-
+ 
 #pragma comment(lib, "user32.lib")
 
 #define WM_DWARPO_DRAW 0x2411
