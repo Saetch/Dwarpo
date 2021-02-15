@@ -129,6 +129,15 @@
     <ClCompile Include="Structure.cpp">
       <Filter>Quelldateien\model\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteManager.cpp">
+      <Filter>Quelldateien\viewController</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteWrapper.cpp">
+      <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="KnightD.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">
@@ -202,6 +211,15 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteManager.h">
+      <Filter>Headerdateien\viewController</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteWrapper.h">
+      <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="KnightD.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

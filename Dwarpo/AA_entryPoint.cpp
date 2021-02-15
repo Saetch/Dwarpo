@@ -7,8 +7,9 @@
 #include "DwarpoModel.h"
 #include <chrono>
 #include <thread>
+#include "KnightD.h"
 //
-void moveHouse(StaticEntity** pphouse, HWND hwnd);
+void draw(StaticEntity** pphouse, HWND hwnd);
 void addEntity(DPEngine_instance* viewc, StaticEntity* phouse);
 int globalBool = 1;
 DPEngine_instance* viewCntrlr;
@@ -28,107 +29,11 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         return 0;
     }
 
-    //es gibt momentan 8 versch. Farben (#include DrawObject.h::DRAW_LOADCOLOR_NUM)
-    //8 ist schwarz, das wird beim Zufall rausgenommen
+
     viewCntrlr->setBkgrnd(DrawO_COLOR_LIGHTGREY);
     StaticEntity* phouse = new StaticEntity(6);
 
-    /*
-    {
 
-
-
-
-        phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 50.0f, 0.0f, 50.0f, -90.0f, 3.0f);
-        //this way, added objects can be changed. Tho if the entity holds a reference that is shared
-        //between multiple entitites, the changes will be visible for all of them
-        //use this carefully, outside of game setup
-        phouse->getObjectStart()[0]->drawType = DrawO_LINE;
-
-
-        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
-        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, -90.0f, 0.0f, -140.0f, 3.0f);
-        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, 0.0f, -140.0f, 50.0f, -90.0f, 3.0f);
-        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, -90.0f, 50.0f, -90.0f, 3.0f);
-        phouse->addDrawObject(DrawO_LINE, DrawO_COLOR_BLACK, -50.0f, 0.0f, 50.0f, 0.0f, 3.0f);
-        //phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
-
-        //center
-        phouse->x = viewCntrlr->disX;
-        phouse->y = viewCntrlr->disY;
-        addEntity(viewCntrlr, phouse);
-        StaticEntity* phouse2 = new StaticEntity(6);
-
-        StaticEntity* phouse3 = new StaticEntity(6);
-
-        {
-
-            phouse2->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLUE, 50.0f, 0.0f, 50.0f, -90.0f, 3.0f);
-            //this way, added objects can be changed. Tho if the entity holds a reference that is shared
-            //between multiple entitites, the changes will be visible for all of them
-            //use this carefully, outside of game setup
-            phouse2->getObjectStart()[0]->drawType = DrawO_LINE;
-
-
-            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
-            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, -50.0f, -90.0f, 0.0f, -140.0f, 3.0f);
-            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, 0.0f, -140.0f, 50.0f, -90.0f, 3.0f);
-            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, -50.0f, -90.0f, 50.0f, -90.0f, 3.0f);
-            phouse2->addDrawObject(DrawO_LINE, DrawO_COLOR_BLUE, -50.0f, 0.0f, 50.0f, 0.0f, 3.0f);
-            //phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
-
-            //center
-            phouse2->x = viewCntrlr->disX;
-            phouse2->y = viewCntrlr->disY;
-            addEntity(viewCntrlr, phouse2);
-        }
-        {
-
-            phouse3->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BROWN, 50.0f, 0.0f, 50.0f, -90.0f, 3.0f);
-            //this way, added objects can be changed. Tho if the entity holds a reference that is shared
-            //between multiple entitites, the changes will be visible for all of them
-            //use this carefully, outside of game setup
-            phouse3->getObjectStart()[0]->drawType = DrawO_LINE;
-
-
-            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, -50.0f, 0.0f, -50.0f, -90.0f, 3.0f);
-            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, -50.0f, -90.0f, 0.0f, -140.0f, 3.0f);
-            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, 0.0f, -140.0f, 50.0f, -90.0f, 3.0f);
-            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, -50.0f, -90.0f, 50.0f, -90.0f, 3.0f);
-            phouse3->addDrawObject(DrawO_LINE, DrawO_COLOR_BROWN, -50.0f, 0.0f, 50.0f, 0.0f, 3.0f);
-            //phouse->addDrawObject(DrawO_RECT_DRAW, DrawO_COLOR_BLACK, 7.0f, 0.0f, 7.0f, -15.0f, 3.0f);
-
-            //center
-            phouse3->x = viewCntrlr->disX;
-            phouse3->y = viewCntrlr->disY;
-            addEntity(viewCntrlr, phouse3);
-        }
-
-        int r;
-        for (int c = 0; c < 800; c++) {
-            r = rand() % 3;
-            StaticEntity* phouse4 = new StaticEntity(6);
-            for (int i = 0; i < 6; i++) {
-                switch (r) {
-                case 0:
-                    phouse4->addDrawObjectReference(phouse->getObjectStart()[i]);
-                    break;
-                case 1:
-                    phouse4->addDrawObjectReference(phouse2->getObjectStart()[i]);
-                    break;
-                case 2:
-                    phouse4->addDrawObjectReference(phouse3->getObjectStart()[i]);
-                    break;
-                }
-            }
-            phouse4->x = -600 + (rand() % 1200);
-            phouse4->y = -600 + (rand() % 1200);
-            addEntity(viewCntrlr, phouse4);
-        }
-    }
-
-    */
-    
     DwarpoModel* model = new DwarpoModel;
 
     model->viewcontroller = viewCntrlr;
@@ -140,7 +45,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
 
-    std:: thread* thr1 = new std::thread(moveHouse, &phouse, viewCntrlr->Window());
+    std:: thread* thr1 = new std::thread(draw, &phouse, viewCntrlr->Window());
   
     // Run the message loop.
     MSG msg = { };
@@ -168,7 +73,9 @@ void addEntity(DPEngine_instance* viewc, StaticEntity* pHouse) {
     viewc->addEntityL(pHouse, 0);
 }
 
-void moveHouse(StaticEntity** pphouse, HWND hwnd) {
+void draw(StaticEntity** pphouse, HWND hwnd) {
+
+
     StaticEntity* phouse = *pphouse;
     signed short int directionToMove = 1;
     float diff;
@@ -187,5 +94,38 @@ void moveHouse(StaticEntity** pphouse, HWND hwnd) {
             lastcall = nowMs;
             viewCntrlr->updateCameraPos(diff);
 
+   /*         //DEBUG to dynamically change the pointer to the frames ingame
+            float left;
+            float top;
+            float right;
+            float bottom;
+            printf_s("Enter left/top/right/bottom coordinates for Knight sprite!\n");
+            scanf_s("%f", &left);
+            scanf_s("%f", &top);
+            scanf_s("%f", &right);
+            scanf_s("%f", &bottom);
+            */
+
+
+
+            bool half = true;
+            //vorübergehend, neuen Thread für das Cyclen der Frames einbauen!
+            if (viewCntrlr->yOrderedEntityList->getSize() == 2) {
+            Entity* ent = viewCntrlr->yOrderedEntityList->firstListElem()->element;
+            Entity* ent2 = viewCntrlr->yOrderedEntityList->firstListElem()->next->element;
+            if (ent != NULL) {
+                if (half) {
+                    ent->tick();
+                    ent2->tick();
+                    half = false;
+                }
+                else {
+                    half = true;
+                }
+            }
+
+            
+        }
+        
     }
 }

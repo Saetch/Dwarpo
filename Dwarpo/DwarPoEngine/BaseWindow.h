@@ -3,7 +3,15 @@
 #include <Windows.h>
 #include <windows.h>
 #include <d2d1.h>
+#include <d2d1_1.h> 
+#include <d3d10_1.h>
+
+#pragma comment(lib, "d3d10_1.lib")
+#pragma comment(lib, "DXGI.lib")
 #pragma comment(lib, "d2d1")
+
+
+
 //object-oriented aproach
 //template classes must be defined in header files or subsequent .h (CLASS-X_impl.h or CLASS-X.hpp) files
 template <class DERIVED_TYPE>

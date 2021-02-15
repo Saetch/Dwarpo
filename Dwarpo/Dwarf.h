@@ -39,6 +39,7 @@ public:
 	//is the dwarf fat? Overweight dwarfs need more time to pass each other on the same field
 	float walkTroughModifier = 1.0;
 
+	
 	//professin = mason,lumber,woodworker etc.
 	//int* profession;
 
@@ -53,10 +54,16 @@ public:
 
 	void initStrength();
 
+	void init();
+
+	void tick();
+
 	inline void initName() {
 		std::string arr[] = { "Agegg Darkroar","Ugohm Starkarm","Huladrahr Paleroar","Kaldougirn Cragpike","Sargokunn Smugroar",
 			"Urkognium Slowbeard","Hjengol Marblepass","Akond Deepsteel","Krernen Boulderrock","Eliggs Mountainhost" };
 		int random = rand() % (sizeof(arr) / sizeof(*arr));
 		name = arr[random];
 	}
+
+	bool changeState();
 };
