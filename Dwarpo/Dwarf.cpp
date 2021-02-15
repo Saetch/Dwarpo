@@ -43,6 +43,17 @@ void Dwarf::initStrength()
 
 }
 
+void Dwarf::init()
+{
+
+	//TODO 
+}
+
+void Dwarf::tick()
+{
+	//TODO
+}
+
 bool Dwarf::changeState() {
 	//TODO
 

@@ -7,6 +7,7 @@
 #include "DwarpoModel.h"
 #include <chrono>
 #include <thread>
+#include "KnightD.h"
 //
 void draw(StaticEntity** pphouse, HWND hwnd);
 void addEntity(DPEngine_instance* viewc, StaticEntity* phouse);
@@ -73,6 +74,8 @@ void addEntity(DPEngine_instance* viewc, StaticEntity* pHouse) {
 }
 
 void draw(StaticEntity** pphouse, HWND hwnd) {
+
+
     StaticEntity* phouse = *pphouse;
     signed short int directionToMove = 1;
     float diff;
@@ -91,5 +94,38 @@ void draw(StaticEntity** pphouse, HWND hwnd) {
             lastcall = nowMs;
             viewCntrlr->updateCameraPos(diff);
 
+   /*         //DEBUG to dynamically change the pointer to the frames ingame
+            float left;
+            float top;
+            float right;
+            float bottom;
+            printf_s("Enter left/top/right/bottom coordinates for Knight sprite!\n");
+            scanf_s("%f", &left);
+            scanf_s("%f", &top);
+            scanf_s("%f", &right);
+            scanf_s("%f", &bottom);
+            */
+
+
+
+            bool half = true;
+            //vorübergehend, neuen Thread für das Cyclen der Frames einbauen!
+            if (viewCntrlr->yOrderedEntityList->getSize() == 2) {
+            Entity* ent = viewCntrlr->yOrderedEntityList->firstListElem()->element;
+            Entity* ent2 = viewCntrlr->yOrderedEntityList->firstListElem()->next->element;
+            if (ent != NULL) {
+                if (half) {
+                    ent->tick();
+                    ent2->tick();
+                    half = false;
+                }
+                else {
+                    half = true;
+                }
+            }
+
+            
+        }
+        
     }
 }

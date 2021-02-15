@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseCreature.h"
 #include <mutex>
+#include <string>
 
 class KnightD :
     public BaseCreature
@@ -8,12 +9,7 @@ class KnightD :
     
 
 public:
-    //frame to be displayed by the game engine, for fast access
-    //mutexed since 2 different thread have access to this
-    D2D_RECT_F* currentFrame = (KnightD::idleFrames);
-    std::mutex frameMutex;
-    //how often this Entity was checked for Frame updates.
-    unsigned short tick_count = 0;
+
 
 
     //Frames for idling
@@ -26,13 +22,15 @@ public:
     }
 
     bool changeState();
+
+    std::string getType();
    
     KnightD() {
         ;
     }
     
     inline void tick() {
-
+        tick_count++;
         //cycling through the frames at 30fps (30 ticks per second)
         //cycling through the actual frames in a different thread means less work for the rendering thread
         switch (this->tick_count) {
@@ -112,27 +110,56 @@ public:
 
     static void initKnightDClass() {
 
+        float os = 120.0f;
 
+        float start = 45.0f;
+        float end = 75.0f;
         //initialize "Pointers" in form of predefined RECTs, that point to the specified frame in the buffer.
-        KnightD::idleFrames[0] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[0] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
+        KnightD::idleFrames[1] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[1] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[2] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[2] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[3] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[3] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[4] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[4] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[5] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[5] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[6] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[6] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[7] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[7] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[8] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[8] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
-
-        KnightD::idleFrames[9] = D2D1::RectF(0.0f, 0.0f, 30.0f, 30.0f);
+        KnightD::idleFrames[9] = D2D1::RectF(start, 0.0f, end, 30.0f);
 
     }
 

@@ -16,26 +16,27 @@ int DwarpoModel::init()
 
 //debugging / example of placing a knight on screen
 void DwarpoModel::placeDebugKnight() {
+	KnightD::initKnightDClass();
 	KnightD* knuffte;
-	knuffte = (KnightD*)(malloc(sizeof(KnightD)));
-
+	knuffte = new KnightD();
 	knuffte->xPos = 1.0f;
 	knuffte->yPos = 1.0f;
 	knuffte->init();
 	
 
 	printf_s("adding first knight!\n");
+	printf_s(knuffte->getType().c_str());
+	printf_s("\n");
 	this->viewcontroller->addToYOrderedEntityList(knuffte);
-	printf_s("added first knight!\n");
 
-	knuffte = (KnightD*)(malloc(sizeof(KnightD)));
+	knuffte = new KnightD();
 
 	knuffte->init();
 	knuffte->xPos = 3.2f;
 	knuffte->yPos = 2.0f;
 	this->viewcontroller->addToYOrderedEntityList(knuffte);
 
-	printf_s("added Knight to YOrderedEntityList!\n");
+	printf_s("\n\nadded Knights to YOrderedEntityList!\n");
 	return;
 
 }

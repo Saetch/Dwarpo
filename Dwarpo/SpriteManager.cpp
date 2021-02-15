@@ -95,10 +95,10 @@ HRESULT SpriteManager::loadKnightToAnimBuffer()
         this->panimationBufferTarget, 
         L"Sprites/Entities/Knight/Idle.png",
         //this will make sure where the copied image is put
-        D2D1::RectF(0.0f, 0.0f, defaultWidth* 30, defaultHeight),
+        D2D1::RectF(0.0f, 0.0f, defaultWidth* 40, defaultHeight),
         //this will make sure where the original image will be cut. Only important if there are "blank" spaces to be skipped.
         //If number is higher than resolution, will just use max.
-        D2D1::RectF(0.0f, 45.0f, 1000.0f, 85.0f)
+        D2D1::RectF(0.0f, 46.0f, 1350.0f, 86.0f)
     );
     
     if (SUCCEEDED(hr)) {

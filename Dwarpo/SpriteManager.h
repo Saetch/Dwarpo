@@ -32,12 +32,7 @@ template <class T> void SafeRelease(T** ppT)
 class SpriteManager
 {
 private:
-    ID2D1Bitmap* staticBuffer = NULL;
-    ID2D1BitmapRenderTarget* pstaticBufferTarget;
-    //ID2D1SolidColorBrush** pstaticBufferBrushes;
-
-    ID2D1Bitmap* animationbuffer = NULL;
-    ID2D1BitmapRenderTarget* panimationBufferTarget = NULL;
+   
 
 
 
@@ -67,6 +62,11 @@ private:
     HRESULT loadSpritesToStaticBuffer();
 
 public:
+    ID2D1Bitmap* staticBuffer = NULL;
+    ID2D1Bitmap* animationbuffer = NULL;
+    ID2D1BitmapRenderTarget* pstaticBufferTarget = NULL;
+    ID2D1BitmapRenderTarget* panimationBufferTarget = NULL;
+
     float defaultWidth = 0;
     float defaultHeight = 0;
 

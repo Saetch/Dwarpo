@@ -72,11 +72,11 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
     public:
 
-        QueueTypeLinkedList<BaseCreature>* yOrderedEntityList;
+        QueueTypeLinkedList<Entity>* yOrderedEntityList;
         std::mutex yOrderedEntityList_mutex;
 
 
-        void addToYOrderedEntityList(BaseCreature* newCreature);
+        void addToYOrderedEntityList(Entity* newCreature);
 
 
         void drawBkBuffer();
@@ -103,7 +103,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         DPEngine_instance() : pFactory(NULL), pRenderTarget(NULL), pBrushes(NULL)
         {
-            yOrderedEntityList = new QueueTypeLinkedList<BaseCreature>();
+            yOrderedEntityList = new QueueTypeLinkedList<Entity>();
 
             pBrushes = (ID2D1SolidColorBrush **)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));
             pbkBufferBrushes = (ID2D1SolidColorBrush**)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));

@@ -61,6 +61,13 @@ public:
 	T end() { return lastElement->element; }
 
 
+	void incSize() {
+		this->size++;
+	}
+
+	void decSize() {
+		this->size--;
+	}
 
 	QueueTypeLinkedList<T> operator++() {
 		this->firstElement = this->firstElement->next;

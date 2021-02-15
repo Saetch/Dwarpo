@@ -195,6 +195,10 @@ int DPEngine_instance::onUpdate()
         float cameraX = disX;
         float cameraY = disY;
         camera_mutex.unlock();
+        float dummy_x;
+        float dummy_y;
+        ListElem<Entity>* currEntity;
+        Entity* ent;
         BeginPaint(m_hwnd, &ps);
         pRenderTarget->BeginDraw();
         //background
@@ -206,6 +210,31 @@ int DPEngine_instance::onUpdate()
         pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize()*DWARPO_GRID_WIDTH-cameraX, tileSize()*DWARPO_GRID_HEIGHT-cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
 
+
+        //drawYOrderedEntities
+
+        currEntity = yOrderedEntityList->firstListElem();
+        while (currEntity != NULL) {
+            ent = currEntity->element;
+            if (ent->animated) {
+                dummy_x = -cameraX + tileSize() * ent->xPos;
+                dummy_y = -cameraY + tileSize() * ent->yPos;
+                pRenderTarget->DrawBitmap(
+
+                    spriteManager->animationbuffer,
+                    D2D1::RectF(dummy_x, dummy_y, tileSize() + dummy_x, tileSize() + dummy_y),
+                    1.0f,
+                    D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+                    ent->currentFrame                       
+                );
+            }
+            else {
+                //TODO STRUCTURES
+            }
+
+            currEntity = currEntity->next;
+
+        }
 
 
         //TODO: this needs rewriting to work with the buffered Sprites
@@ -514,16 +543,17 @@ void DPEngine_instance::DKeyUp()
     cameraKey_mutex.unlock();
 }
 
-void DPEngine_instance::addToYOrderedEntityList(BaseCreature* newCreature)
+void DPEngine_instance::addToYOrderedEntityList(Entity* newCreature)
 {
 
-    ListElem<BaseCreature>* listE = yOrderedEntityList->firstListElem();
-    BaseCreature* pbC = listE->element;
+    ListElem<Entity>* listE = yOrderedEntityList->firstListElem();
 
     if (listE == NULL) {  //empty list
         yOrderedEntityList->pushBack(newCreature);
     }
     else {
+        Entity* pbC = listE->element;
+
         while (pbC->yPos < newCreature->yPos) { //finding the spot to put the new entity
             if (listE->next == NULL || listE->next->element->yPos > newCreature->yPos) {
                 break;
@@ -531,11 +561,13 @@ void DPEngine_instance::addToYOrderedEntityList(BaseCreature* newCreature)
             listE = listE->next;
             pbC = listE->element;
         }
+        ListElem<Entity>* newListElem = (ListElem<Entity>*) (malloc(sizeof(newListElem)));
+        newListElem->element = newCreature;
+        newListElem->next = listE->next;
+        listE->next = newListElem;
+        this->yOrderedEntityList->incSize();
     }
-    ListElem<BaseCreature>* newListElem = (ListElem<BaseCreature>*) (malloc(sizeof( newListElem)));
-    newListElem->element = newCreature;
-    newListElem->next = listE->next;
-    listE->next = newListElem;
+ 
 
 
 }
