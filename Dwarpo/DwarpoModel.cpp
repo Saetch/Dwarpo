@@ -1,4 +1,5 @@
 #include "DwarpoModel.h"
+#include "KnightD.h"
 #include <iostream>
 
 
@@ -10,6 +11,33 @@ int DwarpoModel::init()
 	placeCreatures();
 	placePlants();
 	return 0;
+}
+
+
+//debugging / example of placing a knight on screen
+void DwarpoModel::placeDebugKnight() {
+	KnightD* knuffte;
+	knuffte = (KnightD*)(malloc(sizeof(KnightD)));
+
+	knuffte->xPos = 1.0f;
+	knuffte->yPos = 1.0f;
+	knuffte->init();
+	
+
+	printf_s("adding first knight!\n");
+	this->viewcontroller->addToYOrderedEntityList(knuffte);
+	printf_s("added first knight!\n");
+
+	knuffte = (KnightD*)(malloc(sizeof(KnightD)));
+
+	knuffte->init();
+	knuffte->xPos = 3.2f;
+	knuffte->yPos = 2.0f;
+	this->viewcontroller->addToYOrderedEntityList(knuffte);
+
+	printf_s("added Knight to YOrderedEntityList!\n");
+	return;
+
 }
 
 void DwarpoModel::constructMap()
@@ -44,13 +72,19 @@ void DwarpoModel::constructMap()
 
 
 
+	
+
 
 
 
 
 }
 
+
+
+
 void DwarpoModel::placeCreatures() {
+	placeDebugKnight();
 	placeDwarfs();
 	//placeAnimals();
 }

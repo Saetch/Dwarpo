@@ -6,6 +6,8 @@
 #include "DwarpoModel.h"
 #include <mutex>
 #include "SpriteManager.h"
+#include "BaseCreature.h"
+
 class DwarpoModel;
 
 #define DPENGINE_LAYER_AMOUNT 3
@@ -69,6 +71,14 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
 
     public:
+
+        QueueTypeLinkedList<BaseCreature>* yOrderedEntityList;
+        std::mutex yOrderedEntityList_mutex;
+
+
+        void addToYOrderedEntityList(BaseCreature* newCreature);
+
+
         void drawBkBuffer();
 
 
@@ -93,6 +103,8 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         DPEngine_instance() : pFactory(NULL), pRenderTarget(NULL), pBrushes(NULL)
         {
+            yOrderedEntityList = new QueueTypeLinkedList<BaseCreature>();
+
             pBrushes = (ID2D1SolidColorBrush **)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));
             pbkBufferBrushes = (ID2D1SolidColorBrush**)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));
             disX = 0.0f;
@@ -119,7 +131,10 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
 
         ~DPEngine_instance() {
+            free(pbkBufferBrushes);
+            free(layers);
             free(pBrushes);
+            delete yOrderedEntityList;
         }
 
         int onCreate();

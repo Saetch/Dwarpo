@@ -59,4 +59,6 @@ public:
 		int random = rand() % (sizeof(arr) / sizeof(*arr));
 		name = arr[random];
 	}
+
+	bool changeState();
 };

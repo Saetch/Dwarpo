@@ -42,3 +42,9 @@ void Dwarf::initStrength()
 
 
 }
+
+bool Dwarf::changeState() {
+	//TODO
+
+	return false;
+}

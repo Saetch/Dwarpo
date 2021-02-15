@@ -135,6 +135,9 @@
     <ClCompile Include="SpriteWrapper.cpp">
       <Filter>DwarPoEngine\DwarPoEngine-Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="KnightD.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="SpriteWrapper.h">
       <Filter>DwarPoEngine\DwarPoEngine-Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="KnightD.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

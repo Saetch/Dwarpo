@@ -514,6 +514,32 @@ void DPEngine_instance::DKeyUp()
     cameraKey_mutex.unlock();
 }
 
+void DPEngine_instance::addToYOrderedEntityList(BaseCreature* newCreature)
+{
+
+    ListElem<BaseCreature>* listE = yOrderedEntityList->firstListElem();
+    BaseCreature* pbC = listE->element;
+
+    if (listE == NULL) {  //empty list
+        yOrderedEntityList->pushBack(newCreature);
+    }
+    else {
+        while (pbC->yPos < newCreature->yPos) { //finding the spot to put the new entity
+            if (listE->next == NULL || listE->next->element->yPos > newCreature->yPos) {
+                break;
+            }
+            listE = listE->next;
+            pbC = listE->element;
+        }
+    }
+    ListElem<BaseCreature>* newListElem = (ListElem<BaseCreature>*) (malloc(sizeof( newListElem)));
+    newListElem->element = newCreature;
+    newListElem->next = listE->next;
+    listE->next = newListElem;
+
+
+}
+
 void DPEngine_instance::drawBkBuffer()
 {
     HRESULT hr = CreateGraphicsResources();

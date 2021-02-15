@@ -32,6 +32,10 @@ public:
 
 	void constructMap();
 	
+	//DEBUG YOU KNOW
+	void placeDebugKnight();
+
+
 	//initial creaure placing
 	void placeCreatures();
 

@@ -120,6 +120,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>DwarPoEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,6 +162,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Job.cpp" />
+    <ClCompile Include="KnightD.cpp" />
     <ClCompile Include="Omnivore.cpp" />
     <ClCompile Include="Personality.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
@@ -187,6 +189,7 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Job.h" />
+    <ClInclude Include="KnightD.h" />
     <ClInclude Include="Omnivore.h" />
     <ClInclude Include="Personality.h" />
     <ClInclude Include="QueueTypeLinkedList.h" />
