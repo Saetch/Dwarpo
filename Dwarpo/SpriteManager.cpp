@@ -190,6 +190,22 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
             D2D1::RectF(0.0f, 0.0f,640.0f,640.0f)
         );
     }
+    ID2D1SolidColorBrush* brush = NULL;
+    //adjust brightness
+    pstaticBufferTarget->BeginDraw();
+
+    if (SUCCEEDED(hr)) {
+        hr = pstaticBufferTarget->CreateSolidColorBrush(D2D1::ColorF(0.0f,0.0f,0.2f,0.25f), &brush);
+
+    }
+   
+    if (SUCCEEDED(hr)) {
+        pstaticBufferTarget->FillRectangle(D2D1::RectF(0.0f, 0.0f, 120.0f, 30.0f), brush);
+    }
+
+    if (SUCCEEDED(hr)) {
+        hr = pstaticBufferTarget->EndDraw();
+    }
 
 
     if (SUCCEEDED(hr)) {
