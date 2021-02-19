@@ -57,7 +57,9 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
             if (spriteManager != NULL) {
                 delete spriteManager;
             }
-            
+            if (SUCCEEDED(hr)) {
+                printf_s("SUCCEEDED so far! \n");
+            }
             spriteManager = new SpriteManager(pRenderTarget, tileSize(), tileSize());
             hr = spriteManager->loadSpritesToBuffer();
 

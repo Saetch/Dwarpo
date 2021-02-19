@@ -44,13 +44,13 @@ private:
 
     HRESULT LoadBitmapFromFileTrgt(
         ID2D1RenderTarget* pRenderTarget,
-        PCWSTR uri,
+        const char* uri,
         D2D1_RECT_F destinationRect ,
         D2D1_RECT_F sourceRect
     );
 
     HRESULT LoadBitmapFromFile(
-        PCWSTR uri,
+        const char* uri,
         D2D1_RECT_F destinationRect,
         D2D1_RECT_F sourceRect
     );

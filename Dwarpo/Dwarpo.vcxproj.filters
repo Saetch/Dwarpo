@@ -58,6 +58,12 @@
     <Filter Include="Headerdateien\model\Dwarf\Structures">
       <UniqueIdentifier>{70852f44-08f5-4fd0-a4ad-88088086914a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\dependencies">
+      <UniqueIdentifier>{6923ff75-0059-490c-9e38-d847167e95ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\dependencies">
+      <UniqueIdentifier>{1b8810cb-6fbf-48c2-b653-eb268f60addb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -137,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="KnightD.cpp">
       <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="base64.cpp">
+      <Filter>Quelldateien\dependencies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="KnightD.h">
       <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="base64.h">
+      <Filter>Headerdateien\dependencies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
