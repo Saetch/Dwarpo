@@ -12,6 +12,7 @@ class DwarpoModel;
 
 #define DPENGINE_LAYER_AMOUNT 3
 #define DPENGINE_OBJECTBUFFER_SIZE 500
+#define TILESIZE 30
 
 
 #define DPENGINE_CAMSPEED 1
@@ -78,12 +79,11 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         void addToYOrderedEntityList(Entity* newCreature);
 
-
         void drawBkBuffer();
 
 
-        constexpr float tileSize() { return 30.0f; }
-        static constexpr float staticTileSize() { return 30.0f; }
+        constexpr float tileSize() { return (float)TILESIZE; }
+        static constexpr float staticTileSize() { return (float)TILESIZE; }
 
 
         void setBkgrnd(unsigned short int newBkgrnd);
@@ -91,7 +91,9 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         void addEntityL(DrawableEntity*, unsigned short int layer);
         void constructGrassTileEntity(StaticEntity* pEnt);
 
-
+        void setModel(DwarpoModel* m) {
+            model = m;
+        }
         void inline __thiscall updateCameraPos(float fElapsedTime) {
             camera_mutex.lock();
 

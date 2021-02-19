@@ -56,11 +56,13 @@ private:
     );
 
 
-    HRESULT loadKnightToAnimBuffer();
 
     HRESULT loadSpritesToAnimBuffer();
     HRESULT loadSpritesToStaticBuffer();
 
+    HRESULT loadKnightToAnimBuffer();
+
+    HRESULT loadGrassToStaticBuffer();
 public:
     ID2D1Bitmap* staticBuffer = NULL;
     ID2D1Bitmap* animationbuffer = NULL;

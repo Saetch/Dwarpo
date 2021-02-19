@@ -207,8 +207,6 @@ int DPEngine_instance::onUpdate()
         pRenderTarget->Clear(pBrushes[this->backgroundColor]->GetColor());
         //get first element of background
         
-        DrawableEntity* pDE;
-        pDE = this->layers[0].firstListElem()->element;
         pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize()*DWARPO_GRID_WIDTH-cameraX, tileSize()*DWARPO_GRID_HEIGHT-cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
 
@@ -335,9 +333,9 @@ void __thiscall DPEngine_instance::fillBuffer()
         drawObjectBuffer[0].drawType = DrawO_RECT_FILL;
         drawObjectBuffer[0].width = 1.0f;
         drawObjectBuffer[0].x1 = 0.0f;
-        drawObjectBuffer[0].y1 = tileSize();
+        drawObjectBuffer[0].y1 = 0.0f;
         drawObjectBuffer[0].x2 = 0.0f;
-        drawObjectBuffer[0].y2 = tileSize();
+        drawObjectBuffer[0].y2 = 0.0f;
     }
     {
         //house(2x3) left
@@ -574,6 +572,8 @@ void DPEngine_instance::addToYOrderedEntityList(Entity* newCreature)
 
 }
 
+
+
 void DPEngine_instance::drawBkBuffer()
 {
     HRESULT hr = CreateGraphicsResources();
@@ -581,14 +581,40 @@ void DPEngine_instance::drawBkBuffer()
         printf_s("COULD NOT CREATE GRAPHICS RESOURCES");
         return;
     }
+
+    groundTile* curr;
+
+    float xTar;
+    float yTar;
+    D2D1_RECT_F rect;
+    this->pbkBufferTarget->BeginDraw();
+
+    for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
+        for (int y = 0; y < DWARPO_GRID_HEIGHT; y++) {
+            curr = model->getTileAt(x, y);
+            xTar = x * tileSize();
+            yTar = y * tileSize();
+            rect = D2D1::RectF(xTar, yTar, xTar + tileSize(), yTar + tileSize());
+            pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+            pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
+            drawBkObject(xTar, yTar, curr->drawableEntity.drawObjects[1]);
+        }
+    }
+
+/*
     QueueTypeLinkedList<DrawableEntity>* bkgrnd = this->layers;
     ListElem<DrawableEntity>* currentEntityElem = bkgrnd->firstListElem();
     unsigned int bkgrndSize = bkgrnd->getSize();
     DrawableEntity* ent;
     DrawObject** obj;
-    this->pbkBufferTarget->BeginDraw();
     for (unsigned int index = 0; index < bkgrndSize; index++) {
+
+
+
         ent = currentEntityElem->element;
+        
+
+        
         obj = ent->getObjectStart();
         for (int object_i = 0; object_i < ent->drawObjectsSize; object_i++) {
             drawBkObject(ent->x, ent->y, *obj);
@@ -598,7 +624,7 @@ void DPEngine_instance::drawBkBuffer()
 
         currentEntityElem = currentEntityElem->next;
     }
-
+    */
     if (SUCCEEDED(this->pbkBufferTarget->EndDraw())) {
         printf_s("Updated bkgrndBuffer");
     }

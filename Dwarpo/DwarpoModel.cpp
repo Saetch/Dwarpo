@@ -54,6 +54,7 @@ void DwarpoModel::constructMap()
 	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
 		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
 			curr = getTileAt(w, h);
+			curr->init(GROUNDTILE_GRASS);
 			curr->drawableEntity.drawObjectsSize = 2;
 			curr->drawableEntity.drawObjects = (DrawObject**)calloc(2, sizeof(DrawObject*));
 			this->viewcontroller->constructGrassTileEntity(&curr->drawableEntity);
@@ -62,7 +63,6 @@ void DwarpoModel::constructMap()
 			curr->drawableEntity.y = h * this->viewcontroller->tileSize();
 			//add the tile representation to the viewcontroller
 
-			this->viewcontroller->addEntityL(&curr->drawableEntity, 0);
 
 
 			

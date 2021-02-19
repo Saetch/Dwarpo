@@ -32,7 +32,9 @@ HRESULT SpriteManager::LoadBitmapFromFileTrgt(ID2D1RenderTarget* pRenderTarget, 
     in.close();
 
     //first 3 byte are data type and thus need to be excluded
-
+    if (length < 10) {
+        printf_s("THIS IS DEFINATELY WRONG. FILE NOT FOUND!\n");
+    }
     BYTE* buffer = new BYTE[length-3];
     const char* c_str = new char[str.size()-3];
     str = str.substr(3, str.length());
@@ -151,6 +153,52 @@ HRESULT SpriteManager::loadKnightToAnimBuffer()
     return hr;
 }
 
+HRESULT SpriteManager::loadGrassToStaticBuffer()
+{
+    HRESULT hr = CB_OKAY;
+
+    hr = LoadBitmapFromFileTrgt(
+        this->pstaticBufferTarget,
+        "Sprites/Structures/ground/grass1.txt",
+        D2D1::RectF(0.0f, 0.0f, defaultWidth, defaultHeight),
+        D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
+    );
+
+    if (SUCCEEDED(hr)) {
+        LoadBitmapFromFileTrgt(
+            this->pstaticBufferTarget,
+            "Sprites/Structures/ground/grass2.txt",
+            D2D1::RectF(defaultWidth, 0.0f, defaultWidth* 2, defaultHeight),
+            D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
+        );
+    }
+
+    if (SUCCEEDED(hr)) {
+        LoadBitmapFromFileTrgt(
+            this->pstaticBufferTarget,
+            "Sprites/Structures/ground/grass3.txt",
+            D2D1::RectF(defaultWidth *2 , 0.0f, defaultWidth * 3, defaultHeight),
+            D2D1::RectF(0.0f,0.0f, 640.0f,640.0f)
+        );
+    }
+
+    if (SUCCEEDED(hr)) {
+        LoadBitmapFromFileTrgt(
+            this->pstaticBufferTarget,
+            "Sprites/Structures/ground/grass4.txt",
+            D2D1::RectF(defaultWidth * 3, 0.0f, defaultWidth * 4, defaultHeight),
+            D2D1::RectF(0.0f, 0.0f,640.0f,640.0f)
+        );
+    }
+
+
+    if (SUCCEEDED(hr)) {
+        printf_s("SUCCEEDED loading Grass-Sprite to static buffer!\n");
+    }
+
+    return hr;
+}
+
 
 HRESULT SpriteManager::loadSpritesToAnimBuffer()
 {
@@ -165,6 +213,8 @@ HRESULT SpriteManager::loadSpritesToAnimBuffer()
 HRESULT SpriteManager::loadSpritesToStaticBuffer()
 {
     HRESULT hr = CB_OKAY;
+
+    hr = loadGrassToStaticBuffer();
 
     return hr;
 }
