@@ -1,6 +1,6 @@
 #include "SpriteManager.h"
-//#include <sstream>
-//#include <fileapi.h>
+
+
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -159,7 +159,7 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
 
     hr = LoadBitmapFromFileTrgt(
         this->pstaticBufferTarget,
-        "Sprites/Structures/ground/grass1.txt",
+        "Dwarpo_Sprites/Structures/ground/grass1.txt",
         D2D1::RectF(0.0f, 0.0f, defaultWidth, defaultHeight),
         D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
     );
@@ -167,7 +167,7 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
     if (SUCCEEDED(hr)) {
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
-            "Sprites/Structures/ground/grass2.txt",
+            "Dwarpo_Sprites/Structures/ground/grass2.txt",
             D2D1::RectF(defaultWidth, 0.0f, defaultWidth* 2, defaultHeight),
             D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
         );
@@ -176,7 +176,7 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
     if (SUCCEEDED(hr)) {
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
-            "Sprites/Structures/ground/grass3.txt",
+            "Dwarpo_Sprites/Structures/ground/grass3.txt",
             D2D1::RectF(defaultWidth *2 , 0.0f, defaultWidth * 3, defaultHeight),
             D2D1::RectF(0.0f,0.0f, 640.0f,640.0f)
         );
@@ -185,7 +185,7 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
     if (SUCCEEDED(hr)) {
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
-            "Sprites/Structures/ground/grass4.txt",
+            "Dwarpo_Sprites/Structures/ground/grass4.txt",
             D2D1::RectF(defaultWidth * 3, 0.0f, defaultWidth * 4, defaultHeight),
             D2D1::RectF(0.0f, 0.0f,640.0f,640.0f)
         );
@@ -195,7 +195,7 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
     pstaticBufferTarget->BeginDraw();
 
     if (SUCCEEDED(hr)) {
-        hr = pstaticBufferTarget->CreateSolidColorBrush(D2D1::ColorF(0.0f,0.0f,0.2f,0.25f), &brush);
+        hr = pstaticBufferTarget->CreateSolidColorBrush(D2D1::ColorF(0.0f,0.0f,0.2f,0.35f), &brush);
 
     }
    

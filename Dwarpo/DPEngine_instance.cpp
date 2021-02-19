@@ -6,6 +6,7 @@
 #define debugF(x) printf_s(#x": %lf\n", x);
 #define debugP(x) printf_s(#x": %p\n", x);
 
+#define DWARPO_SHOWGRID 1
 
 void DPEngine_instance::CalculateLayout()
 {
@@ -597,7 +598,9 @@ void DPEngine_instance::drawBkBuffer()
             rect = D2D1::RectF(xTar, yTar, xTar + tileSize(), yTar + tileSize());
             pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
             pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
-            drawBkObject(xTar, yTar, curr->drawableEntity.drawObjects[1]);
+            if (DWARPO_SHOWGRID) {
+                drawBkObject(xTar, yTar, curr->drawableEntity.drawObjects[1]);
+            }
         }
     }
 
