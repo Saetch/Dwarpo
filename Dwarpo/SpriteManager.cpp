@@ -37,13 +37,10 @@ HRESULT SpriteManager::LoadBitmapFromFileTrgt(ID2D1RenderTarget* pRenderTarget, 
     const char* c_str = new char[str.size()-3];
     str = str.substr(3, str.length());
     c_str = str.c_str();
-    for (int i = 0; i < str.size(); i++) {
-        printf_s("Orig: %d\n", c_str[i]);
-    }
+
     str = base64_decode(c_str, str.size());
     c_str = str.c_str();
     for (int i = 0; i < str.size(); i++) {
-        printf_s("Read a %d\n", int(c_str[i]));
         buffer[i] = c_str[i];
     }
 
@@ -71,8 +68,6 @@ HRESULT SpriteManager::LoadBitmapFromFileTrgt(ID2D1RenderTarget* pRenderTarget, 
 
     if (SUCCEEDED(hr))
     {
-        printf_s("SUCC1\n");
-
         // Convert the image format to 32bppPBGRA
         // (DXGI_FORMAT_B8G8R8A8_UNORM + D2D1_ALPHA_MODE_PREMULTIPLIED).
         hr = pIWICFactory->CreateFormatConverter(&pConverter);
