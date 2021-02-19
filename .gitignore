@@ -340,4 +340,5 @@ ASALocalRun/
 healthchecksdb
 
 # uncompressed sprites
-Dwarpo/Sprites/*/*/Original
+Dwarpo/Sprites/
+Dwarpo/OriginalSprites

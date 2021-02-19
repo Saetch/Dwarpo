@@ -152,40 +152,6 @@ HRESULT SpriteManager::loadKnightToAnimBuffer()
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 HRESULT SpriteManager::loadSpritesToAnimBuffer()
 {
     HRESULT hr = loadKnightToAnimBuffer();
