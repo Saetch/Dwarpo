@@ -20,7 +20,7 @@ void DPEngine_instance::CalculateLayout()
         top = disY;
         camera_mutex.unlock();
         right = left + width;
-        bottom = top + height ;
+        bottom = top + height;
         
     }
 }
