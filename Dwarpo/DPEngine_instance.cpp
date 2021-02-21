@@ -239,7 +239,7 @@ int DPEngine_instance::onUpdate()
             else {
                
                 Structure* struc = static_cast<Structure*>(ent);
-                actualRect = D2D1::RectF(dummy_x+struc->targetRect.left, dummy_y+struc->targetRect.top, dummy_x +struc->targetRect.right, dummy_y+struc->targetRect.bottom);
+                actualRect = D2D1::RectF(-cameraX +struc->targetRect.left, tileSize()+ -cameraY+struc->targetRect.top, -cameraX +struc->targetRect.right, tileSize() - cameraY+struc->targetRect.bottom);
                 pRenderTarget->DrawBitmap(
 
                 spriteManager->staticBuffer,
@@ -576,6 +576,10 @@ void DPEngine_instance::addToYOrderedEntityList(Entity* newCreature)
         Entity* pnE = nextListE->element;
         if (newCreature->yPos < pnE->yPos) {
             yOrderedEntityList->push(newCreature);
+            return;
+        }
+        if (yOrderedEntityList->getSize() == 1){
+            yOrderedEntityList->pushBack(newCreature);
             return;
         }
         ListElem<Entity>* previousListElem = nextListE;

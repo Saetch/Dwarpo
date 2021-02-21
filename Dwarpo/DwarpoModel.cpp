@@ -100,7 +100,7 @@ void DwarpoModel::constructMap()
 
 void DwarpoModel::placeBaseHouse() {
 	Dwarf_BaseHouse* p_house;
-	p_house = new Dwarf_BaseHouse(4,8, viewcontroller->tileSize());
+	p_house = new Dwarf_BaseHouse(5,7, viewcontroller->tileSize());
 
 	this->viewcontroller->addToYOrderedEntityList(p_house);
 }

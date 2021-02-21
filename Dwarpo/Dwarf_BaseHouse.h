@@ -31,6 +31,9 @@ public:
 		this->xPos = x;
 		this->yPos = y;
 		animated = false;
+		printf_s("TILESIZE: %f\n", tileSize);
+		printf_s("House:  %f --> %f\n" , xPos, yPos);
+		printf_s("H: %f --> %f", tileSize * xPos, tileSize * yPos);
 		targetRect = D2D1::RectF(tileSize*xPos, tileSize*yPos-150.0f, tileSize*xPos+120.0f, tileSize*yPos);
 		
 
