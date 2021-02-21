@@ -36,6 +36,8 @@ public:
 	void placeDebugKnight();
 
 
+	void placeBaseHouse();
+
 	//initial creaure placing
 	void placeCreatures();
 

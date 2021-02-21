@@ -1,12 +1,27 @@
 #include "DwarpoModel.h"
 #include "KnightD.h"
 #include <iostream>
+#include "Dwarf_BaseHouse.h"
 
+void initClasses() {
+	Dwarf_BaseHouse::init();
+	KnightD::initKnightDClass();
+
+	//other classes that need initialization to follow
+
+
+}
 
 
 int DwarpoModel::init()
 {
+	initClasses();
+
+
 	constructMap();
+
+	placeBaseHouse();
+
 	placeOres();
 	placeCreatures();
 	placePlants();
@@ -16,7 +31,6 @@ int DwarpoModel::init()
 
 //debugging / example of placing a knight on screen
 void DwarpoModel::placeDebugKnight() {
-	KnightD::initKnightDClass();
 	KnightD* knuffte;
 	knuffte = new KnightD();
 	knuffte->xPos = 1.0f;
@@ -43,6 +57,8 @@ void DwarpoModel::placeDebugKnight() {
 
 void DwarpoModel::constructMap()
 {
+
+
 
 	//initialize groundType
 	StaticEntity* pDrawEnt = new StaticEntity(2);
@@ -81,6 +97,13 @@ void DwarpoModel::constructMap()
 
 }
 
+
+void DwarpoModel::placeBaseHouse() {
+	Dwarf_BaseHouse* p_house;
+	p_house = new Dwarf_BaseHouse(4,8, viewcontroller->tileSize());
+
+	this->viewcontroller->addToYOrderedEntityList(p_house);
+}
 
 
 

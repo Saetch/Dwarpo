@@ -1,17 +1,8 @@
 #pragma once
-#include <windows.h>
-#include <Windows.h>
 #include <stdio.h>
 #include <d2d1.h>
-#include <d2d1_1.h> 
-#include <d3d10_1.h>
 #include <wincodec.h>
-#include "SpriteWrapper.h"
-#include <math.h>
-#pragma comment(lib, "d3d10_1.lib")
-#pragma comment(lib, "DXGI.lib")
-#pragma comment(lib, "d2d1")
-#pragma comment(lib, "user32.lib")
+
 
 
 #define ANIMATION_BUFFER_WIDTH 8000
@@ -42,12 +33,7 @@ private:
    
 
 
-    HRESULT LoadBitmapFromFileTrgt(
-        ID2D1RenderTarget* pRenderTarget,
-        const char* uri,
-        D2D1_RECT_F destinationRect ,
-        D2D1_RECT_F sourceRect
-    );
+    
 
     HRESULT LoadBitmapFromFile(
         const char* uri,
@@ -71,6 +57,13 @@ public:
 
     float defaultWidth = 0;
     float defaultHeight = 0;
+
+    HRESULT LoadBitmapFromFileTrgt(
+        ID2D1RenderTarget* pRenderTarget,
+        const char* uri,
+        D2D1_RECT_F destinationRect,
+        D2D1_RECT_F sourceRect
+    );
 
     SpriteManager(ID2D1RenderTarget* pMainRenderTarget, float defWidth, float defHeight) {
 
@@ -138,6 +131,10 @@ public:
     
     ID2D1Bitmap* getp_StaticBitMap() {
         return this->staticBuffer;
+    }
+
+    ID2D1Bitmap* getp_AnimationBitMap() {
+        return this->animationbuffer;
     }
 };
 

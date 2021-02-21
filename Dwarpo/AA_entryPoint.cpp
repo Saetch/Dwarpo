@@ -47,6 +47,12 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     std:: thread* thr1 = new std::thread(draw, &phouse, viewCntrlr->Window());
   
+    ListElem<Entity>* lE = viewCntrlr->yOrderedEntityList->firstListElem();
+    while (lE != NULL) {
+        printf_s("\ntype: %s\n", typeid(*lE->element).name());
+        lE = lE->next;
+
+    }
     // Run the message loop.
     MSG msg = { };
     while (GetMessage(&msg, NULL, 0, 0))
@@ -110,7 +116,7 @@ void draw(StaticEntity** pphouse, HWND hwnd) {
 
             bool half = true;
             //vorübergehend, neuen Thread für das Cyclen der Frames einbauen!
-            if (viewCntrlr->yOrderedEntityList->getSize() == 2) {
+            if (viewCntrlr->yOrderedEntityList->getSize() >= 2) {
             Entity* ent = viewCntrlr->yOrderedEntityList->firstListElem()->element;
             Entity* ent2 = viewCntrlr->yOrderedEntityList->firstListElem()->next->element;
             if (ent != NULL) {

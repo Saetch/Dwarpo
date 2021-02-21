@@ -152,6 +152,7 @@
     <ClCompile Include="DrawableEntity.cpp" />
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="Dwarf.cpp" />
+    <ClCompile Include="Dwarf_BaseHouse.cpp" />
     <ClCompile Include="DwarPoEngine\BaseWindow.cpp" />
     <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp" />
     <ClCompile Include="DwarpoModel.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="DPEngine_instance.h" />
     <ClInclude Include="DrawableEntity.h" />
     <ClInclude Include="DrawObject.h" />
+    <ClInclude Include="Dwarf_BaseHouse.h" />
     <ClInclude Include="DwarPoEngine\BaseWindow.h" />
     <ClInclude Include="DwarPoEngine\DwarPoEngine.h" />
     <ClInclude Include="DwarpoModel.h" />

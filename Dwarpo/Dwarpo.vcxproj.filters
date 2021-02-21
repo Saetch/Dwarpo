@@ -55,14 +55,20 @@
     <Filter Include="Quelldateien\model\Structures">
       <UniqueIdentifier>{d3101234-6043-4995-bbfe-0e2654978104}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\model\Dwarf\Structures">
-      <UniqueIdentifier>{70852f44-08f5-4fd0-a4ad-88088086914a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headerdateien\dependencies">
       <UniqueIdentifier>{6923ff75-0059-490c-9e38-d847167e95ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="Quelldateien\dependencies">
       <UniqueIdentifier>{1b8810cb-6fbf-48c2-b653-eb268f60addb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\model\Structures">
+      <UniqueIdentifier>{70852f44-08f5-4fd0-a4ad-88088086914a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\model\Structures\Dwarf">
+      <UniqueIdentifier>{6850e62f-ae6d-467c-a038-b84e7a393c3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\model\Structures\Dwarf">
+      <UniqueIdentifier>{e631b36e-7edf-4282-a37e-faa956031dea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +153,9 @@
     <ClCompile Include="base64.cpp">
       <Filter>Quelldateien\dependencies</Filter>
     </ClCompile>
+    <ClCompile Include="Dwarf_BaseHouse.cpp">
+      <Filter>Quelldateien\model\Structures\Dwarf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">
@@ -213,7 +222,7 @@
       <Filter>Headerdateien\model\Dwarf</Filter>
     </ClInclude>
     <ClInclude Include="Structure.h">
-      <Filter>Headerdateien\model\Dwarf\Structures</Filter>
+      <Filter>Headerdateien\model\Structures</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Headerdateien\model</Filter>
@@ -232,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="base64.h">
       <Filter>Headerdateien\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="Dwarf_BaseHouse.h">
+      <Filter>Headerdateien\model\Structures\Dwarf</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 #include "DPEngine_instance.h"
 #include "DrawObject.h"
+#include "Structure.h"
 #include "QueueTypeLinkedList_impl.h"
 #define debugI(x) printf_s(#x": %d\n", x);
 #define debugF(x) printf_s(#x": %lf\n", x);
@@ -215,11 +216,14 @@ int DPEngine_instance::onUpdate()
         //drawYOrderedEntities
 
         currEntity = yOrderedEntityList->firstListElem();
+        D2D1_RECT_F actualRect;
         while (currEntity != NULL) {
             ent = currEntity->element;
+            dummy_x = -cameraX + tileSize() * ent->xPos;
+            dummy_y = -cameraY + tileSize() * ent->yPos;
             if (ent->animated) {
-                dummy_x = -cameraX + tileSize() * ent->xPos;
-                dummy_y = -cameraY + tileSize() * ent->yPos;
+
+                
                 pRenderTarget->DrawBitmap(
 
                     spriteManager->animationbuffer,
@@ -228,10 +232,25 @@ int DPEngine_instance::onUpdate()
                     D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
                     ent->currentFrame                       
                 );
+                
+
+              
             }
             else {
-                //TODO STRUCTURES
-            }
+               
+                Structure* struc = static_cast<Structure*>(ent);
+                actualRect = D2D1::RectF(dummy_x+struc->targetRect.left, dummy_y+struc->targetRect.top, dummy_x +struc->targetRect.right, dummy_y+struc->targetRect.bottom);
+                pRenderTarget->DrawBitmap(
+
+                spriteManager->staticBuffer,
+                actualRect,
+                1.0f,
+                D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+                struc->getFrameRect()
+                    );
+
+
+                }
 
             currEntity = currEntity->next;
 
@@ -261,7 +280,7 @@ int DPEngine_instance::onUpdate()
         //DEBUG: in Order to be able to correctly point Rectangles to Buffers, these will output the buffers (static and animation on top of the playing fields if unquotet)
 
         //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
-        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        //pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
 
         hr = pRenderTarget->EndDraw();
@@ -547,25 +566,36 @@ void DPEngine_instance::DKeyUp()
 void DPEngine_instance::addToYOrderedEntityList(Entity* newCreature)
 {
 
-    ListElem<Entity>* listE = yOrderedEntityList->firstListElem();
+    ListElem<Entity>* nextListE = yOrderedEntityList->firstListElem();
 
-    if (listE == NULL) {  //empty list
+    if (nextListE == NULL) {  //empty list
         yOrderedEntityList->pushBack(newCreature);
     }
     else {
-        Entity* pbC = listE->element;
-
-        while (pbC->yPos < newCreature->yPos) { //finding the spot to put the new entity
-            if (listE->next == NULL || listE->next->element->yPos > newCreature->yPos) {
-                break;
-            }
-            listE = listE->next;
-            pbC = listE->element;
+        
+        Entity* pnE = nextListE->element;
+        if (newCreature->yPos < pnE->yPos) {
+            yOrderedEntityList->push(newCreature);
+            return;
         }
+        ListElem<Entity>* previousListElem = nextListE;
+        nextListE = nextListE->next;
+        pnE = nextListE->element;
+        while (newCreature->yPos > pnE->yPos) { //finding the spot to put the new entity
+            
+            previousListElem = nextListE;
+            nextListE = nextListE->next;
+            if (nextListE == NULL) break;
+
+            pnE = nextListE->element;
+        }
+
+
+
         ListElem<Entity>* newListElem = (ListElem<Entity>*) (malloc(sizeof(newListElem)));
         newListElem->element = newCreature;
-        newListElem->next = listE->next;
-        listE->next = newListElem;
+        newListElem->next = nextListE;
+        previousListElem->next = newListElem;
         this->yOrderedEntityList->incSize();
     }
  

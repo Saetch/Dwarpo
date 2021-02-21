@@ -1,11 +1,17 @@
+#pragma once
+
 #include "SpriteManager.h"
 
-
 #include <string>
-#include <sstream>
 #include <fstream>
-#include <iostream>
 #include "base64.h"
+
+HRESULT loadDwarfStructures(SpriteManager* ths);
+
+//writing a local function with a this argument removes overhead, since this function isn't needed in SpriteManager.h
+HRESULT loadbitMapfromFileTarget(SpriteManager* ths, ID2D1RenderTarget* pRenderTarget, const char* uri, D2D1_RECT_F destinationRect,
+    D2D1_RECT_F sourceRect);
+
 HRESULT SpriteManager::LoadBitmapFromFileTrgt(ID2D1RenderTarget* pRenderTarget, const char* uri, D2D1_RECT_F destinationRect,
     D2D1_RECT_F sourceRect)
 {
@@ -232,5 +238,24 @@ HRESULT SpriteManager::loadSpritesToStaticBuffer()
 
     hr = loadGrassToStaticBuffer();
 
+    if (SUCCEEDED(hr)) {
+        hr = loadDwarfStructures(this);
+    }
     return hr;
+}
+
+HRESULT loadDwarfStructures(SpriteManager* ths)
+{
+    HRESULT hr = CB_OKAY;
+
+    hr = loadbitMapfromFileTarget(ths, ths->pstaticBufferTarget, "Dwarpo_Sprites/Structures/Dwarf/Dwarf_BaseHouse.txt",
+        D2D1::RectF(30.0f, 30.0f, 150.0f, 180.0f), D2D1::RectF(140.0f, 55.0f, 510.0f, 580.0f));
+
+
+    return hr;
+}
+
+HRESULT loadbitMapfromFileTarget(SpriteManager* ths, ID2D1RenderTarget* pRenderTarget, const char* uri, D2D1_RECT_F destinationRect, D2D1_RECT_F sourceRect)
+{
+    return ths->LoadBitmapFromFileTrgt(pRenderTarget, uri, destinationRect, sourceRect);
 }

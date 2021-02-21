@@ -26,5 +26,12 @@ public:
 	virtual std::string getType() {
 		return "Entity";
 	}
+
+
+	virtual D2D1_RECT_F* getTargetRect(){
+		//this function should return NULL if the Entity is not a structure
+		//overload to return an actual Rect if it is
+		return NULL;
+	}
 };
 
