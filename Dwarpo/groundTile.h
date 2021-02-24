@@ -4,7 +4,7 @@
 #include <d2d1.h>
 
 #define GROUNDTILE_GRASS 1
-
+#define GROUNDTILE_ROCK 2
 class Dwarf;
 
 class BaseCreature;
@@ -46,6 +46,15 @@ public:
 		return D2D1::RectF(graphicRect * tileSize, 0.0f, (graphicRect + 1) * tileSize, tileSize);
 	}
 
+	inline void destroyBlock() {
+		if (!isBlocked) {
+			printf_s("WARN -- DestroyBlock called on non-blocked groundTile!\n");
+		}
+		graphicRect++;
+		isBlocked = false;
+		
+	}
+
 	groundTile(int type) {
 		init(type);
 	}
@@ -57,6 +66,9 @@ public:
 
 
 			graphicRect = (rand()) % 4;
+			return;
+		case GROUNDTILE_ROCK:
+			graphicRect = 5;
 			return;
 		default:
 			printf_s("GROUNDTILE CONSTRUCTED WITH ILLEGAL TYPE");

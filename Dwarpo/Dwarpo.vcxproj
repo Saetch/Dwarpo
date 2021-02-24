@@ -165,6 +165,8 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="KnightD.cpp" />
+    <ClCompile Include="LinkedChunk.cpp" />
+    <ClCompile Include="MapGenerator.cpp" />
     <ClCompile Include="Omnivore.cpp" />
     <ClCompile Include="Personality.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
@@ -194,6 +196,8 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="KnightD.h" />
+    <ClInclude Include="LinkedChunk.h" />
+    <ClInclude Include="MapGenerator.h" />
     <ClInclude Include="Omnivore.h" />
     <ClInclude Include="Personality.h" />
     <ClInclude Include="QueueTypeLinkedList.h" />

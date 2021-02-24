@@ -142,6 +142,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         int onCreate();
         int onUpdate();
 
+        bool ok() { return true; }
         const PCWSTR  ClassName()  {  return L"DwarPoEngine 0.1A"; }
         LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
     

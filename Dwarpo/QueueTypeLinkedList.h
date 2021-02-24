@@ -60,7 +60,7 @@ public:
 	T begin() { return firstElement->element; }
 	T end() { return lastElement->element; }
 
-
+	T* pop();
 	void incSize() {
 		this->size++;
 	}

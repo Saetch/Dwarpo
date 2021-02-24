@@ -48,6 +48,8 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     std:: thread* thr1 = new std::thread(draw, &phouse, viewCntrlr->Window());
   
     ListElem<Entity>* lE = viewCntrlr->yOrderedEntityList->firstListElem();
+    //DEBUGGING yOrderEntities
+    
     while (lE != NULL) {
         printf_s("\ntype: %s\n", typeid(*lE->element).name());
         lE = lE->next;

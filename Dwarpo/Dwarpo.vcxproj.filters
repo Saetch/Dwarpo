@@ -70,6 +70,12 @@
     <Filter Include="Quelldateien\model\Structures\Dwarf">
       <UniqueIdentifier>{e631b36e-7edf-4282-a37e-faa956031dea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\model\Generator">
+      <UniqueIdentifier>{f40185b2-a409-44c5-924f-e7bece9033b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\model\Generator">
+      <UniqueIdentifier>{3dd37c5a-1c05-44c0-b08e-cd7717191c26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -155,6 +161,12 @@
     </ClCompile>
     <ClCompile Include="Dwarf_BaseHouse.cpp">
       <Filter>Quelldateien\model\Structures\Dwarf</Filter>
+    </ClCompile>
+    <ClCompile Include="MapGenerator.cpp">
+      <Filter>Quelldateien\model\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkedChunk.cpp">
+      <Filter>Quelldateien\model\Generator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +256,12 @@
     </ClInclude>
     <ClInclude Include="Dwarf_BaseHouse.h">
       <Filter>Headerdateien\model\Structures\Dwarf</Filter>
+    </ClInclude>
+    <ClInclude Include="MapGenerator.h">
+      <Filter>Headerdateien\model\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedChunk.h">
+      <Filter>Headerdateien\model\Generator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

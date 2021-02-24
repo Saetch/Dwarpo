@@ -2,6 +2,7 @@
 #include "KnightD.h"
 #include <iostream>
 #include "Dwarf_BaseHouse.h"
+#include "MapGenerator.h"
 
 void initClasses() {
 	Dwarf_BaseHouse::init();
@@ -57,6 +58,8 @@ void DwarpoModel::placeDebugKnight() {
 
 void DwarpoModel::constructMap()
 {
+	MapGenerator* mapGen = new MapGenerator(this->map, DWARPO_GRID_WIDTH, DWARPO_GRID_HEIGHT, 10, 2);
+	//TODO move generation to dedicated generator class
 
 
 
@@ -84,6 +87,8 @@ void DwarpoModel::constructMap()
 			
 		}
 	}
+
+	mapGen->generateMountains(viewcontroller);
 
 
 

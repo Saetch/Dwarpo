@@ -249,3 +249,16 @@ inline int QueueTypeLinkedList<T>::forEachInt(int(*fn)(int* ele))
 
 	return 0;
 }
+
+template<typename T>
+T* QueueTypeLinkedList<T>::pop() {
+	if (firstElement == 0) {
+		return NULL;
+	}
+
+	size--;
+	T* ret = this->firstElement->element;
+	this->firstElement = this->firstElement->next;
+
+	return ret;
+}
