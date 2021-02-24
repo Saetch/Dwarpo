@@ -41,8 +41,8 @@ HRESULT SpriteManager::LoadBitmapFromFileTrgt(ID2D1RenderTarget* pRenderTarget, 
     if (length < 10) {
         printf_s("THIS IS DEFINATELY WRONG. FILE NOT FOUND!\n");
     }
-    BYTE* buffer = new BYTE[length-3];
-    const char* c_str = new char[str.size()-3];
+    BYTE* buffer = new BYTE[length - 3];
+    const char* c_str;
     str = str.substr(3, str.length());
     c_str = str.c_str();
 
@@ -65,11 +65,11 @@ HRESULT SpriteManager::LoadBitmapFromFileTrgt(ID2D1RenderTarget* pRenderTarget, 
 
     if (SUCCEEDED(hr)) {
 
-    hr = pIWICFactory->CreateDecoderFromStream(
-        pStream,
-        NULL,
-        WICDecodeMetadataCacheOnLoad,
-        &pDecoder);
+        hr = pIWICFactory->CreateDecoderFromStream(
+            pStream,
+            NULL,
+            WICDecodeMetadataCacheOnLoad,
+            &pDecoder);
     }
 
 
@@ -120,6 +120,8 @@ HRESULT SpriteManager::LoadBitmapFromFileTrgt(ID2D1RenderTarget* pRenderTarget, 
 
         pRenderTarget->EndDraw();
     }
+
+    delete[] buffer;
 
     SafeRelease(&pDecoder);
     SafeRelease(&pDecoder);
