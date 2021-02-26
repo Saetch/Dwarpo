@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-
+#include <stdio.h>
 
 class LinkedChunk
 {
@@ -34,8 +34,9 @@ public:
 		return(west);
 	}
 
-	bool clearRandomBorder(LinkedChunk* &p_nextChunk) {
+	inline bool clearRandomBorder(LinkedChunk* &p_nextChunk) {
 		//use binary coding
+		visited = true;
 		bool visitable[4] = { 0 };
 		int amCl = 0;
 		if ( northLinked() &&(northBlocked && !north->visited) ){
@@ -77,18 +78,25 @@ public:
 		case 0:  //north
 			northBlocked = false;
 			p_nextChunk = north;
+			p_nextChunk->southBlocked = false;
 			break;
 		case 1:  //east
+
 			eastBlocked = false;
 			p_nextChunk = east;
+			p_nextChunk->westBlocked = false;
 			break;
 		case 2:  //south
+
 			southBlocked = false;
 			p_nextChunk = south;
+			p_nextChunk->northBlocked = false;
 			break;
 		case 3:  //west
+
 			westBlocked = false;
 			p_nextChunk = west;
+			p_nextChunk->eastBlocked = false;
 			break;
 		}
 

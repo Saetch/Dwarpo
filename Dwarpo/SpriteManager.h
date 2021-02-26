@@ -129,11 +129,11 @@ public:
     }
 
     
-    ID2D1Bitmap* getp_StaticBitMap() {
+    inline ID2D1Bitmap* getp_StaticBitMap() {
         return this->staticBuffer;
     }
 
-    ID2D1Bitmap* getp_AnimationBitMap() {
+    inline ID2D1Bitmap* getp_AnimationBitMap() {
         return this->animationbuffer;
     }
 };

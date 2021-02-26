@@ -9,6 +9,7 @@
 #include "BaseCreature.h"
 
 class DwarpoModel;
+class LinkedChunk;
 
 #define DPENGINE_LAYER_AMOUNT 3
 #define DPENGINE_OBJECTBUFFER_SIZE 500
@@ -32,6 +33,10 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         ID2D1Bitmap* bkbuffer;
         ID2D1BitmapRenderTarget* pbkBufferTarget;
+
+        ID2D1Bitmap* debugbuffer;
+        ID2D1BitmapRenderTarget* pdebugBufferTarget;
+
         ID2D1SolidColorBrush** pbkBufferBrushes;
         D2D1_RECT_F bkSrcRect;
 
@@ -90,7 +95,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         unsigned short int getBkgrnd();
         void addEntityL(DrawableEntity*, unsigned short int layer);
         void constructGrassTileEntity(StaticEntity* pEnt);
-
+        void drawDebugChunks(QueueTypeLinkedList<LinkedChunk>* &chunks, int w, int h);
         void setModel(DwarpoModel* m) {
             model = m;
         }

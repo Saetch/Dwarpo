@@ -46,7 +46,6 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
     std:: thread* thr1 = new std::thread(draw, &phouse, viewCntrlr->Window());
-  
     ListElem<Entity>* lE = viewCntrlr->yOrderedEntityList->firstListElem();
     //DEBUGGING yOrderEntities
     
@@ -81,9 +80,10 @@ void addEntity(DPEngine_instance* viewc, StaticEntity* pHouse) {
     viewc->addEntityL(pHouse, 0);
 }
 
-void draw(StaticEntity** pphouse, HWND hwnd) {
+void draw(StaticEntity** pphouse, HWND hwnd ) {
 
 
+    
     StaticEntity* phouse = *pphouse;
     signed short int directionToMove = 1;
     float diff;

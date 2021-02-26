@@ -253,7 +253,6 @@ HRESULT loadDwarfStructures(SpriteManager* ths)
     hr = loadbitMapfromFileTarget(ths, ths->pstaticBufferTarget, "Dwarpo_Sprites/Structures/Dwarf/Dwarf_BaseHouse_px9.txt",
         D2D1::RectF(30.0f, 30.0f, 150.0f, 180.0f), D2D1::RectF(140.0f, 55.0f, 510.0f, 580.0f));
 
-
     return hr;
 }
 

@@ -43,7 +43,7 @@ public:
 
 	T get(unsigned int index);
 
-	T getP(unsigned int index);
+	T* getP(unsigned int index);
 
 	T getLast();
 

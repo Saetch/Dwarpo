@@ -137,7 +137,7 @@ T QueueTypeLinkedList<T>::get(unsigned int index) {
 }
 
 template <typename T>
-T QueueTypeLinkedList<T>::getP(unsigned int index) {
+T* QueueTypeLinkedList<T>::getP(unsigned int index) {
 	ListElem<T>* cur = firstElement;
 	for (unsigned int i = 0; i < index; i++) {
 		cur = cur->next;

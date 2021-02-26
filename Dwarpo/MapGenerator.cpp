@@ -50,6 +50,10 @@ void MapGenerator::generateMountains(DPEngine_instance* engine)
 	//make possible link to every chunk
 
 	QueueTypeLinkedList<LinkedChunk>* stack = new QueueTypeLinkedList<LinkedChunk>();
+
+
+	//DBG
+	QueueTypeLinkedList<LinkedChunk>* allChunks = new QueueTypeLinkedList<LinkedChunk>();
 	LinkedChunk* curr = chunkMap;
 	LinkedChunk* retChunk = 0;
 
@@ -57,7 +61,6 @@ void MapGenerator::generateMountains(DPEngine_instance* engine)
 	stack->push(curr);
 	linkedChunks++;
 	while (linkedChunks < chunkSize) {
-		printf_s("LinkedChunks: %d\n", linkedChunks);
 		if (curr->clearRandomBorder(retChunk)) {
 			curr = retChunk;
 			stack->push(curr);
@@ -68,14 +71,12 @@ void MapGenerator::generateMountains(DPEngine_instance* engine)
 		}
 	}
 	//DEBUG
-	DPEngine_instance* DwarpoEngine = engine;
-
 	for (int i = 0; i < chunkSize; i++) {
-		DwarpoEngine->ok();
-		//DwarpoEngine->drawDebugChunktoBkgrnd(chunkMap[i],  i % chunkWidth, i / chunkWidth);
+		allChunks->pushBack(&chunkMap[i]);
 	}
+	DPEngine_instance* DwarpoEngine = engine;
+	DwarpoEngine->drawDebugChunks(allChunks, chunkWidth, chunkHeight);
 
-	//TODO add rocks according to map generated
 
 
 	delete[] chunkMap;

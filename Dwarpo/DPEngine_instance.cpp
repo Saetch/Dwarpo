@@ -3,11 +3,15 @@
 #include "DrawObject.h"
 #include "Structure.h"
 #include "QueueTypeLinkedList_impl.h"
+//removeable after debug
+#include "LinkedChunk.h"
 #define debugI(x) printf_s(#x": %d\n", x);
 #define debugF(x) printf_s(#x": %lf\n", x);
 #define debugP(x) printf_s(#x": %p\n", x);
 
+#define INITDEBUGBUFFER 1
 #define DWARPO_SHOWGRID 1
+
 
 void DPEngine_instance::CalculateLayout()
 {
@@ -52,6 +56,14 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
             printf_s("BackgroundBufferSize: %lf x %lf \n", (float)tileSize() * DWARPO_GRID_WIDTH, (float)tileSize() * DWARPO_GRID_HEIGHT);
             if (SUCCEEDED(hr)) {
                 hr = pbkBufferTarget->GetBitmap(&bkbuffer);
+            }
+        }
+
+        if (INITDEBUGBUFFER && SUCCEEDED(hr) ) {
+            hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize() * DWARPO_GRID_WIDTH, tileSize() * DWARPO_GRID_HEIGHT), &pdebugBufferTarget);
+           if (SUCCEEDED(hr)) {
+               printf_s("Initialized debug");
+                hr = pdebugBufferTarget->GetBitmap(&debugbuffer);
             }
         }
 
@@ -257,7 +269,6 @@ int DPEngine_instance::onUpdate()
         }
 
 
-        //TODO: this needs rewriting to work with the buffered Sprites
         DrawObject** pToDraw = NULL;
         curr = this->drawEntities->firstListElem();
         int i = 0;
@@ -281,7 +292,10 @@ int DPEngine_instance::onUpdate()
 
         //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
         //pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
-
+        
+        if (INITDEBUGBUFFER) {
+        pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        }
 
         hr = pRenderTarget->EndDraw();
         if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
@@ -813,4 +827,62 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
         return 0;
     }
     return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
+}
+
+
+//example implementation on how to use the debugBuffer to display functional information
+//this function draws TO the debug buffer. It DOES NOT draw the contents of the debug buffer on screen. This happens in onUpdate()
+//in this case, this will draw shapes representative of the LinkedChunkMap from MapGenerator.cpp
+
+void DPEngine_instance::drawDebugChunks(QueueTypeLinkedList<LinkedChunk>* &chunks, int w, int h)
+{
+    ID2D1SolidColorBrush* pbrush = NULL;
+    HRESULT hr = 0;
+
+    CreateGraphicsResources();
+    if (pbrush == NULL) {
+        hr = pdebugBufferTarget->CreateSolidColorBrush(D2D1::ColorF(0.0f, 0.0f, 0.0f), &pbrush);
+    }
+
+    if (SUCCEEDED(hr)) {
+        float tileSiz = tileSize() * 0.7;
+       // if (w != 0 || h != 0) return;
+        //if (w != 0) return;
+        this->pdebugBufferTarget->BeginDraw();
+        D2D1_RECT_F rect = D2D1::RectF(0, 0, tileSiz * (w), tileSiz * h);
+        this->pdebugBufferTarget->FillRectangle(rect, this->pbkBufferBrushes[DrawO_COLOR_BLUE]);
+        LinkedChunk* custart = chunks->firstListElem()->element;
+
+        LinkedChunk* current = custart;
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+
+                if (current->northBlocked) {
+                    this->pdebugBufferTarget->DrawLine(D2D1::Point2F(tileSiz*j, tileSiz*i),D2D1::Point2F(tileSiz*(j+1), tileSiz*i), pbrush, 3.0f);
+                }
+                if (current->southBlocked) {
+                    this->pdebugBufferTarget->DrawLine(D2D1::Point2F(tileSiz * j, tileSiz * (i+1)), D2D1::Point2F(tileSiz * (j + 1), tileSiz * (i+1)), pbrush, 3.0f);
+                }
+                if (current->eastBlocked) {
+                    this->pdebugBufferTarget->DrawLine(D2D1::Point2F(tileSiz * (j+1), tileSiz * i), D2D1::Point2F(tileSiz * (j + 1), tileSiz * (i+1)), pbrush, 3.0f);
+                }
+                if (current->westBlocked) {
+                    this->pdebugBufferTarget->DrawLine(D2D1::Point2F(tileSiz * j, tileSiz * i), D2D1::Point2F(tileSiz * (j ), tileSiz * (i+1)), pbrush);
+                }
+
+                current = current->east;
+            }
+            custart = custart->south;
+            current = custart;
+        }
+
+        
+        hr = this->pdebugBufferTarget->EndDraw();
+    }
+
+
+    this->pRenderTarget->BeginDraw();
+    pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-disX, -disY, tileSize() * DWARPO_GRID_WIDTH - disX, tileSize() * DWARPO_GRID_HEIGHT - disY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+    this->pRenderTarget->EndDraw();
+    return;
 }
