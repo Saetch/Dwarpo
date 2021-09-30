@@ -161,13 +161,13 @@ HRESULT SpriteManager::loadKnightToAnimBuffer()
     return hr;
 }
 
-HRESULT SpriteManager::loadGrassToStaticBuffer()
+HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
 {
     HRESULT hr = CB_OKAY;
 
     hr = LoadBitmapFromFileTrgt(
         this->pstaticBufferTarget,
-        "Dwarpo_Sprites/Structures/ground/grass1.txt",
+        "Dwarpo_Sprites/Structures/ground/rock_background1.txt",
         D2D1::RectF(0.0f, 0.0f, defaultWidth, defaultHeight),
         D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
     );
@@ -175,7 +175,7 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
     if (SUCCEEDED(hr)) {
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
-            "Dwarpo_Sprites/Structures/ground/grass2.txt",
+            "Dwarpo_Sprites/Structures/ground/rock_background2.txt",
             D2D1::RectF(defaultWidth, 0.0f, defaultWidth* 2, defaultHeight),
             D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
         );
@@ -184,7 +184,7 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
     if (SUCCEEDED(hr)) {
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
-            "Dwarpo_Sprites/Structures/ground/grass3.txt",
+            "Dwarpo_Sprites/Structures/ground/rock_background3.txt",
             D2D1::RectF(defaultWidth *2 , 0.0f, defaultWidth * 3, defaultHeight),
             D2D1::RectF(0.0f,0.0f, 640.0f,640.0f)
         );
@@ -193,7 +193,7 @@ HRESULT SpriteManager::loadGrassToStaticBuffer()
     if (SUCCEEDED(hr)) {
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
-            "Dwarpo_Sprites/Structures/ground/grass4.txt",
+            "Dwarpo_Sprites/Structures/ground/rock_background4.txt",
             D2D1::RectF(defaultWidth * 3, 0.0f, defaultWidth * 4, defaultHeight),
             D2D1::RectF(0.0f, 0.0f,640.0f,640.0f)
         );
@@ -238,7 +238,7 @@ HRESULT SpriteManager::loadSpritesToStaticBuffer()
 {
     HRESULT hr = CB_OKAY;
 
-    hr = loadGrassToStaticBuffer();
+    hr = loadInGameBackgroundToStaticBuffer();
 
     if (SUCCEEDED(hr)) {
         hr = loadDwarfStructures(this);

@@ -147,37 +147,28 @@
     <ClCompile Include="AA_entryPoint.cpp" />
     <ClCompile Include="base64.cpp" />
     <ClCompile Include="BaseCreature.cpp" />
-    <ClCompile Include="Carnivore.cpp" />
     <ClCompile Include="DPEngine_instance.cpp" />
     <ClCompile Include="DrawableEntity.cpp" />
     <ClCompile Include="DrawObject.cpp" />
-    <ClCompile Include="Dwarf.cpp" />
     <ClCompile Include="Dwarf_BaseHouse.cpp" />
     <ClCompile Include="DwarPoEngine\BaseWindow.cpp" />
     <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp" />
     <ClCompile Include="DwarpoModel.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="groundTile.cpp" />
-    <ClCompile Include="Deer.cpp" />
-    <ClCompile Include="Herbivore.cpp" />
-    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="KnightD.cpp" />
     <ClCompile Include="LinkedChunk.cpp" />
     <ClCompile Include="MapGenerator.cpp" />
-    <ClCompile Include="Omnivore.cpp" />
-    <ClCompile Include="Personality.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="SpriteWrapper.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
     <ClCompile Include="Structure.cpp" />
-    <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base64.h" />
-    <ClInclude Include="Deer.h" />
+    <ClInclude Include="BaseCreature.h" />
     <ClInclude Include="DPEngine_instance.h" />
     <ClInclude Include="DrawableEntity.h" />
     <ClInclude Include="DrawObject.h" />
@@ -186,27 +177,18 @@
     <ClInclude Include="DwarPoEngine\DwarPoEngine.h" />
     <ClInclude Include="DwarpoModel.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="Goblin.h" />
     <ClInclude Include="groundTile.h" />
-    <ClInclude Include="BaseCreature.h" />
-    <ClInclude Include="Dwarf.h" />
-    <ClInclude Include="Carnivore.h" />
-    <ClInclude Include="Herbivore.h" />
-    <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="KnightD.h" />
     <ClInclude Include="LinkedChunk.h" />
     <ClInclude Include="MapGenerator.h" />
-    <ClInclude Include="Omnivore.h" />
-    <ClInclude Include="Personality.h" />
     <ClInclude Include="QueueTypeLinkedList.h" />
     <ClInclude Include="QueueTypeLinkedList_impl.h" />
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="SpriteWrapper.h" />
     <ClInclude Include="StaticEntity.h" />
     <ClInclude Include="Structure.h" />
-    <ClInclude Include="Wolf.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

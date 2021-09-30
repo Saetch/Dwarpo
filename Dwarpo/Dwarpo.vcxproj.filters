@@ -105,36 +105,6 @@
     <ClCompile Include="groundTile.cpp">
       <Filter>Quelldateien\model</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCreature.cpp">
-      <Filter>Quelldateien\model\Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Carnivore.cpp">
-      <Filter>Quelldateien\model\Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Deer.cpp">
-      <Filter>Quelldateien\model\Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Dwarf.cpp">
-      <Filter>Quelldateien\model\Dwarf</Filter>
-    </ClCompile>
-    <ClCompile Include="Inventory.cpp">
-      <Filter>Quelldateien\model\Dwarf</Filter>
-    </ClCompile>
-    <ClCompile Include="Personality.cpp">
-      <Filter>Quelldateien\model\Dwarf</Filter>
-    </ClCompile>
-    <ClCompile Include="Herbivore.cpp">
-      <Filter>Quelldateien\model\Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Omnivore.cpp">
-      <Filter>Quelldateien\model\Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Goblin.cpp">
-      <Filter>Quelldateien\model\Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Wolf.cpp">
-      <Filter>Quelldateien\model\Creatures</Filter>
-    </ClCompile>
     <ClCompile Include="Job.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -168,6 +138,9 @@
     <ClCompile Include="LinkedChunk.cpp">
       <Filter>Quelldateien\model\Generator</Filter>
     </ClCompile>
+    <ClCompile Include="BaseCreature.cpp">
+      <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueTypeLinkedList_impl.h">
@@ -200,38 +173,8 @@
     <ClInclude Include="groundTile.h">
       <Filter>Headerdateien\model</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCreature.h">
-      <Filter>Headerdateien\model\Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Deer.h">
-      <Filter>Headerdateien\model\Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Goblin.h">
-      <Filter>Headerdateien\model\Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Carnivore.h">
-      <Filter>Headerdateien\model\Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Omnivore.h">
-      <Filter>Headerdateien\model\Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Herbivore.h">
-      <Filter>Headerdateien\model\Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Wolf.h">
-      <Filter>Headerdateien\model\Creatures</Filter>
-    </ClInclude>
     <ClInclude Include="Job.h">
       <Filter>Headerdateien\model</Filter>
-    </ClInclude>
-    <ClInclude Include="Dwarf.h">
-      <Filter>Headerdateien\model\Dwarf</Filter>
-    </ClInclude>
-    <ClInclude Include="Personality.h">
-      <Filter>Headerdateien\model\Dwarf</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>Headerdateien\model\Dwarf</Filter>
     </ClInclude>
     <ClInclude Include="Structure.h">
       <Filter>Headerdateien\model\Structures</Filter>
@@ -262,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="LinkedChunk.h">
       <Filter>Headerdateien\model\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCreature.h">
+      <Filter>Headerdateien\model\Creatures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
