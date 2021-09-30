@@ -2,7 +2,6 @@
 #include "groundTile.h"
 #include "DPEngine_instance.h"
 //#include "BaseCreature.h"
-#include "Dwarf.h"
 #include "QueueTypeLinkedList_impl.h"
 #include <malloc.h>
 

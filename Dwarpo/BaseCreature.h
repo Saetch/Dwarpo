@@ -11,19 +11,11 @@ class BaseCreature :public Entity{
 public:
 
 	D2D_RECT_F frameRect;
-
-	float baseSpeed = 1.0f;
 	
-	float huntingSpeed = 1.0f;
-	
-	float fleeingSpeed = 1.0f;
-
 	//functions need to be virtual, otherwise Collections of type <BaseCreature> will use BaseCreature implementation instead of the child class'
 	
 	virtual void roam();
 	
-	virtual void initSpeed();
-
 	bool isDead;
 
 	bool isUnconscious;
@@ -32,5 +24,8 @@ public:
 	virtual bool changeState() = 0;
 
 	virtual void tick();
+
+
+
 
 };

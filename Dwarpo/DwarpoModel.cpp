@@ -114,20 +114,9 @@ void DwarpoModel::placeBaseHouse() {
 
 void DwarpoModel::placeCreatures() {
 	placeDebugKnight();
-	placeDwarfs();
 	//placeAnimals();
 }
 
-void DwarpoModel::placeDwarfs() {
-	int startposX = rand() % DWARPO_GRID_WIDTH;
-	int startposY = rand() % DWARPO_GRID_HEIGHT;
-	for (int i = 0; i < INITIAL_DWARF_COUNT; i++)
-	{
-		Dwarf* d = new Dwarf();	
-		groundTile* curr = getTileAt(startposY, startposY);
-		curr->dwarfs.push(d);
-	}
-}
 
 void DwarpoModel::placeOres() {
 
