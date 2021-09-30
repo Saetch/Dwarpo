@@ -48,7 +48,7 @@ private:
 
     HRESULT loadKnightToAnimBuffer();
 
-    HRESULT loadGrassToStaticBuffer();
+    HRESULT loadInGameBackgroundToStaticBuffer();
 public:
     ID2D1Bitmap* staticBuffer = NULL;
     ID2D1Bitmap* animationbuffer = NULL;
