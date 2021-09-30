@@ -10,7 +10,7 @@
 #define debugP(x) printf_s(#x": %p\n", x);
 
 #define INITDEBUGBUFFER 1
-#define DWARPO_SHOWGRID 0
+#define DWARPO_SHOWGRID 1
 
 
 void DPEngine_instance::CalculateLayout()
