@@ -116,6 +116,7 @@ void draw( HWND hwnd ) {
 
             bool half = true;
             //vorübergehend, neuen Thread für das Cyclen der Frames einbauen!
+            //this is a workaround, a new thread is needed to cycle between frames, half is only used to reduce fps from 60 to 30 for cycling.
             if (viewCntrlr->yOrderedEntityList->getSize() >= 2) {
             Entity* ent = viewCntrlr->yOrderedEntityList->firstListElem()->element;
             Entity* ent2 = viewCntrlr->yOrderedEntityList->firstListElem()->next->element;
