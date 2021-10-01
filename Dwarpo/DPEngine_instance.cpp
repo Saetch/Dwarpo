@@ -123,7 +123,7 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
                 color = D2D1::ColorF(0.5f, 0.5f, 0.5f, 1.0f);
             }
          
-            printf_s(" %d ", i);
+            printf_s("Created preconstructed Color %d \n", i);
             hr = pRenderTarget->CreateSolidColorBrush(color, cur);
             if (SUCCEEDED(hr)) {
                 hr = pbkBufferTarget->CreateSolidColorBrush(color, bkbuffcurr);

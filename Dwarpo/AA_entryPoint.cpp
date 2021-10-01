@@ -9,7 +9,7 @@
 #include <thread>
 #include "KnightD.h"
 //
-void draw(StaticEntity** pphouse, HWND hwnd);
+void draw( HWND hwnd);
 void addEntity(DPEngine_instance* viewc, StaticEntity* phouse);
 int globalBool = 1;
 DPEngine_instance* viewCntrlr;
@@ -31,7 +31,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
     viewCntrlr->setBkgrnd(DrawO_COLOR_LIGHTGREY);
-    StaticEntity* phouse = new StaticEntity(6);
+
 
 
     DwarpoModel* model = new DwarpoModel;
@@ -45,7 +45,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
 
-    std:: thread* thr1 = new std::thread(draw, &phouse, viewCntrlr->Window());
+    std:: thread* thr1 = new std::thread(draw, viewCntrlr->Window());
     ListElem<Entity>* lE = viewCntrlr->yOrderedEntityList->firstListElem();
     //DEBUGGING yOrderEntities
     
@@ -80,11 +80,9 @@ void addEntity(DPEngine_instance* viewc, StaticEntity* pHouse) {
     viewc->addEntityL(pHouse, 0);
 }
 
-void draw(StaticEntity** pphouse, HWND hwnd ) {
+void draw( HWND hwnd ) {
 
 
-    
-    StaticEntity* phouse = *pphouse;
     signed short int directionToMove = 1;
     float diff;
     auto nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
