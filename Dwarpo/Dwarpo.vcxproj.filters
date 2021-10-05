@@ -102,7 +102,7 @@
     <ClCompile Include="DwarpoModel.cpp">
       <Filter>Quelldateien\model</Filter>
     </ClCompile>
-    <ClCompile Include="groundTile.cpp">
+    <ClCompile Include="baseRock.cpp">
       <Filter>Quelldateien\model</Filter>
     </ClCompile>
     <ClCompile Include="Job.cpp">
@@ -170,7 +170,7 @@
     <ClInclude Include="DwarpoModel.h">
       <Filter>Headerdateien\model</Filter>
     </ClInclude>
-    <ClInclude Include="groundTile.h">
+    <ClInclude Include="baseRock.h">
       <Filter>Headerdateien\model</Filter>
     </ClInclude>
     <ClInclude Include="Job.h">

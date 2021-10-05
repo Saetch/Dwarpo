@@ -3,15 +3,13 @@
 #include "QueueTypeLinkedList_impl.h"
 #include <d2d1.h>
 
-#define GROUNDTILE_GRASS 1
-#define GROUNDTILE_ROCK 2
 class Dwarf;
 
 class BaseCreature;
 
 class DPEngine_instance;
 
-class groundTile
+class baseRock
 {
 public:
 
@@ -26,7 +24,7 @@ public:
 
 	bool isAnimated = 0;
 
-	bool isSolid = 0;
+	bool isSolid = 1;
 
 	bool isBlocked = 0;
 
@@ -52,31 +50,25 @@ public:
 		}
 		graphicRect++;
 		isBlocked = false;
-		
+
 	}
 
-	groundTile(int type) {
+	baseRock(int type) {
 		init(type);
 	}
 
 	void init(int type) {
-		graphicRect = 0;
-		switch (type) {
-		case GROUNDTILE_GRASS:
 
 
-			graphicRect = (rand()) % 4;
-			return;
-		case GROUNDTILE_ROCK:
-			graphicRect = 5;
-			return;
-		default:
-			printf_s("GROUNDTILE CONSTRUCTED WITH ILLEGAL TYPE");
-		}
+
+		graphicRect = (rand()) % 4;
+		return;
+
+
 	}
 
 
-	
+
 
 };
 
