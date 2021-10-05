@@ -147,6 +147,7 @@
     <ClCompile Include="AA_entryPoint.cpp" />
     <ClCompile Include="base64.cpp" />
     <ClCompile Include="BaseCreature.cpp" />
+    <ClCompile Include="CaveTile.cpp" />
     <ClCompile Include="DPEngine_instance.cpp" />
     <ClCompile Include="DrawableEntity.cpp" />
     <ClCompile Include="DrawObject.cpp" />
@@ -169,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="base64.h" />
     <ClInclude Include="BaseCreature.h" />
+    <ClInclude Include="CaveTile.h" />
     <ClInclude Include="DPEngine_instance.h" />
     <ClInclude Include="DrawableEntity.h" />
     <ClInclude Include="DrawObject.h" />

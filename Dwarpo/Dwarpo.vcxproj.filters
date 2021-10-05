@@ -76,6 +76,12 @@
     <Filter Include="Quelldateien\model\Generator">
       <UniqueIdentifier>{3dd37c5a-1c05-44c0-b08e-cd7717191c26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\model\Tiles">
+      <UniqueIdentifier>{f13bc566-d8c8-4d8e-970b-bac99da5968c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\model\Tiles">
+      <UniqueIdentifier>{dd2ad889-ddc0-4d6e-9d17-332b1308714c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -140,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="BaseCreature.cpp">
       <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="CaveTile.cpp">
+      <Filter>Quelldateien\model\Tiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="BaseCreature.h">
       <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="CaveTile.h">
+      <Filter>Headerdateien\model\Tiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
