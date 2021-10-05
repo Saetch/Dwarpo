@@ -1,18 +1,18 @@
 #pragma once
-#include "groundTile.h"
+#include "baseTile.h"
 
 class DPEngine_instance;
 
 class MapGenerator
 {
 public:
-	groundTile* map;
+	baseTile* map;
 	int width;
 	int height;
 	int chunkSize;
 	int wallWidth;
 
-	MapGenerator(groundTile* grid, int gridWidth, int gridHeight, int chunkS, int wallW) : map(grid), width(gridWidth), height(gridHeight), chunkSize(chunkS), wallWidth(wallW) {};
+	MapGenerator(baseTile* grid, int gridWidth, int gridHeight, int chunkS, int wallW) : map(grid), width(gridWidth), height(gridHeight), chunkSize(chunkS), wallWidth(wallW) {};
 
 	void generateMountains(DPEngine_instance* engine);
 };

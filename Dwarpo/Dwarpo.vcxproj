@@ -155,7 +155,7 @@
     <ClCompile Include="DwarPoEngine\DwarPoEngine.cpp" />
     <ClCompile Include="DwarpoModel.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="baseRock.cpp" />
+    <ClCompile Include="baseTile.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="KnightD.cpp" />
@@ -177,7 +177,7 @@
     <ClInclude Include="DwarPoEngine\DwarPoEngine.h" />
     <ClInclude Include="DwarpoModel.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="baseRock.h" />
+    <ClInclude Include="baseTile.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="KnightD.h" />

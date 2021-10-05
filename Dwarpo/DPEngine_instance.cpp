@@ -631,7 +631,7 @@ void DPEngine_instance::drawBkBuffer()
         return;
     }
 
-    groundTile* curr;
+    baseTile* curr;
 
     float xTar;
     float yTar;

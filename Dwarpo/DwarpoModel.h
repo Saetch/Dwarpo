@@ -1,5 +1,5 @@
 #pragma once
-#include "groundTile.h"
+#include "baseTile.h"
 #include "DPEngine_instance.h"
 //#include "BaseCreature.h"
 #include "QueueTypeLinkedList_impl.h"
@@ -19,9 +19,9 @@ public:
 
 	DPEngine_instance* viewcontroller;
 
-	groundTile* map;
+	baseTile* map;
 
-	groundTile* homeArea;
+	baseTile* homeArea;
 
 	QueueTypeLinkedList<Dwarf**> dwarfs;
 
@@ -54,9 +54,9 @@ public:
 
 	void createJob();
 
-	QueueTypeLinkedList<groundTile> walkableTiles;
+	QueueTypeLinkedList<baseTile> walkableTiles;
 
-	inline groundTile* getTileAt(int w, int h) {
+	inline baseTile* getTileAt(int w, int h) {
 		return &map[w + h * DWARPO_GRID_HEIGHT];
 	}
 
