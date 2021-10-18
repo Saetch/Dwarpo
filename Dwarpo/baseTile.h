@@ -39,7 +39,7 @@ public:
 	
 	}
 
-	void init(int type = NULL) {
+	virtual void init(int type = NULL) {
 
 		int ran = (rand()) % 4;
 		drawRect = D2D1::RectF(ran * TILESIZE, 0.0f, (ran + 1) * TILESIZE, TILESIZE);

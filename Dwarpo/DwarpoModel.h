@@ -58,7 +58,11 @@ public:
 	QueueTypeLinkedList<baseTile> walkableTiles;
 
 	inline baseTile* getTileAt(int w, int h) {
-		return &(map[w + h * DWARPO_GRID_HEIGHT]);
+		int os = w + h;
+		os *= DWARPO_GRID_HEIGHT;
+		baseTile* ret;
+		ret = map + os;
+		return ret;
 	}
 
 };
