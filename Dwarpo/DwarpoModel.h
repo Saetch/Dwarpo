@@ -1,16 +1,15 @@
 #pragma once
+#include "baseTile.h"
 #include "DPEngine_instance.h"
 //#include "BaseCreature.h"
 #include "QueueTypeLinkedList_impl.h"
 #include <malloc.h>
-#include "baseTile.h"
 
 #define DWARPO_GRID_WIDTH 400
 #define DWARPO_GRID_HEIGHT 400
 
 class Dwarf;
 class DPEngine_instance;
-class BaseCreature;
 
 class DwarpoModel
 {
@@ -58,7 +57,7 @@ public:
 	QueueTypeLinkedList<baseTile> walkableTiles;
 
 	inline baseTile* getTileAt(int w, int h) {
-		return &(map[w + h * DWARPO_GRID_HEIGHT]);
+		return &map[w + h * DWARPO_GRID_HEIGHT];
 	}
 
 };
