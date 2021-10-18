@@ -41,7 +41,7 @@ public:
 	
 	}
 
-	void init(int type = NULL) {
+	virtual void init(int type = NULL) {
 
 		graphicRect = (rand()) % 4;
 		return;

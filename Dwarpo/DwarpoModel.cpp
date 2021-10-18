@@ -67,8 +67,12 @@ void DwarpoModel::constructMap()
 	StaticEntity* pDrawEnt = new StaticEntity(2);
 	this->viewcontroller->constructGrassTileEntity(pDrawEnt);
 
-	map = (baseTile*)malloc(sizeof(baseTile) * DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
+	this->map = (baseTile*)malloc(sizeof(baseTile) * DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
 
+
+	if (this->map == NULL) {
+		std::cout << "Allocating memory for game map failed!" << std::endl;
+	}
 	baseTile* curr;
 	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
 		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
