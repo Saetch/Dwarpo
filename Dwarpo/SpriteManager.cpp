@@ -198,6 +198,40 @@ HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
             D2D1::RectF(0.0f, 0.0f,640.0f,640.0f)
         );
     }
+    if (SUCCEEDED(hr)) {
+        LoadBitmapFromFileTrgt(
+            this->pstaticBufferTarget,
+            "Dwarpo_Sprites/Structures/ground/background_Cave_pixelate1.txt",
+            D2D1::RectF(defaultWidth * 4, 0.0f, defaultWidth * 5, defaultHeight),
+            D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
+        );
+    }
+    if (SUCCEEDED(hr)) {
+        LoadBitmapFromFileTrgt(
+            this->pstaticBufferTarget,
+            "Dwarpo_Sprites/Structures/ground/background_Cave_pixelate2.txt",
+            D2D1::RectF(defaultWidth * 5, 0.0f, defaultWidth * 6, defaultHeight),
+            D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
+        );
+    }
+    if (SUCCEEDED(hr)) {
+        LoadBitmapFromFileTrgt(
+            this->pstaticBufferTarget,
+            "Dwarpo_Sprites/Structures/ground/background_Cave_pixelate3.txt",
+            D2D1::RectF(defaultWidth * 6, 0.0f, defaultWidth * 7, defaultHeight),
+            D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
+        );
+    }
+    if (SUCCEEDED(hr)) {
+        LoadBitmapFromFileTrgt(
+            this->pstaticBufferTarget,
+            "Dwarpo_Sprites/Structures/ground/background_Cave_pixelate4.txt",
+            D2D1::RectF(defaultWidth * 7, 0.0f, defaultWidth * 8, defaultHeight),
+            D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
+        );
+    }
+
+
     ID2D1SolidColorBrush* brush = NULL;
     //adjust brightness
     pstaticBufferTarget->BeginDraw();

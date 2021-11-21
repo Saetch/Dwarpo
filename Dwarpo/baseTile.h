@@ -12,7 +12,7 @@ public:
 
 
 
-	unsigned short graphicRect;
+	unsigned short graphicRect = 0;
 
 	bool isSolid = 1;
 
@@ -22,7 +22,7 @@ public:
 
 
 
-	inline D2D1_RECT_F getRect(float tileSize) {
+	virtual inline D2D1_RECT_F getRect(float tileSize) {
 		return D2D1::RectF(graphicRect * tileSize, 0.0f, (graphicRect + 1) * tileSize, tileSize);
 	}
 
@@ -33,15 +33,22 @@ public:
 	}
 
 	baseTile(int type = NULL) {
-		init(type);
-	
+		;
 	}
 
-	void init(int type = NULL) {
+	void initN(int type = NULL) {
 
 		graphicRect = (rand()) % 4;
-		return;
+		printf_s("baseTileConstructorN called");
 
+		return;
+	}
+
+	virtual void init(int type = NULL) {
+
+		graphicRect = (rand()) % 4;
+
+		return;
 
 
 	}

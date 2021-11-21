@@ -4,7 +4,6 @@
 #include "Dwarf_BaseHouse.h"
 #include "MapGenerator.h"
 #include <vector>
-
 void initClasses() {
 	Dwarf_BaseHouse::init();
 	KnightD::initKnightDClass();
@@ -68,17 +67,17 @@ void DwarpoModel::constructMap()
 	this->map = {};
 	this->map.reserve(DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
 	for (int i = 0; i < DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH; i++) {
-		baseTile newT;
+		caveBasic* newT= new caveBasic();
 		this->map.push_back(newT);
 	}
 
 	baseTile* curr;
 	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
 		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
-			curr = getTileAt(w, h);
+			curr = getTileAt(w, h);			
 			curr->init();
 			
-
+			
 			//this chunk of actions is only needed for debug-grid, can be removed later (when DPEngine_instance.cpp -> DWARPO_SHOWGRID is 0)
 			curr->drawableEntity.drawObjectsSize = 2;
 			curr->drawableEntity.drawObjects = (DrawObject**)calloc(2, sizeof(DrawObject*));

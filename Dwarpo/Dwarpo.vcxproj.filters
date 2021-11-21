@@ -76,6 +76,12 @@
     <Filter Include="Quelldateien\model\Generator">
       <UniqueIdentifier>{3dd37c5a-1c05-44c0-b08e-cd7717191c26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\model\Structures\caveSystem">
+      <UniqueIdentifier>{baa79aa0-6eb8-4544-a746-685009b3f5be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\model\Structures\caveSystem">
+      <UniqueIdentifier>{7b46f988-c6db-4b24-a5f3-be6952f6eb01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -137,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="BaseCreature.cpp">
       <Filter>Quelldateien\model\Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="caveBasic.cpp">
+      <Filter>Quelldateien\model\Structures\caveSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="BaseCreature.h">
       <Filter>Headerdateien\model\Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="caveBasic.h">
+      <Filter>Headerdateien\model\Structures\caveSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

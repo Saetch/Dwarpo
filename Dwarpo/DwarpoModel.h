@@ -1,5 +1,5 @@
 #pragma once
-#include "baseTile.h"
+#include "caveBasic.h"
 #include "DPEngine_instance.h"
 #include "BaseCreature.h"
 #include "QueueTypeLinkedList_impl.h"
@@ -19,7 +19,7 @@ public:
 
 	DPEngine_instance* viewcontroller;
 
-	std::vector<baseTile> map;
+	std::vector<baseTile*> map;
 
 	baseTile* homeArea;
 
@@ -54,7 +54,7 @@ public:
 	void createJob();
 
 	inline baseTile* getTileAt(int w, int h) {
-		return &map[w + h * DWARPO_GRID_HEIGHT];
+		return map[w + h * DWARPO_GRID_WIDTH];
 	}
 
 };

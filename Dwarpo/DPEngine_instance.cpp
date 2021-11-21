@@ -3,14 +3,15 @@
 #include "DrawObject.h"
 #include "Structure.h"
 #include "QueueTypeLinkedList_impl.h"
-//removeable after debug
 #include "LinkedChunk.h"
+
+//removeable after debug
 #define debugI(x) printf_s(#x": %d\n", x);
 #define debugF(x) printf_s(#x": %lf\n", x);
 #define debugP(x) printf_s(#x": %p\n", x);
 
 #define INITDEBUGBUFFER 1
-#define DWARPO_SHOWGRID 1
+#define DWARPO_SHOWGRID 0
 
 
 void DPEngine_instance::CalculateLayout()
