@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Dwarf_BaseHouse.h"
 #include "MapGenerator.h"
+#include <vector>
 
 void initClasses() {
 	Dwarf_BaseHouse::init();
@@ -63,21 +64,22 @@ void DwarpoModel::constructMap()
 
 
 
-	//initialize groundType
-	StaticEntity* pDrawEnt = new StaticEntity(2);
-	this->viewcontroller->constructGrassTileEntity(pDrawEnt);
-
-	this->map = (baseTile*)malloc(sizeof(baseTile) * DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
-
-
-	if (this->map == NULL) {
-		std::cout << "Allocating memory for game map failed!" << std::endl;
+	//initialize background
+	this->map = {};
+	this->map.reserve(DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
+	for (int i = 0; i < DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH; i++) {
+		baseTile newT;
+		this->map.push_back(newT);
 	}
+
 	baseTile* curr;
 	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
 		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
 			curr = getTileAt(w, h);
 			curr->init();
+			
+
+			//this chunk of actions is only needed for debug-grid, can be removed later (when DPEngine_instance.cpp -> DWARPO_SHOWGRID is 0)
 			curr->drawableEntity.drawObjectsSize = 2;
 			curr->drawableEntity.drawObjects = (DrawObject**)calloc(2, sizeof(DrawObject*));
 			this->viewcontroller->constructGrassTileEntity(&curr->drawableEntity);
@@ -85,7 +87,7 @@ void DwarpoModel::constructMap()
 			//the view gets built from top to bottom --> thus up is down and vice versa
 			curr->drawableEntity.y = h * this->viewcontroller->tileSize();
 			//add the tile representation to the viewcontroller
-
+			
 
 
 			
@@ -134,14 +136,7 @@ void DwarpoModel::placeAnimals() {
 
 }
 
-void DwarpoModel::collectWalkableTiles()
-{
-	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
-		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
-			walkableTiles.push(getTileAt(w, h));
-		}
-	}
-}
+
 
 void DwarpoModel::migratingAnimals()
 {

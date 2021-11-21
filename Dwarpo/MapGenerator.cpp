@@ -77,7 +77,7 @@ void MapGenerator::generateMountains(DPEngine_instance* engine)
 	DPEngine_instance* DwarpoEngine = engine;
 	//DwarpoEngine->drawDebugChunks(allChunks, chunkWidth, chunkHeight);
 
-
-
+	delete allChunks;
+	delete stack;
 	delete[] chunkMap;
 }

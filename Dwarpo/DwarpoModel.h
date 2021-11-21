@@ -1,10 +1,10 @@
 #pragma once
 #include "baseTile.h"
 #include "DPEngine_instance.h"
-//#include "BaseCreature.h"
+#include "BaseCreature.h"
 #include "QueueTypeLinkedList_impl.h"
 #include <malloc.h>
-
+#include <vector>
 #define DWARPO_GRID_WIDTH 400
 #define DWARPO_GRID_HEIGHT 400
 
@@ -19,7 +19,7 @@ public:
 
 	DPEngine_instance* viewcontroller;
 
-	baseTile* map;
+	std::vector<baseTile> map;
 
 	baseTile* homeArea;
 
@@ -44,7 +44,6 @@ public:
 
 	void placeAnimals();
 
-	void collectWalkableTiles();
 
 	void placeOres();
 
@@ -53,8 +52,6 @@ public:
 	void migratingAnimals();
 
 	void createJob();
-
-	QueueTypeLinkedList<baseTile> walkableTiles;
 
 	inline baseTile* getTileAt(int w, int h) {
 		return &map[w + h * DWARPO_GRID_HEIGHT];

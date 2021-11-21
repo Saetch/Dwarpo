@@ -3,11 +3,7 @@
 #include "QueueTypeLinkedList_impl.h"
 #include <d2d1.h>
 
-class Dwarf;
 
-class BaseCreature;
-
-class DPEngine_instance;
 
 class baseTile
 {
