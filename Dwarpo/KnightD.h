@@ -18,7 +18,7 @@ public:
 
     void init() {
         currentFrame = KnightD::idleFrames;
-        tick_count = 0;
+        tick_count = rand()%60;
     }
 
     bool changeState();

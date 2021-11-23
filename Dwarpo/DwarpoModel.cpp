@@ -2,7 +2,10 @@
 #include "KnightD.h"
 #include <iostream>
 #include "Dwarf_BaseHouse.h"
+
 #include "MapGenerator.h"
+//remove this when debug is done! TODO
+#define LOADDEBUG 1
 #include <vector>
 void initClasses() {
 	Dwarf_BaseHouse::init();
@@ -51,6 +54,15 @@ void DwarpoModel::placeDebugKnight() {
 	knuffte->yPos = 2.0f;
 	this->viewcontroller->addToYOrderedEntityList(knuffte);
 
+
+	for (int i = 0; i < 25000; i++) {
+		knuffte = new KnightD();
+		knuffte->xPos = (rand()%400)/10.0f;
+		knuffte->yPos = (rand()%400)/10.0f;
+		knuffte->init();
+		this->viewcontroller->addToYOrderedEntityList(knuffte);
+
+	}
 	printf_s("\n\nadded Knights to YOrderedEntityList!\n");
 	return;
 
@@ -78,20 +90,34 @@ void DwarpoModel::constructMap()
 			curr->init();
 			
 			
-			//this chunk of actions is only needed for debug-grid, can be removed later (when DPEngine_instance.cpp -> DWARPO_SHOWGRID is 0)
-			curr->drawableEntity.drawObjectsSize = 2;
-			curr->drawableEntity.drawObjects = (DrawObject**)calloc(2, sizeof(DrawObject*));
-			this->viewcontroller->constructGrassTileEntity(&curr->drawableEntity);
-			curr->drawableEntity.x = w * this->viewcontroller->tileSize();
-			//the view gets built from top to bottom --> thus up is down and vice versa
-			curr->drawableEntity.y = h * this->viewcontroller->tileSize();
-			//add the tile representation to the viewcontroller
+
 			
 
 
 			
 		}
 	}
+
+
+	if (LOADDEBUG) {
+		for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
+			for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
+				curr = getTileAt(w, h);
+				//this chunk of actions is only needed for debug-grid, can be removed later (when DPEngine_instance.cpp -> DWARPO_SHOWGRID is 0)
+				curr->drawableEntity.drawObjectsSize = 2;
+				curr->drawableEntity.drawObjects = (DrawObject**)calloc(2, sizeof(DrawObject*));
+				this->viewcontroller->constructGrassTileEntity(&curr->drawableEntity);
+				curr->drawableEntity.x = w * this->viewcontroller->tileSize();
+				//the view gets built from top to bottom --> thus up is down and vice versa
+				curr->drawableEntity.y = h * this->viewcontroller->tileSize();
+				//add the tile representation to the viewcontroller
+
+
+
+			}
+		}
+	}
+
 
 	mapGen->generateMountains(viewcontroller);
 

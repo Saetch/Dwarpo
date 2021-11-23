@@ -203,6 +203,7 @@ int DPEngine_instance::onCreate()
 
 int DPEngine_instance::onUpdate()
 {
+
     HRESULT hr = CreateGraphicsResources();
     if (SUCCEEDED(hr))
     {
@@ -227,7 +228,7 @@ int DPEngine_instance::onUpdate()
 
 
         //drawYOrderedEntities
-
+        auto nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
         currEntity = yOrderedEntityList->firstListElem();
         D2D1_RECT_F actualRect;
         while (currEntity != NULL) {
@@ -269,7 +270,6 @@ int DPEngine_instance::onUpdate()
 
         }
 
-
         DrawObject** pToDraw = NULL;
         curr = this->drawEntities->firstListElem();
         int i = 0;
@@ -293,10 +293,11 @@ int DPEngine_instance::onUpdate()
 
         //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
         //pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
-        
+
         if (INITDEBUGBUFFER) {
         pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
         }
+
 
         hr = pRenderTarget->EndDraw();
         if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
@@ -305,7 +306,10 @@ int DPEngine_instance::onUpdate()
             EndPaint(m_hwnd, &ps);
             return 1;
         }
+
         EndPaint(m_hwnd, &ps);
+
+
         return 0;
     }
     return 1;
@@ -702,6 +706,7 @@ void DPEngine_instance::constructGrassTileEntity(StaticEntity* pEnt)
 
 LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+
     int ret;
     switch (uMsg)
     {
@@ -754,9 +759,12 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
     case WM_PAINT:
         return 0;
 
-    case WM_DWARPO_DRAW:
+    case WM_DWARPO_DRAW: 
+
         onUpdate();
+
         pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+
         return 0;
 
     case WM_KEYDOWN:

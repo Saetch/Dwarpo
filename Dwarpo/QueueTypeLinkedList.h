@@ -53,7 +53,7 @@ public:
 
 	int removeAndFreeElem(unsigned int index);
 
-	int forEach(int(*fn)(T ele));
+	int forEach(int(*fn)(T* ele));
 
 	int forEachInt(int(*fn)(int* ele));
 

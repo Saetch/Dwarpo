@@ -6,7 +6,7 @@
 
 StaticEntity::StaticEntity(const int size)
 {
-	printf_s("StaticEntity Constructor called\n");
+	//printf_s("StaticEntity Constructor called\n");
 	drawObjectsSize = size;
 	drawObjects = (DrawObject**)calloc(size, sizeof(DrawObject*));
 }

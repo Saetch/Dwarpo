@@ -215,11 +215,11 @@ int QueueTypeLinkedList<T>::removeAndFreeElem(unsigned int index) {
 }
 
 template<typename T>
-inline int QueueTypeLinkedList<T>::forEach(int(*fn)(T ele))
+inline int QueueTypeLinkedList<T>::forEach(int(*fn)(T* ele))
 {
 
 	ListElem<T>* curr = this->firstElement;
-	for (int i = 0; i < this->size; i++) {
+	for (unsigned int i = 0; i < this->size; i++) {
 		if (curr == NULL) {
 			printf_s("ERROR DURING LIST->forEach ... element NULL \n");
 			return 1;
