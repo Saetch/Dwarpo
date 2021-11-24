@@ -101,11 +101,13 @@ void frameCycle() {
         nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
         diff = (float)(nowMs.time_since_epoch().count() - lastcall.time_since_epoch().count());
 
-        if (diff >= fpsThreshold) {
+        if (diff < fpsThreshold) {
+            std::this_thread::sleep_for(std::chrono::nanoseconds((int)((fpsThreshold-diff)*1000)));
+        }
             lastcall = nowMs;
             viewCntrlr->yOrderedEntityList->forEach(ticker);
 
-        }
+        
 
 
         /*         //DEBUG to dynamically change the pointer to the frames ingame

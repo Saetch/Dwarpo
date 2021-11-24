@@ -55,10 +55,10 @@ void DwarpoModel::placeDebugKnight() {
 	this->viewcontroller->addToYOrderedEntityList(knuffte);
 
 
-	for (int i = 0; i < 25000; i++) {
+	for (int i = 0; i < 60000; i++) {
 		knuffte = new KnightD();
-		knuffte->xPos = (rand()%400)/10.0f;
-		knuffte->yPos = (rand()%400)/10.0f;
+		knuffte->xPos = (rand()%4000)/10.0f;
+		knuffte->yPos = (rand()%4000)/10.0f;
 		knuffte->init();
 		this->viewcontroller->addToYOrderedEntityList(knuffte);
 

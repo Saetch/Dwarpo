@@ -235,7 +235,8 @@ int DPEngine_instance::onUpdate()
             ent = currEntity->element;
             dummy_x = -cameraX + tileSize() * ent->xPos;
             dummy_y = -cameraY + tileSize() * ent->yPos;
-            if (ent->animated) {
+            //dont render if out of view
+            if (dummy_x > -50.0f && dummy_x < width+50.0f && dummy_y > -50.0f && dummy_y < height+50.0f && ent->animated) {
 
                 
                 pRenderTarget->DrawBitmap(
@@ -250,7 +251,7 @@ int DPEngine_instance::onUpdate()
 
               
             }
-            else {
+            else if(!ent->animated) {
                
                 Structure* struc = static_cast<Structure*>(ent);
                 actualRect = D2D1::RectF(-cameraX +struc->targetRect.left, tileSize()+ -cameraY+struc->targetRect.top, -cameraX +struc->targetRect.right, tileSize() - cameraY+struc->targetRect.bottom);
