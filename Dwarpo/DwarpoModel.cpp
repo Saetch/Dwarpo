@@ -179,5 +179,10 @@ int DwarpoModel::gameLoopTick(int elapsedTime)
 	for (Entity* ent : viewcontroller->entityList) {
 		
 	}
+
+
+
+
+	return reloadBackground;
 }
 
