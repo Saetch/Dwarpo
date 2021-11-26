@@ -12,7 +12,6 @@
 class DwarpoModel;
 class LinkedChunk;
 
-#define DPENGINE_LAYER_AMOUNT 3
 #define DPENGINE_OBJECTBUFFER_SIZE 500
 #define TILESIZE 30
 
@@ -45,7 +44,6 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         ID2D1DeviceContext* pd2dDeviceContext;
         ID3D10Device1* pd3dDevice;
 
-        QueueTypeLinkedList<DrawableEntity>* layers;
         DwarpoModel* model;
         signed short camMovX = 0;
         signed short camMovY = 0;
@@ -95,7 +93,6 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         void setBkgrnd(unsigned short int newBkgrnd);
         unsigned short int getBkgrnd();
-        void addEntityL(DrawableEntity*, unsigned short int layer);
         void constructGrassTileEntity(StaticEntity* pEnt);
         void drawDebugChunks(QueueTypeLinkedList<LinkedChunk>* &chunks, int w, int h);
         void setModel(DwarpoModel* m) {
@@ -117,7 +114,6 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
             pbkBufferBrushes = (ID2D1SolidColorBrush**)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));
             disX = 0.0f;
             disY = 0.0f;
-            layers = (QueueTypeLinkedList<DrawableEntity>*)calloc(DPENGINE_LAYER_AMOUNT, sizeof(QueueTypeLinkedList<DrawableEntity>));
 
             drawEntities = new QueueTypeLinkedList<DrawableEntity>;
 
@@ -140,7 +136,6 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         ~DPEngine_instance() {
             free(pbkBufferBrushes);
-            free(layers);
             free(pBrushes);
             delete drawEntities;
         }

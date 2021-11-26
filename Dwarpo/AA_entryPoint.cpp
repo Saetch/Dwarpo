@@ -61,7 +61,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         //handle messages like resize etc.
         TranslateMessage(&msg);
         if (msg.message == WM_CLOSE) {
-            globalBool = false;
+            globalBool.store(FALSE);
             thr1->join();
             thr2->join();
             delete thr1;
@@ -89,7 +89,7 @@ void frameCycle() {
     auto nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
     auto lastcall = nowMs;
     const float fpsThreshold = 1000.0f / 30.0f;
-    while (globalBool) {
+    while (globalBool.load()) {
         //60fps -->update x and y
 
 
@@ -137,7 +137,7 @@ void draw( HWND hwnd ) {
     auto nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
     auto sec = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
     auto lastcall = nowMs;
-    while (globalBool) {
+    while (globalBool.load()) {
         //60fps -->update x and y
         
             nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());            

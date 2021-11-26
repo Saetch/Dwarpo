@@ -173,13 +173,6 @@ void DPEngine_instance::Resize()
 
 
 
-void DPEngine_instance::addEntityL(DrawableEntity* pnewE, unsigned short int layer)
-{   
-    QueueTypeLinkedList<DrawableEntity>* list = &layers[layer];
-    list->pushBack(pnewE);
-
-    //this->drawEntities->pushBack(pnewE);
-}
 
 void DPEngine_instance::setBkgrnd(unsigned short int newBK)
 {
