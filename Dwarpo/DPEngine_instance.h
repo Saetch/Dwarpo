@@ -1,6 +1,5 @@
 #pragma once
 #include "DwarPoEngine.h"
-#include "QueueTypeLinkedList_impl.h"
 #include "DrawableEntity.h"
 #include "StaticEntity.h"
 #include "DwarpoModel.h"
@@ -12,6 +11,7 @@
 class DwarpoModel;
 class LinkedChunk;
 
+#define DPENGINE_LAYER_AMOUNT 3
 #define DPENGINE_OBJECTBUFFER_SIZE 500
 #define TILESIZE 30
 

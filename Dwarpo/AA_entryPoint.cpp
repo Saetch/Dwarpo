@@ -12,7 +12,6 @@
 #include <atomic>
 //
 void draw( HWND hwnd);
-void addEntity(DPEngine_instance* viewc, StaticEntity* phouse);
 void frameCycle();
 std::atomic_bool globalBool = TRUE;
 DPEngine_instance* viewCntrlr;
@@ -75,11 +74,6 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 }
 
 
-void addEntity(DPEngine_instance* viewc, StaticEntity* pHouse) {
-
-
-    viewc->addEntityL(pHouse, 0);
-}
 
 
 void frameCycle() {

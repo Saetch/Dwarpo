@@ -173,7 +173,6 @@ void DPEngine_instance::Resize()
 
 
 
-
 void DPEngine_instance::setBkgrnd(unsigned short int newBK)
 {
     if (newBK <= 0 || newBK > DRAW_LOADCOLOR_NUM) {
@@ -218,51 +217,7 @@ int DPEngine_instance::onUpdate()
 
 
         //drawYOrderedEntities
-        auto nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
-        D2D1_RECT_F actualRect;
-        /*
-        while (currEntity != NULL) {
-            ent = currEntity->element;
-            dummy_x = -cameraX + tileSize() * ent->xPos;
-            dummy_y = -cameraY + tileSize() * ent->yPos;
-            //dont render if out of view
-            if (dummy_x > -50.0f && dummy_x < width+50.0f && dummy_y > -50.0f && dummy_y < height+50.0f && ent->animated) {
-
-                ;
-                /*
-                pRenderTarget->DrawBitmap(
-
-                    spriteManager->animationbuffer,
-                    D2D1::RectF(dummy_x, dummy_y, tileSize() + dummy_x, tileSize() + dummy_y),
-                    1.0f,
-                    D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
-                    ent->currentFrame                       
-                );
-                
-
-              
-            }
-            else if(!ent->animated) {
-               
-                Structure* struc = static_cast<Structure*>(ent);
-                actualRect = D2D1::RectF(-cameraX +struc->targetRect.left, tileSize()+ -cameraY+struc->targetRect.top, -cameraX +struc->targetRect.right, tileSize() - cameraY+struc->targetRect.bottom);
-                pRenderTarget->DrawBitmap(
-
-                spriteManager->staticBuffer,
-                actualRect,
-                1.0f,
-                D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
-                struc->getFrameRect()
-                    );
-
-
-                }
-
-            currEntity = currEntity->next;
-
-        }*/
-
-
+        D2D1_RECT_F actualRect;   
         for (Entity* ent : entityList)
         {
             dummy_x = -cameraX + tileSize() * ent->xPos;
@@ -303,8 +258,7 @@ int DPEngine_instance::onUpdate()
 
         }
 
-        auto nowMs2 = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
-        debugI(nowMs2 - nowMs);
+
         DrawObject** pToDraw = NULL;
         ListElem<DrawableEntity>* curr;
 

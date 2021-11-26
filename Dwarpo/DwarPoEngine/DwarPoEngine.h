@@ -26,7 +26,6 @@ public:
 	float disY;
 
 	QueueTypeLinkedList<DrawableEntity>* drawEntities;
-	virtual void addEntityL(DrawableEntity* pnewE, unsigned short int layer) = 0;
 	virtual int onCreate() = 0;
 	virtual int onUpdate() = 0;
 
