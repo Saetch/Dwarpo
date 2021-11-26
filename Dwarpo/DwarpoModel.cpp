@@ -45,25 +45,28 @@ void DwarpoModel::placeDebugKnight() {
 	printf_s("adding first knight!\n");
 	printf_s(knuffte->getType().c_str());
 	printf_s("\n");
-	this->viewcontroller->addToYOrderedEntityList(knuffte);
+	this->viewcontroller->entityList.push_back(knuffte);
 
 	knuffte = new KnightD();
 
 	knuffte->init();
 	knuffte->xPos = 3.2f;
 	knuffte->yPos = 2.0f;
-	this->viewcontroller->addToYOrderedEntityList(knuffte);
+	this->viewcontroller->entityList.push_back(knuffte);
+	srand(10);
 
-
-	for (int i = 0; i < 60000; i++) {
+	for (int i = 0; i < 400000; i++) {
 		knuffte = new KnightD();
+		if (i % 2000 == 0) {
+			
+			printf_s("juhu\n");
+		}
 		knuffte->xPos = (rand()%4000)/10.0f;
 		knuffte->yPos = (rand()%4000)/10.0f;
 		knuffte->init();
-		this->viewcontroller->addToYOrderedEntityList(knuffte);
+		this->viewcontroller->entityList.push_back(knuffte);
 
 	}
-	printf_s("\n\nadded Knights to YOrderedEntityList!\n");
 	return;
 
 }
@@ -138,7 +141,7 @@ void DwarpoModel::placeBaseHouse() {
 	Dwarf_BaseHouse* p_house;
 	p_house = new Dwarf_BaseHouse(5,7, viewcontroller->tileSize());
 
-	this->viewcontroller->addToYOrderedEntityList(p_house);
+	this->viewcontroller->entityList.push_back(p_house);
 }
 
 

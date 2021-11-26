@@ -4,7 +4,7 @@
 #include "Structure.h"
 #include "QueueTypeLinkedList_impl.h"
 #include "LinkedChunk.h"
-
+#include <chrono>
 //removeable after debug
 #define debugI(x) printf_s(#x": %d\n", x);
 #define debugF(x) printf_s(#x": %lf\n", x);
@@ -208,15 +208,12 @@ int DPEngine_instance::onUpdate()
     if (SUCCEEDED(hr))
     {
         PAINTSTRUCT ps;
-        ListElem<DrawableEntity>* curr;
         camera_mutex.lock();
         float cameraX = disX;
         float cameraY = disY;
         camera_mutex.unlock();
         float dummy_x;
         float dummy_y;
-        ListElem<Entity>* currEntity;
-        Entity* ent;
         BeginPaint(m_hwnd, &ps);
         pRenderTarget->BeginDraw();
         //background
@@ -229,8 +226,8 @@ int DPEngine_instance::onUpdate()
 
         //drawYOrderedEntities
         auto nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
-        currEntity = yOrderedEntityList->firstListElem();
         D2D1_RECT_F actualRect;
+        /*
         while (currEntity != NULL) {
             ent = currEntity->element;
             dummy_x = -cameraX + tileSize() * ent->xPos;
@@ -238,7 +235,8 @@ int DPEngine_instance::onUpdate()
             //dont render if out of view
             if (dummy_x > -50.0f && dummy_x < width+50.0f && dummy_y > -50.0f && dummy_y < height+50.0f && ent->animated) {
 
-                
+                ;
+                /*
                 pRenderTarget->DrawBitmap(
 
                     spriteManager->animationbuffer,
@@ -269,9 +267,54 @@ int DPEngine_instance::onUpdate()
 
             currEntity = currEntity->next;
 
+        }*/
+
+
+        for (Entity* ent : entityList)
+        {
+            dummy_x = -cameraX + tileSize() * ent->xPos;
+            dummy_y = -cameraY + tileSize() * ent->yPos;
+            //dont render if out of view
+            if (dummy_x > -50.0f && dummy_x < width + 50.0f && dummy_y > -50.0f && dummy_y < height + 50.0f && ent->animated) {
+
+                
+                
+                pRenderTarget->DrawBitmap(
+
+                    spriteManager->animationbuffer,
+                    D2D1::RectF(dummy_x, dummy_y, tileSize() + dummy_x, tileSize() + dummy_y),
+                    1.0f,
+                    D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+                    ent->currentFrame
+                );
+                
+
+
+            }
+            else if (!ent->animated) {
+
+                Structure* struc = static_cast<Structure*>(ent);
+                actualRect = D2D1::RectF(-cameraX + struc->targetRect.left, tileSize() + -cameraY + struc->targetRect.top, -cameraX + struc->targetRect.right, tileSize() - cameraY + struc->targetRect.bottom);
+                pRenderTarget->DrawBitmap(
+
+                    spriteManager->staticBuffer,
+                    actualRect,
+                    1.0f,
+                    D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+                    struc->getFrameRect()
+                );
+
+
+            }
+
+
         }
 
+        auto nowMs2 = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
+        debugI(nowMs2 - nowMs);
         DrawObject** pToDraw = NULL;
+        ListElem<DrawableEntity>* curr;
+
         curr = this->drawEntities->firstListElem();
         int i = 0;
         unsigned short drawOSize = 0;
@@ -298,7 +341,6 @@ int DPEngine_instance::onUpdate()
         if (INITDEBUGBUFFER) {
         pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
         }
-
 
         hr = pRenderTarget->EndDraw();
         if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
@@ -583,49 +625,7 @@ void DPEngine_instance::DKeyUp()
     cameraKey_mutex.unlock();
 }
 
-void DPEngine_instance::addToYOrderedEntityList(Entity* newCreature)
-{
 
-    ListElem<Entity>* nextListE = yOrderedEntityList->firstListElem();
-
-    if (nextListE == NULL) {  //empty list
-        yOrderedEntityList->pushBack(newCreature);
-    }
-    else {
-        
-        Entity* pnE = nextListE->element;
-        if (newCreature->yPos < pnE->yPos) {
-            yOrderedEntityList->push(newCreature);
-            return;
-        }
-        if (yOrderedEntityList->getSize() == 1){
-            yOrderedEntityList->pushBack(newCreature);
-            return;
-        }
-        ListElem<Entity>* previousListElem = nextListE;
-        nextListE = nextListE->next;
-        pnE = nextListE->element;
-        while (newCreature->yPos > pnE->yPos) { //finding the spot to put the new entity
-            
-            previousListElem = nextListE;
-            nextListE = nextListE->next;
-            if (nextListE == NULL) break;
-
-            pnE = nextListE->element;
-        }
-
-
-
-        ListElem<Entity>* newListElem = (ListElem<Entity>*) (malloc(sizeof(newListElem)));
-        newListElem->element = newCreature;
-        newListElem->next = nextListE;
-        previousListElem->next = newListElem;
-        this->yOrderedEntityList->incSize();
-    }
- 
-
-
-}
 
 
 
@@ -658,30 +658,7 @@ void DPEngine_instance::drawBkBuffer()
         }
     }
 
-/*
-    QueueTypeLinkedList<DrawableEntity>* bkgrnd = this->layers;
-    ListElem<DrawableEntity>* currentEntityElem = bkgrnd->firstListElem();
-    unsigned int bkgrndSize = bkgrnd->getSize();
-    DrawableEntity* ent;
-    DrawObject** obj;
-    for (unsigned int index = 0; index < bkgrndSize; index++) {
 
-
-
-        ent = currentEntityElem->element;
-        
-
-        
-        obj = ent->getObjectStart();
-        for (int object_i = 0; object_i < ent->drawObjectsSize; object_i++) {
-            drawBkObject(ent->x, ent->y, *obj);
-            obj++;
-        }
-
-
-        currentEntityElem = currentEntityElem->next;
-    }
-    */
     if (SUCCEEDED(this->pbkBufferTarget->EndDraw())) {
         printf_s("Updated bkgrndBuffer");
     }

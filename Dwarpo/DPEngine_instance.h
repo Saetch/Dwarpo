@@ -7,6 +7,7 @@
 #include <mutex>
 #include "SpriteManager.h"
 #include "BaseCreature.h"
+#include <vector>
 
 class DwarpoModel;
 class LinkedChunk;
@@ -78,11 +79,12 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
     public:
 
-        QueueTypeLinkedList<Entity>* yOrderedEntityList;
+        std::vector<Entity*> entityList;
+        std::vector<Entity*> foregroundList;
+        std::vector<Entity*> structureList;
         std::mutex yOrderedEntityList_mutex;
 
 
-        void addToYOrderedEntityList(Entity* newCreature);
 
         void drawBkBuffer();
 
@@ -110,7 +112,6 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         DPEngine_instance() : pFactory(NULL), pRenderTarget(NULL), pBrushes(NULL)
         {
-            yOrderedEntityList = new QueueTypeLinkedList<Entity>();
 
             pBrushes = (ID2D1SolidColorBrush **)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));
             pbkBufferBrushes = (ID2D1SolidColorBrush**)calloc(DRAW_LOADCOLOR_NUM, sizeof(ID2D1SolidColorBrush*));
@@ -141,7 +142,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
             free(pbkBufferBrushes);
             free(layers);
             free(pBrushes);
-            delete yOrderedEntityList;
+            delete drawEntities;
         }
 
         int onCreate();

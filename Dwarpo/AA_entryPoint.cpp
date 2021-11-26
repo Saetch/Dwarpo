@@ -9,11 +9,12 @@
 #include <thread>
 #include "KnightD.h"
 #include <stdio.h>
+#include <atomic>
 //
 void draw( HWND hwnd);
 void addEntity(DPEngine_instance* viewc, StaticEntity* phouse);
 void frameCycle();
-int globalBool = 1;
+std::atomic_bool globalBool = TRUE;
 DPEngine_instance* viewCntrlr;
 
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
@@ -49,7 +50,6 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     std:: thread* thr1 = new std::thread(draw, viewCntrlr->Window());
     std::thread* thr2 = new std::thread(frameCycle);
-    ListElem<Entity>* lE = viewCntrlr->yOrderedEntityList->firstListElem();
     //DEBUGGING yOrderEntities
     
    
@@ -61,7 +61,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         //handle messages like resize etc.
         TranslateMessage(&msg);
         if (msg.message == WM_CLOSE) {
-            globalBool = NULL;
+            globalBool = false;
             thr1->join();
             thr2->join();
             delete thr1;
@@ -81,10 +81,6 @@ void addEntity(DPEngine_instance* viewc, StaticEntity* pHouse) {
     viewc->addEntityL(pHouse, 0);
 }
 
-int tick(Entity* e) {
-    e->tick();
-    return 0;
-}
 
 void frameCycle() {
 
@@ -92,7 +88,6 @@ void frameCycle() {
     float diff;
     auto nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
     auto lastcall = nowMs;
-    int(*ticker)(Entity* e) = { &tick };
     const float fpsThreshold = 1000.0f / 30.0f;
     while (globalBool) {
         //60fps -->update x and y
@@ -105,7 +100,9 @@ void frameCycle() {
             std::this_thread::sleep_for(std::chrono::nanoseconds((int)((fpsThreshold-diff)*1000)));
         }
             lastcall = nowMs;
-            viewCntrlr->yOrderedEntityList->forEach(ticker);
+            for (Entity* ent : viewCntrlr->entityList) {
+                ent->tick();
+            }
 
         
 
