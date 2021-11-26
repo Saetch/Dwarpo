@@ -34,6 +34,7 @@ public:
 	//DEBUG YOU KNOW
 	void placeDebugKnight();
 
+	int gameLoopTick(int elapsedTime);
 
 	void placeBaseHouse();
 

@@ -75,6 +75,9 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         void CALLBACK DKeyUp();
 
 
+        std::mutex entityListMutex;
+        std::mutex foreGroundListMutex;
+
     public:
 
         std::vector<Entity*> entityList;

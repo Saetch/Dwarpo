@@ -13,8 +13,10 @@
 //
 void draw( HWND hwnd);
 void frameCycle();
+void gameLoop();
 std::atomic_bool globalBool = TRUE;
 DPEngine_instance* viewCntrlr;
+DwarpoModel* model = new DwarpoModel;
 
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PWSTR szCmdLine, int CmdShow)
@@ -36,7 +38,6 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
 
-    DwarpoModel* model = new DwarpoModel;
 
     model->viewcontroller = viewCntrlr;
     model->init();
@@ -49,6 +50,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     std:: thread* thr1 = new std::thread(draw, viewCntrlr->Window());
     std::thread* thr2 = new std::thread(frameCycle);
+    std::thread* gameLogicThr = new std::thread(gameLoop);
     //DEBUGGING yOrderEntities
     
    
@@ -63,13 +65,15 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
             globalBool.store(FALSE);
             thr1->join();
             thr2->join();
+            gameLogicThr->join();
             delete thr1;
             delete thr2;
+            delete gameLogicThr;
         }
         DispatchMessage(&msg);
 
     }
-
+    delete model;
     return 0;
 }
 
@@ -98,29 +102,24 @@ void frameCycle() {
                 ent->tick();
             }
 
-        
-
-
-        /*         //DEBUG to dynamically change the pointer to the frames ingame
-                 float left;
-                 float top;
-                 float right;
-                 float bottom;
-                 printf_s("Enter left/top/right/bottom coordinates for Knight sprite!\n");
-                 scanf_s("%f", &left);
-                 scanf_s("%f", &top);
-                 scanf_s("%f", &right);
-                 scanf_s("%f", &bottom);
-                 */
-
-
-
-       
-
-
-        
+               
 
     }
+}
+
+void gameLoop()
+{
+    
+    auto lastCall =  (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
+    auto nowMs = std::move(lastCall);
+    bool reloadBackground = false;
+    while (globalBool.load()) {
+        lastCall = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
+        reloadBackground = model->gameLoopTick((int)lastCall.time_since_epoch().count() - nowMs.time_since_epoch().count());
+        nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
+
+    }
+
 }
 
 

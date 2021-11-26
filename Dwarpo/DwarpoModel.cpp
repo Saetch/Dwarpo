@@ -57,10 +57,7 @@ void DwarpoModel::placeDebugKnight() {
 
 	for (int i = 0; i < 400000; i++) {
 		knuffte = new KnightD();
-		if (i % 2000 == 0) {
-			
-			printf_s("juhu\n");
-		}
+
 		knuffte->xPos = (rand()%4000)/10.0f;
 		knuffte->yPos = (rand()%4000)/10.0f;
 		knuffte->init();
@@ -70,6 +67,7 @@ void DwarpoModel::placeDebugKnight() {
 	return;
 
 }
+
 
 void DwarpoModel::constructMap()
 {
@@ -173,3 +171,13 @@ void DwarpoModel::migratingAnimals()
 void DwarpoModel::createJob()
 {
 }
+
+
+int DwarpoModel::gameLoopTick(int elapsedTime)
+{
+	int reloadBackground = false;
+	for (Entity* ent : viewcontroller->entityList) {
+		
+	}
+}
+
