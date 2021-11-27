@@ -32,8 +32,13 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         ID2D1SolidColorBrush** pBrushes;
 
 
+
+
         ID2D1Bitmap* bkbuffer;
         ID2D1BitmapRenderTarget* pbkBufferTarget;
+
+        ID2D1Bitmap* secondarybkbuffer;
+        ID2D1BitmapRenderTarget* psecondarybkBufferTarget;
 
         ID2D1Bitmap* debugbuffer;
         ID2D1BitmapRenderTarget* pdebugBufferTarget;
@@ -59,7 +64,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         void    Resize();
         inline void __fastcall handleDrawObject(float x, float y, DrawObject* pDrawO);
         void __thiscall fillBuffer();
-        inline void __fastcall drawBkObject(float x, float y, DrawObject* pDrawO);
+        inline void __fastcall drawDebugGridObject(float x, float y, DrawObject* pDrawO);
         HRESULT __stdcall CreateD3DDevice(
             IDXGIAdapter* pAdapter,
             D3D10_DRIVER_TYPE driverType,
@@ -91,13 +96,13 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         void drawBkBuffer();
 
 
+
         constexpr float tileSize() { return (float)TILESIZE; }
         static constexpr float staticTileSize() { return (float)TILESIZE; }
 
 
         void setBkgrnd(unsigned short int newBkgrnd);
         unsigned short int getBkgrnd();
-        void constructGrassTileEntity(StaticEntity* pEnt);
         void drawDebugChunks(QueueTypeLinkedList<LinkedChunk>* &chunks, int w, int h);
         void setModel(DwarpoModel* m) {
             model = m;

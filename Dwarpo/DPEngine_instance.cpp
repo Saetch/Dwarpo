@@ -11,7 +11,7 @@
 #define debugP(x) printf_s(#x": %p\n", x);
 
 #define INITDEBUGBUFFER 1
-#define DWARPO_SHOWGRID 0
+#define DWARPO_SHOWGRID 1
 
 
 void DPEngine_instance::CalculateLayout()
@@ -35,7 +35,7 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
 {
     HRESULT hr = S_OK;
 
-    if (pRenderTarget == NULL || pbkBufferTarget == NULL)
+    if (pRenderTarget == NULL || pbkBufferTarget == NULL || psecondarybkBufferTarget==NULL)
     {
         RECT rc;
         GetClientRect(m_hwnd, &rc);
@@ -57,6 +57,15 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
             printf_s("BackgroundBufferSize: %lf x %lf \n", (float)tileSize() * DWARPO_GRID_WIDTH, (float)tileSize() * DWARPO_GRID_HEIGHT);
             if (SUCCEEDED(hr)) {
                 hr = pbkBufferTarget->GetBitmap(&bkbuffer);
+            }
+
+            if (SUCCEEDED(hr)) {
+                hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize() * DWARPO_GRID_WIDTH, tileSize() * DWARPO_GRID_HEIGHT), &psecondarybkBufferTarget);
+
+                if (SUCCEEDED(hr)) {
+                    hr = psecondarybkBufferTarget->GetBitmap(&secondarybkbuffer);
+
+                }
             }
         }
 
@@ -138,6 +147,8 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
         {
             CalculateLayout();
         }
+        bkSrcRect = D2D1::RectF(0.0f, 0.0f, tileSize() * DWARPO_GRID_WIDTH, tileSize() * DWARPO_GRID_HEIGHT);
+
     }
     return hr;
 }
@@ -150,8 +161,11 @@ void DPEngine_instance::DiscardGraphicsResources()
         BaseWindow::SafeRelease(&this->pbkBufferBrushes[i]);
     }
     BaseWindow::SafeRelease(&this->pRenderTarget);
+
     BaseWindow::SafeRelease(&this->pbkBufferTarget);
     BaseWindow::SafeRelease(&this->bkbuffer);
+    BaseWindow::SafeRelease(&this->secondarybkbuffer);
+    BaseWindow::SafeRelease(&this->psecondarybkBufferTarget);
 }
 
 void DPEngine_instance::Resize()
@@ -193,7 +207,7 @@ int DPEngine_instance::onCreate()
     return 0;
 }
 
-int DPEngine_instance::onUpdate()
+int __fastcall DPEngine_instance::onUpdate()
 {
 
     HRESULT hr = CreateGraphicsResources();
@@ -210,11 +224,9 @@ int DPEngine_instance::onUpdate()
         pRenderTarget->BeginDraw();
         //background
         pRenderTarget->Clear(pBrushes[this->backgroundColor]->GetColor());
-        //get first element of background
-        
-        pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize()*DWARPO_GRID_WIDTH-cameraX, tileSize()*DWARPO_GRID_HEIGHT-cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
 
+        pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
         //drawYOrderedEntities
         D2D1_RECT_F actualRect;   
@@ -412,7 +424,7 @@ void __thiscall DPEngine_instance::fillBuffer()
     }
 }
 
-inline void __fastcall DPEngine_instance::drawBkObject(float x, float y, DrawObject* pDrawO)
+inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, DrawObject* pDrawO)
 {
     float displayX;
     float displayY;
@@ -591,7 +603,6 @@ void DPEngine_instance::drawBkBuffer()
     float yTar;
     D2D1_RECT_F rect;
     this->pbkBufferTarget->BeginDraw();
-
     for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
         for (int y = 0; y < DWARPO_GRID_HEIGHT; y++) {
             curr = model->getTileAt(x, y);
@@ -601,7 +612,7 @@ void DPEngine_instance::drawBkBuffer()
             pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
             pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
             if (DWARPO_SHOWGRID) {
-                drawBkObject(xTar, yTar, curr->drawableEntity.drawObjects[1]);
+                drawDebugGridObject(xTar, yTar, this->drawObjectBuffer+490);
             }
         }
     }
@@ -613,20 +624,12 @@ void DPEngine_instance::drawBkBuffer()
     else {
         printf_s("Failed updating the bkgrndBuffer");
     }
-    bkSrcRect = D2D1::RectF(0.0f, 0.0f, tileSize()* DWARPO_GRID_WIDTH, tileSize()*DWARPO_GRID_HEIGHT );
     
 }
 
-void DPEngine_instance::constructGrassTileEntity(StaticEntity* pEnt)
-{
-    if (pEnt->drawObjectsSize != 2) {
-        printf_s("ERR: Tried constructing GrassTileEntity from static entity with drawObjectSize: %d (2allowed)", pEnt->drawObjectsSize);
-        return ;
-    }
-    pEnt->addDrawObjectReference(drawObjectBuffer);
-    pEnt->addDrawObjectReference(drawObjectBuffer + 490);
 
-}
+
+
 
 
 
@@ -766,7 +769,7 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
 
 
 //example implementation on how to use the debugBuffer to display functional information
-//this function draws TO the debug buffer. It DOES NOT draw the contents of the debug buffer on screen. This happens in onUpdate()
+//this function draws TO the debug buffer.
 //in this case, this will draw shapes representative of the LinkedChunkMap from MapGenerator.cpp
 
 void DPEngine_instance::drawDebugChunks(QueueTypeLinkedList<LinkedChunk>* &chunks, int w, int h)
