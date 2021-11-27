@@ -25,6 +25,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 {
         std::mutex camera_mutex;
         std::mutex cameraKey_mutex;
+        std::mutex bkBufferMutex;
         unsigned short int backgroundColor = DrawO_COLOR_BLACK;
         ID2D1Factory* pFactory;
         ID2D1HwndRenderTarget* pRenderTarget;
@@ -75,8 +76,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         void CALLBACK DKeyUp();
 
 
-        std::mutex entityListMutex;
-        std::mutex foreGroundListMutex;
+    
 
     public:
 
@@ -84,7 +84,8 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         std::vector<Entity*> foregroundList;
         std::vector<Entity*> structureList;
         std::mutex yOrderedEntityList_mutex;
-
+        std::mutex entityListMutex;
+        std::mutex foreGroundListMutex;
 
 
         void drawBkBuffer();

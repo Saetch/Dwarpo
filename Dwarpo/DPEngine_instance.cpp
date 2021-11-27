@@ -578,6 +578,7 @@ void DPEngine_instance::DKeyUp()
 
 void DPEngine_instance::drawBkBuffer()
 {
+
     HRESULT hr = CreateGraphicsResources();
     if (!SUCCEEDED(hr)) {
         printf_s("COULD NOT CREATE GRAPHICS RESOURCES");

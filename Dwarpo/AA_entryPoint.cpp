@@ -10,6 +10,7 @@
 #include "KnightD.h"
 #include <stdio.h>
 #include <atomic>
+#include <future>
 //
 void draw( HWND hwnd);
 void frameCycle();
@@ -77,6 +78,13 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     return 0;
 }
 
+void nothingyo() {
+    for (int i = 0; i < 1000; i++) {
+        if (i % 100 == 0) {
+            std::cout << i / 100 << std::endl;
+        }
+    }
+}
 
 
 
@@ -113,11 +121,22 @@ void gameLoop()
     auto lastCall =  (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
     auto nowMs = std::move(lastCall);
     bool reloadBackground = false;
+    int timeElapsed=16;
+    int counter = 0;
     while (globalBool.load()) {
         lastCall = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
-        reloadBackground = model->gameLoopTick((int)lastCall.time_since_epoch().count() - nowMs.time_since_epoch().count());
+        reloadBackground = model->gameLoopTick(timeElapsed);
+        if (!reloadBackground && counter>=1000) {
+            counter = 0;
+            /// <summary>
+            /// THIS MIGHT NOT WORK EXACTLY AS EXPECTED; MIGHT LEAD TO ERRORS 
+            /// </summary>
+            std::async(std::launch::async, &DPEngine_instance::drawBkBuffer, viewCntrlr);
+        }
+        counter+=timeElapsed;
         nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
-
+        timeElapsed= (int)nowMs.time_since_epoch().count() - (int)lastCall.time_since_epoch().count();
+        // std::cout << (timeElapsed) << std::endl;
     }
 
 }
