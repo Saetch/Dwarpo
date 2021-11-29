@@ -7,13 +7,13 @@
 #include "SpriteManager.h"
 #include "BaseCreature.h"
 #include <vector>
-
+#include "Structure.h"
 class DwarpoModel;
 class LinkedChunk;
 
 #define DPENGINE_LAYER_AMOUNT 3
 #define DPENGINE_OBJECTBUFFER_SIZE 500
-#define TILESIZE 40
+#define TILESIZE 35
 
 
 #define DPENGINE_CAMSPEED 1
@@ -136,7 +136,8 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
 
         }
 
-
+        void addStructureToBkBuffer(Structure* const& struc);
+        void destroyStructure(Structure* const& struc);
 
 
         ~DPEngine_instance() {

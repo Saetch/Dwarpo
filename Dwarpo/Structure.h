@@ -1,9 +1,11 @@
 #pragma once
 #include "Entity.h"
-
+#include <tuple>
 class Structure : public Entity
 {
 public:
+
+	virtual const std::tuple<short, short> getOffsets()=0;
 
 	D2D1_RECT_F targetRect;
 

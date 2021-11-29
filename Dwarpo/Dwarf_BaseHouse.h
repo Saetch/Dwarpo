@@ -28,7 +28,7 @@ public:
 	inline static void init() {
 		ret = D2D1::RectF(BufferTileSize, BufferTileSize, BufferTileSize*5, BufferTileSize*6);
 	}
-	Dwarf_BaseHouse(float x, float y, float tileSize) {
+	Dwarf_BaseHouse(float x, float y, float tileSize){
 		this->xPos = x;
 		this->yPos = y;
 		animated = false;
@@ -39,6 +39,9 @@ public:
 		
 
 		//this might be a good place to make the represented tiles solid/blocked
+	}
+	const std::tuple<short, short> getOffsets() {
+		return { 3,-4 };
 	}
 
 	inline Entity* getLinkedEntities(int* size) {
