@@ -5,6 +5,7 @@
 #include "QueueTypeLinkedList_impl.h"
 #include "LinkedChunk.h"
 #include <chrono>
+#include <iostream>
 //removeable after debug
 #define debugI(x) printf_s(#x": %d\n", x);
 #define debugF(x) printf_s(#x": %lf\n", x);
@@ -225,9 +226,10 @@ int __fastcall DPEngine_instance::onUpdate()
         //background
         pRenderTarget->Clear(pBrushes[this->backgroundColor]->GetColor());
 
-
+        while (needToUpdateBkBuffer.load());
+        bkBufferMutex.lock();
         pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
-
+        bkBufferMutex.unlock();
         //drawYOrderedEntities
         D2D1_RECT_F actualRect;   
         for (Entity* const &ent : entityList)
@@ -419,7 +421,7 @@ inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, 
     switch (pDrawO->drawType) {
 
     case DrawO_RECT_FILL:
-        pbkBufferTarget->SetTransform(
+        psecondarybkBufferTarget->SetTransform(
             D2D1::Matrix3x2F::Translation(displayX, displayY) * D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
         );
         D2D1_RECT_F rectangle = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
@@ -434,7 +436,7 @@ inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, 
 
         
         D2D1_RECT_F rectangle2 = D2D1::RectF(x+pDrawO->getLeft(), y+pDrawO->getTop(), x+pDrawO->getRight(), y+pDrawO->getBottom());
-        this->pbkBufferTarget->DrawRectangle(&rectangle2, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
+        this->psecondarybkBufferTarget->DrawRectangle(&rectangle2, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
 
 
         break;
@@ -442,7 +444,7 @@ inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, 
 
         D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1() + displayX, pDrawO->getY1() + displayY);
         D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2() + displayX, pDrawO->getY2() + displayY);
-        this->pbkBufferTarget->DrawLine(start, end, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
+        this->psecondarybkBufferTarget->DrawLine(start, end, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
 
         break;
     default:
@@ -584,7 +586,8 @@ void DPEngine_instance::drawBkBuffer()
     float xTar;
     float yTar;
     D2D1_RECT_F rect;
-    this->pbkBufferTarget->BeginDraw();
+    this->psecondarybkBufferTarget->BeginDraw();
+    
     for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
         for (int y = 0; y < DWARPO_GRID_HEIGHT; y++) {
             curr = model->getTileAt(x, y);
@@ -592,21 +595,19 @@ void DPEngine_instance::drawBkBuffer()
             yTar = y * tileSize();
             rect = D2D1::RectF(xTar, yTar, xTar + tileSize(), yTar + tileSize());
             //this was needed to reset a transformation that some other rendering method needed. Unnecessary if skipped.
-            //pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
             
-            pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
+            psecondarybkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
             if (DWARPO_SHOWGRID) {
                 drawDebugGridObject(xTar, yTar, this->drawObjectBuffer+490);
             }
         }
     }
-
     for (auto &ent:structureList) {
 
         Structure* struc = static_cast<Structure*>(ent);
         rect = D2D1::RectF(struc->targetRect.left, tileSize()  + struc->targetRect.top,  struc->targetRect.right, tileSize() + struc->targetRect.bottom);
-        pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
-        pbkBufferTarget->DrawBitmap(
+        psecondarybkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+        psecondarybkBufferTarget->DrawBitmap(
 
             spriteManager->staticBuffer,
             rect,
@@ -617,12 +618,27 @@ void DPEngine_instance::drawBkBuffer()
 
 
     }
-
-    if (SUCCEEDED(this->pbkBufferTarget->EndDraw())) {
-        printf_s("Updated bkgrndBuffer");
+    
+    if (SUCCEEDED(this->psecondarybkBufferTarget->EndDraw())) {
+        printf_s("Updated secondarybkgrndBuffer");
     }
     else {
-        printf_s("Failed updating the bkgrndBuffer");
+        printf_s("Failed updating the secondarybkgrndBuffer");
+    }
+
+    rect = D2D1::RectF(0.0f, 0.0f, pbkBufferTarget->GetSize().width, pbkBufferTarget->GetSize().height);
+    needToUpdateBkBuffer.store(true);
+    bkBufferMutex.lock();
+    pbkBufferTarget->BeginDraw();
+    pbkBufferTarget->DrawBitmap(secondarybkbuffer, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rect);
+    hr = pbkBufferTarget->EndDraw();
+    needToUpdateBkBuffer.store(false);
+    bkBufferMutex.unlock();
+    if (SUCCEEDED(hr) ){
+        std::cout << "Updated bkgrndBuffer \n";
+    }
+    else {
+        std::cout << "Failed updating the bkgrndBuffer\n";
     }
     
 }

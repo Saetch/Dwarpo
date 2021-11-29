@@ -54,7 +54,7 @@ void DwarpoModel::placeDebugKnight() {
 	this->viewcontroller->entityList.push_back(knuffte);
 	srand(10);
 
-	for (int i = 0; i < 40; i++) {
+	for (int i = 0; i < 400000; i++) {
 		knuffte = new KnightD();
 
 		knuffte->xPos = (rand()%4000)/10.0f;

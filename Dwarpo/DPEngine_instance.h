@@ -30,8 +30,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         ID2D1Factory* pFactory;
         ID2D1HwndRenderTarget* pRenderTarget;
         ID2D1SolidColorBrush** pBrushes;
-
-
+        std::atomic<bool> needToUpdateBkBuffer=false;
 
 
         ID2D1Bitmap* bkbuffer;
