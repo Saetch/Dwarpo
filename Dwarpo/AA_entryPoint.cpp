@@ -127,7 +127,13 @@ void gameLoop()
     int calls = 0;
     std::vector<Structure*> vect;
     while (globalBool.load()) {
-        lastCall = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
+        while (timeElapsed <= 14) {
+            nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
+            timeElapsed = (int)nowMs.time_since_epoch().count() - (int)lastCall.time_since_epoch().count();
+        }
+        nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
+        timeElapsed = (int)nowMs.time_since_epoch().count() - (int)lastCall.time_since_epoch().count();
+        lastCall = std::move(nowMs);
         reloadBackground = model->gameLoopTick(timeElapsed);
         if (!reloadBackground && counter>=1000) {
             counter = 0;
@@ -149,6 +155,8 @@ void gameLoop()
         nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
         timeElapsed= (int)nowMs.time_since_epoch().count() - (int)lastCall.time_since_epoch().count();
         // std::cout << (timeElapsed) << std::endl;
+
+
     }
 
 }
