@@ -2,7 +2,7 @@
 #include "BaseCreature.h"
 #include <mutex>
 #include <string>
-
+#include "SpriteManager.h"
 class KnightD :
     public BaseCreature
 {
@@ -110,56 +110,56 @@ public:
 
     static void initKnightDClass() {
 
-        float os = 120.0f;
+        float os = 4*BufferTileSize;
 
-        float start = 45.0f;
-        float end = 75.0f;
+        float start = 1.5f*BufferTileSize;
+        float end = 2.5f*BufferTileSize;
         //initialize "Pointers" in form of predefined RECTs, that point to the specified frame in the buffer.
-        KnightD::idleFrames[0] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[0] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
         start += os;
         end += os;
         printf_s("Start: %f  END: %f\n", start, end);
-        KnightD::idleFrames[1] = D2D1::RectF(start, 0.0f, end, 30.0f);
-        start += os;
-        end += os;
-        printf_s("Start: %f  END: %f\n", start, end);
-
-        KnightD::idleFrames[2] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[1] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
         start += os;
         end += os;
         printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[3] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[2] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
         start += os;
         end += os;
         printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[4] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[3] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
         start += os;
         end += os;
         printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[5] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[4] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
         start += os;
         end += os;
         printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[6] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[5] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
         start += os;
         end += os;
         printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[7] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[6] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
         start += os;
         end += os;
         printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[8] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[7] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
         start += os;
         end += os;
         printf_s("Start: %f  END: %f\n", start, end);
 
-        KnightD::idleFrames[9] = D2D1::RectF(start, 0.0f, end, 30.0f);
+        KnightD::idleFrames[8] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
+        start += os;
+        end += os;
+        printf_s("Start: %f  END: %f\n", start, end);
+
+        KnightD::idleFrames[9] = D2D1::RectF(start, 0.0f, end, BufferTileSize);
 
     }
 

@@ -275,8 +275,9 @@ int __fastcall DPEngine_instance::onUpdate()
 
         //DEBUG: in Order to be able to correctly point Rectangles to Buffers, these will output the buffers (static and animation on top of the playing fields if unquotet)
 
-        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0,0, spriteManager->staticBuffer->GetSize().width, spriteManager->staticBuffer->GetSize().height));
-        // pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        //pRenderTarget->DrawBitmap(spriteManager->staticBuffer, D2D1::RectF(), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0,0, spriteManager->staticBuffer->GetSize().width, spriteManager->staticBuffer->GetSize().height));
+        //pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
         if (INITDEBUGBUFFER) {
         pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
@@ -593,7 +594,7 @@ void DPEngine_instance::drawBkBuffer()
             rect = D2D1::RectF(xTar, yTar, xTar + tileSize(), yTar + tileSize());
             //this was needed to reset a transformation that some other rendering method needed. Unnecessary if skipped.
             
-            pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
+            pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect());
             if (DWARPO_SHOWGRID) {
                 drawDebugGridObject(xTar, yTar, this->drawObjectBuffer+490);
             }

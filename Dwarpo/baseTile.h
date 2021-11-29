@@ -2,7 +2,7 @@
 #include "StaticEntity.h"
 #include "QueueTypeLinkedList_impl.h"
 #include <d2d1.h>
-
+#include "SpriteManager.h"
 
 
 class baseTile
@@ -22,8 +22,8 @@ public:
 
 
 
-	virtual inline D2D1_RECT_F getRect(float tileSize) {
-		return D2D1::RectF(graphicRect * tileSize, 0.0f, (graphicRect + 1) * tileSize, tileSize);
+	virtual inline D2D1_RECT_F getRect() {
+		return D2D1::RectF(graphicRect * BufferTileSize, 0.0f, (graphicRect + 1) * BufferTileSize, BufferTileSize);
 	}
 
 	inline void destroyBlock() {

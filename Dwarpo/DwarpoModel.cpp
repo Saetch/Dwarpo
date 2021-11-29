@@ -2,7 +2,6 @@
 #include "KnightD.h"
 #include <iostream>
 #include "Dwarf_BaseHouse.h"
-
 #include "MapGenerator.h"
 //remove this when debug is done! TODO
 #include <vector>
@@ -54,7 +53,7 @@ void DwarpoModel::placeDebugKnight() {
 	this->viewcontroller->entityList.push_back(knuffte);
 	srand(10);
 
-	for (int i = 0; i < 400000; i++) {
+	for (int i = 0; i < 40; i++) {
 		knuffte = new KnightD();
 
 		knuffte->xPos = (rand()%4000)/10.0f;
@@ -79,7 +78,7 @@ void DwarpoModel::constructMap()
 	this->map = {};
 	this->map.reserve(DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
 	for (int i = 0; i < DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH; i++) {
-		caveBasic* newT= new caveBasic();
+		baseTile* newT= new caveBasic();
 		this->map.push_back(newT);
 	}
 

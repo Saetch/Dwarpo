@@ -147,7 +147,7 @@ HRESULT SpriteManager::loadKnightToAnimBuffer()
         this->panimationBufferTarget, 
         "Sprites/Entities/Knight/Knight1.txt",
         //this will make sure where the copied image is put
-        D2D1::RectF(0.0f, 0.0f, defaultWidth* 40, defaultHeight),
+        D2D1::RectF(0.0f, 0.0f, BufferTileSize* 40, BufferTileSize),
         //this will make sure where the original image will be cut. Only important if there are "blank" spaces to be skipped.
         //If number is higher than resolution, will just use max.
         D2D1::RectF(0.0f, 46.0f, 1350.0f, 86.0f)
@@ -163,20 +163,20 @@ HRESULT SpriteManager::loadKnightToAnimBuffer()
 
 HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
 {
-    HRESULT hr = CB_OKAY;
 
+    HRESULT hr = CB_OKAY;
     hr = LoadBitmapFromFileTrgt(
         this->pstaticBufferTarget,
         "Dwarpo_Sprites/Structures/ground/rock_background1.txt",
-        D2D1::RectF(0.0f, 0.0f, defaultWidth, defaultHeight),
+        D2D1::RectF(0.0f, 0.0f, BufferTileSize, BufferTileSize),
         D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
     );
-
+    
     if (SUCCEEDED(hr)) {
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
             "Dwarpo_Sprites/Structures/ground/rock_background2.txt",
-            D2D1::RectF(defaultWidth, 0.0f, defaultWidth* 2, defaultHeight),
+            D2D1::RectF(BufferTileSize, 0.0f, BufferTileSize * 2, BufferTileSize),
             D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
         );
     }
@@ -185,7 +185,7 @@ HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
             "Dwarpo_Sprites/Structures/ground/rock_background3.txt",
-            D2D1::RectF(defaultWidth *2 , 0.0f, defaultWidth * 3, defaultHeight),
+            D2D1::RectF(BufferTileSize *2 , 0.0f, BufferTileSize * 3, BufferTileSize),
             D2D1::RectF(0.0f,0.0f, 640.0f,640.0f)
         );
     }
@@ -194,7 +194,7 @@ HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
             "Dwarpo_Sprites/Structures/ground/rock_background4.txt",
-            D2D1::RectF(defaultWidth * 3, 0.0f, defaultWidth * 4, defaultHeight),
+            D2D1::RectF(BufferTileSize * 3, 0.0f, BufferTileSize * 4, BufferTileSize),
             D2D1::RectF(0.0f, 0.0f,640.0f,640.0f)
         );
     }
@@ -202,7 +202,7 @@ HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
             "Dwarpo_Sprites/Structures/ground/background_Cave_pixelate1.txt",
-            D2D1::RectF(defaultWidth * 4, 0.0f, defaultWidth * 5, defaultHeight),
+            D2D1::RectF(BufferTileSize * 4, 0.0f, BufferTileSize * 5, BufferTileSize),
             D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
         );
     }
@@ -210,7 +210,7 @@ HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
             "Dwarpo_Sprites/Structures/ground/background_Cave_pixelate2.txt",
-            D2D1::RectF(defaultWidth * 5, 0.0f, defaultWidth * 6, defaultHeight),
+            D2D1::RectF(BufferTileSize * 5, 0.0f, BufferTileSize * 6, BufferTileSize),
             D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
         );
     }
@@ -218,7 +218,7 @@ HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
             "Dwarpo_Sprites/Structures/ground/background_Cave_pixelate3.txt",
-            D2D1::RectF(defaultWidth * 6, 0.0f, defaultWidth * 7, defaultHeight),
+            D2D1::RectF(BufferTileSize * 6, 0.0f, BufferTileSize * 7, BufferTileSize),
             D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
         );
     }
@@ -226,7 +226,7 @@ HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
         LoadBitmapFromFileTrgt(
             this->pstaticBufferTarget,
             "Dwarpo_Sprites/Structures/ground/background_Cave_pixelate4.txt",
-            D2D1::RectF(defaultWidth * 7, 0.0f, defaultWidth * 8, defaultHeight),
+            D2D1::RectF(BufferTileSize * 7, 0.0f, BufferTileSize * 8, BufferTileSize),
             D2D1::RectF(0.0f, 0.0f, 640.0f, 640.0f)
         );
     }
@@ -237,12 +237,12 @@ HRESULT SpriteManager::loadInGameBackgroundToStaticBuffer()
     pstaticBufferTarget->BeginDraw();
 
     if (SUCCEEDED(hr)) {
-        hr = pstaticBufferTarget->CreateSolidColorBrush(D2D1::ColorF(0.0f,0.0f,0.2f,0.35f), &brush);
+        hr = pstaticBufferTarget->CreateSolidColorBrush(D2D1::ColorF(0.0f,0.0f,0.2f,0.125f), &brush);
 
     }
    
     if (SUCCEEDED(hr)) {
-        pstaticBufferTarget->FillRectangle(D2D1::RectF(0.0f, 0.0f, 120.0f, 30.0f), brush);
+       pstaticBufferTarget->FillRectangle(D2D1::RectF(0.0f, 0.0f, 4*BufferTileSize, BufferTileSize), brush);
     }
 
     if (SUCCEEDED(hr)) {
@@ -285,7 +285,7 @@ HRESULT loadDwarfStructures(SpriteManager* ths)
     HRESULT hr = CB_OKAY;
 
     hr = loadbitMapfromFileTarget(ths, ths->pstaticBufferTarget, "Dwarpo_Sprites/Structures/Dwarf/Dwarf_BaseHouse_px9.txt",
-        D2D1::RectF(30.0f, 30.0f, 150.0f, 180.0f), D2D1::RectF(140.0f, 55.0f, 510.0f, 580.0f));
+        D2D1::RectF(BufferTileSize, BufferTileSize, BufferTileSize + 4 * BufferTileSize, BufferTileSize +5* BufferTileSize), D2D1::RectF(140.0f, 55.0f, 510.0f, 580.0f));
 
     return hr;
 }

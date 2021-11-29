@@ -13,7 +13,7 @@ class LinkedChunk;
 
 #define DPENGINE_LAYER_AMOUNT 3
 #define DPENGINE_OBJECTBUFFER_SIZE 500
-#define TILESIZE 30
+#define TILESIZE 40
 
 
 #define DPENGINE_CAMSPEED 1

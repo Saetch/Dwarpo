@@ -9,8 +9,8 @@
 #define ANIMATION_BUFFER_HEIGHT 8000
 #define STATIC_BUFFER_WIDTH 4000
 #define STATIC_BUFFER_HEIGHT 4000
-
-
+//THIS WILL DETERMINE THE RESOLUTION OF IMAGES PUT IN THE BUFFER
+#define BufferTileSize 35
 template <class T> void SafeRelease(T** ppT)
 {
     if (*ppT)

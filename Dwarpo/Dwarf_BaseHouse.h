@@ -1,5 +1,6 @@
 #pragma once
 #include "Structure.h"
+#include "SpriteManager.h"
 class Dwarf_BaseHouse: public Structure
 {
 public:
@@ -25,7 +26,7 @@ public:
 	}
 
 	inline static void init() {
-		ret = D2D1::RectF(30.0f, 30.0f, 150.0f, 180.0f);
+		ret = D2D1::RectF(BufferTileSize, BufferTileSize, BufferTileSize*5, BufferTileSize*6);
 	}
 	Dwarf_BaseHouse(float x, float y, float tileSize) {
 		this->xPos = x;
@@ -34,7 +35,7 @@ public:
 		printf_s("TILESIZE: %f\n", tileSize);
 		printf_s("House:  %f --> %f\n" , xPos, yPos);
 		printf_s("H: %f --> %f", tileSize * xPos, tileSize * yPos);
-		targetRect = D2D1::RectF(tileSize*xPos, tileSize*yPos-150.0f, tileSize*xPos+120.0f, tileSize*yPos);
+		targetRect = D2D1::RectF(tileSize*xPos, tileSize*yPos-5*tileSize, tileSize*xPos+4*tileSize, tileSize*yPos);
 		
 
 		//this might be a good place to make the represented tiles solid/blocked
