@@ -7,6 +7,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <tuple>
 //removeable after debug
 #define debugI(x) printf_s(#x": %d\n", x);
 #define debugF(x) printf_s(#x": %lf\n", x);
@@ -192,6 +193,60 @@ void DPEngine_instance::setBkgrnd(unsigned short int newBK)
 unsigned short int DPEngine_instance::getBkgrnd()
 {
     return this->backgroundColor;
+}
+
+void DPEngine_instance::addStructureToBkBuffer(Structure* const& struc)
+{
+    pbkBufferTarget->BeginDraw();
+
+    auto rect = D2D1::RectF(struc->targetRect.left, tileSize() + struc->targetRect.top, struc->targetRect.right, tileSize() + struc->targetRect.bottom);
+    pbkBufferTarget->DrawBitmap(
+
+        spriteManager->staticBuffer,
+        rect,
+        1.0f,
+        D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+        struc->getFrameRect()
+    );
+
+    if (SUCCEEDED(pbkBufferTarget->EndDraw())) {
+        std::cout << "added " << struc->getType() << " to backgroundBuffer!\n";
+    }
+    else {
+        std::cout << "could not add " << struc->getType() << " to backgroundBuffer!\n";
+
+    }
+}
+
+void DPEngine_instance::destroyStructure(Structure* const& struc)
+{
+    baseTile* curr;
+    float xTar;
+    float yTar;
+    D2D1_RECT_F rect;
+    pbkBufferTarget->BeginDraw();
+    for (int x = struc->xPos; x <= struc->xPos + std::get<0>(struc->getOffsets()); x++) {
+        for (int y = struc->yPos; y >= struc->yPos + std::get<1>(struc->getOffsets()); y--) {
+
+             curr = model->getTileAt(x, y);
+             xTar = x * tileSize();
+             yTar = y * tileSize();
+             rect = D2D1::RectF(xTar, yTar, xTar + tileSize(), yTar + tileSize());
+            //this was needed to reset a transformation that some other rendering method needed. Unnecessary if skipped.
+
+            pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect());
+            if (DWARPO_SHOWGRID) {
+                drawDebugGridObject(xTar, yTar, this->drawObjectBuffer + 490);
+            }
+        }
+    }
+    if (SUCCEEDED(pbkBufferTarget->EndDraw())) {
+        std::cout << "Removed Structure " << struc->getType() << " from BackgroundBuffer" << std::endl;
+    }
+    else {
+        std::cout << "Failed removing Structure " << struc->getType() << " at X: " << struc->xPos << " / Y: " << struc->yPos << std::endl;
+    }
+
 }
 
 int DPEngine_instance::onCreate()

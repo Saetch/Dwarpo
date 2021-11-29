@@ -1,13 +1,12 @@
 #pragma once
 #include "Structure.h"
 #include "SpriteManager.h"
+
 class Dwarf_BaseHouse: public Structure
 {
 public:
 
 	inline static D2D1_RECT_F ret;
-
-
 	inline static D2D1_RECT_F getFrameRect_static() {
 		 return ret;
 	}

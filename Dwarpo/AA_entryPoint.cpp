@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <atomic>
 #include <future>
+#include "Dwarf_BaseHouse.h"
 //
 void draw( HWND hwnd);
 void frameCycle();
@@ -123,6 +124,8 @@ void gameLoop()
     bool reloadBackground = false;
     int timeElapsed=16;
     int counter = 0;
+    int calls = 0;
+    std::vector<Structure*> vect;
     while (globalBool.load()) {
         lastCall = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
         reloadBackground = model->gameLoopTick(timeElapsed);
@@ -131,7 +134,16 @@ void gameLoop()
             /// <summary>
             /// THIS MIGHT NOT WORK EXACTLY AS EXPECTED; MIGHT LEAD TO ERRORS 
             /// </summary>
-            //std::async(std::launch::async, &DPEngine_instance::drawBkBuffer, viewCntrlr);
+            calls++;
+            Dwarf_BaseHouse* newH = new Dwarf_BaseHouse(6+calls*4, 7, viewCntrlr->tileSize());
+            vect.push_back(newH);
+            std::async(std::launch::async, &DPEngine_instance::addStructureToBkBuffer, viewCntrlr, newH);
+
+            if (calls > 3) {
+                std::async(std::launch::async, &DPEngine_instance::destroyStructure, viewCntrlr, vect[0]);
+
+                vect.erase(vect.begin());
+            }
         }
         counter+=timeElapsed;
         nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
