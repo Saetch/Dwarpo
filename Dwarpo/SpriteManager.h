@@ -129,7 +129,7 @@ public:
     }
 
     
-    inline ID2D1Bitmap* getp_StaticBitMap() {
+    inline constexpr ID2D1Bitmap* getp_StaticBitMap() {
         return this->staticBuffer;
     }
 

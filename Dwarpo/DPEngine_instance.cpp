@@ -230,12 +230,12 @@ int __fastcall DPEngine_instance::onUpdate()
 
         //drawYOrderedEntities
         D2D1_RECT_F actualRect;   
-        for (Entity* ent : entityList)
+        for (Entity* const &ent : entityList)
         {
             dummy_x = -cameraX + tileSize() * ent->xPos;
             dummy_y = -cameraY + tileSize() * ent->yPos;
             //dont render if out of view
-            if (dummy_x > -50.0f && dummy_x < width + 50.0f && dummy_y > -50.0f && dummy_y < height + 50.0f && ent->animated) {
+            if (dummy_x > -50.0f && dummy_x < width + 50.0f && dummy_y > -50.0f && dummy_y < height + 50.0f) {
 
                 
                 
@@ -251,21 +251,7 @@ int __fastcall DPEngine_instance::onUpdate()
 
 
             }
-            else if (!ent->animated) {
 
-                Structure* struc = static_cast<Structure*>(ent);
-                actualRect = D2D1::RectF(-cameraX + struc->targetRect.left, tileSize() + -cameraY + struc->targetRect.top, -cameraX + struc->targetRect.right, tileSize() - cameraY + struc->targetRect.bottom);
-                pRenderTarget->DrawBitmap(
-
-                    spriteManager->staticBuffer,
-                    actualRect,
-                    1.0f,
-                    D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
-                    struc->getFrameRect()
-                );
-
-
-            }
 
 
         }
@@ -278,11 +264,9 @@ int __fastcall DPEngine_instance::onUpdate()
         int i = 0;
         unsigned short drawOSize = 0;
         while(curr!=NULL) {
-            //printf_s("index: %d\n", i++);
             pToDraw = curr->element->getObjectStart();
             drawOSize = curr->element->drawObjectsSize;
             for (int i = 0; i < drawOSize; i++) {
-                //printf_s("X: %lf Y:%lf\n", curr->element->x, curr->element->y);
                 this->handleDrawObject(curr->element->x, curr->element->y,*pToDraw);
                 pToDraw++;
             }
@@ -294,8 +278,8 @@ int __fastcall DPEngine_instance::onUpdate()
 
         //DEBUG: in Order to be able to correctly point Rectangles to Buffers, these will output the buffers (static and animation on top of the playing fields if unquotet)
 
-        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
-        //pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0,0, spriteManager->staticBuffer->GetSize().width, spriteManager->staticBuffer->GetSize().height));
+        // pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
         if (INITDEBUGBUFFER) {
         pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
@@ -448,10 +432,8 @@ inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, 
 
 
 
-        pbkBufferTarget->SetTransform(
-            D2D1::Matrix3x2F::Translation(displayX, displayY) * D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
-        );
-        D2D1_RECT_F rectangle2 = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
+        
+        D2D1_RECT_F rectangle2 = D2D1::RectF(x+pDrawO->getLeft(), y+pDrawO->getTop(), x+pDrawO->getRight(), y+pDrawO->getBottom());
         this->pbkBufferTarget->DrawRectangle(&rectangle2, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
 
 
@@ -609,7 +591,9 @@ void DPEngine_instance::drawBkBuffer()
             xTar = x * tileSize();
             yTar = y * tileSize();
             rect = D2D1::RectF(xTar, yTar, xTar + tileSize(), yTar + tileSize());
-            pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+            //this was needed to reset a transformation that some other rendering method needed. Unnecessary if skipped.
+            //pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+            
             pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
             if (DWARPO_SHOWGRID) {
                 drawDebugGridObject(xTar, yTar, this->drawObjectBuffer+490);
@@ -617,6 +601,22 @@ void DPEngine_instance::drawBkBuffer()
         }
     }
 
+    for (auto &ent:structureList) {
+
+        Structure* struc = static_cast<Structure*>(ent);
+        rect = D2D1::RectF(struc->targetRect.left, tileSize()  + struc->targetRect.top,  struc->targetRect.right, tileSize() + struc->targetRect.bottom);
+        pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+        pbkBufferTarget->DrawBitmap(
+
+            spriteManager->staticBuffer,
+            rect,
+            1.0f,
+            D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+            struc->getFrameRect()
+        );
+
+
+    }
 
     if (SUCCEEDED(this->pbkBufferTarget->EndDraw())) {
         printf_s("Updated bkgrndBuffer");
