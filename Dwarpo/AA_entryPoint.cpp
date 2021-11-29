@@ -131,7 +131,7 @@ void gameLoop()
             /// <summary>
             /// THIS MIGHT NOT WORK EXACTLY AS EXPECTED; MIGHT LEAD TO ERRORS 
             /// </summary>
-            std::async(std::launch::async, &DPEngine_instance::drawBkBuffer, viewCntrlr);
+            //std::async(std::launch::async, &DPEngine_instance::drawBkBuffer, viewCntrlr);
         }
         counter+=timeElapsed;
         nowMs = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());

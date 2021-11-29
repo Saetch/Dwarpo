@@ -6,6 +6,7 @@
 #include "LinkedChunk.h"
 #include <chrono>
 #include <iostream>
+#include <thread>
 //removeable after debug
 #define debugI(x) printf_s(#x": %d\n", x);
 #define debugF(x) printf_s(#x": %lf\n", x);
@@ -36,7 +37,7 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
 {
     HRESULT hr = S_OK;
 
-    if (pRenderTarget == NULL || pbkBufferTarget == NULL || psecondarybkBufferTarget==NULL)
+    if (pRenderTarget == NULL || pbkBufferTarget == NULL )
     {
         RECT rc;
         GetClientRect(m_hwnd, &rc);
@@ -60,14 +61,7 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
                 hr = pbkBufferTarget->GetBitmap(&bkbuffer);
             }
 
-            if (SUCCEEDED(hr)) {
-                hr = pRenderTarget->CreateCompatibleRenderTarget(D2D1::SizeF(tileSize() * DWARPO_GRID_WIDTH, tileSize() * DWARPO_GRID_HEIGHT), &psecondarybkBufferTarget);
 
-                if (SUCCEEDED(hr)) {
-                    hr = psecondarybkBufferTarget->GetBitmap(&secondarybkbuffer);
-
-                }
-            }
         }
 
         if (INITDEBUGBUFFER && SUCCEEDED(hr) ) {
@@ -165,8 +159,7 @@ void DPEngine_instance::DiscardGraphicsResources()
 
     BaseWindow::SafeRelease(&this->pbkBufferTarget);
     BaseWindow::SafeRelease(&this->bkbuffer);
-    BaseWindow::SafeRelease(&this->secondarybkbuffer);
-    BaseWindow::SafeRelease(&this->psecondarybkBufferTarget);
+
 }
 
 void DPEngine_instance::Resize()
@@ -226,8 +219,10 @@ int __fastcall DPEngine_instance::onUpdate()
         //background
         pRenderTarget->Clear(pBrushes[this->backgroundColor]->GetColor());
 
-        while (needToUpdateBkBuffer.load());
-        bkBufferMutex.lock();
+        if (!bkBufferMutex.try_lock()) {
+            std::this_thread::yield();
+            bkBufferMutex.lock();
+        }
         pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
         bkBufferMutex.unlock();
         //drawYOrderedEntities
@@ -421,7 +416,7 @@ inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, 
     switch (pDrawO->drawType) {
 
     case DrawO_RECT_FILL:
-        psecondarybkBufferTarget->SetTransform(
+        pbkBufferTarget->SetTransform(
             D2D1::Matrix3x2F::Translation(displayX, displayY) * D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
         );
         D2D1_RECT_F rectangle = D2D1::RectF(pDrawO->getLeft(), pDrawO->getTop(), pDrawO->getRight(), pDrawO->getBottom());
@@ -436,7 +431,7 @@ inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, 
 
         
         D2D1_RECT_F rectangle2 = D2D1::RectF(x+pDrawO->getLeft(), y+pDrawO->getTop(), x+pDrawO->getRight(), y+pDrawO->getBottom());
-        this->psecondarybkBufferTarget->DrawRectangle(&rectangle2, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
+        this->pbkBufferTarget->DrawRectangle(&rectangle2, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
 
 
         break;
@@ -444,7 +439,7 @@ inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, 
 
         D2D1_POINT_2F start = D2D1::Point2F(pDrawO->getX1() + displayX, pDrawO->getY1() + displayY);
         D2D1_POINT_2F end = D2D1::Point2F(pDrawO->getX2() + displayX, pDrawO->getY2() + displayY);
-        this->psecondarybkBufferTarget->DrawLine(start, end, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
+        this->pbkBufferTarget->DrawLine(start, end, this->pbkBufferBrushes[pDrawO->color], pDrawO->width);
 
         break;
     default:
@@ -586,7 +581,9 @@ void DPEngine_instance::drawBkBuffer()
     float xTar;
     float yTar;
     D2D1_RECT_F rect;
-    this->psecondarybkBufferTarget->BeginDraw();
+    bkBufferMutex.lock();
+
+    this->pbkBufferTarget->BeginDraw();
     
     for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
         for (int y = 0; y < DWARPO_GRID_HEIGHT; y++) {
@@ -596,7 +593,7 @@ void DPEngine_instance::drawBkBuffer()
             rect = D2D1::RectF(xTar, yTar, xTar + tileSize(), yTar + tileSize());
             //this was needed to reset a transformation that some other rendering method needed. Unnecessary if skipped.
             
-            psecondarybkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
+            pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect(tileSize()));
             if (DWARPO_SHOWGRID) {
                 drawDebugGridObject(xTar, yTar, this->drawObjectBuffer+490);
             }
@@ -606,8 +603,8 @@ void DPEngine_instance::drawBkBuffer()
 
         Structure* struc = static_cast<Structure*>(ent);
         rect = D2D1::RectF(struc->targetRect.left, tileSize()  + struc->targetRect.top,  struc->targetRect.right, tileSize() + struc->targetRect.bottom);
-        psecondarybkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
-        psecondarybkBufferTarget->DrawBitmap(
+        pbkBufferTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+        pbkBufferTarget->DrawBitmap(
 
             spriteManager->staticBuffer,
             rect,
@@ -618,29 +615,15 @@ void DPEngine_instance::drawBkBuffer()
 
 
     }
-    
-    if (SUCCEEDED(this->psecondarybkBufferTarget->EndDraw())) {
-        printf_s("Updated secondarybkgrndBuffer");
-    }
-    else {
-        printf_s("Failed updating the secondarybkgrndBuffer");
-    }
 
-    rect = D2D1::RectF(0.0f, 0.0f, pbkBufferTarget->GetSize().width, pbkBufferTarget->GetSize().height);
-    needToUpdateBkBuffer.store(true);
-    bkBufferMutex.lock();
-    pbkBufferTarget->BeginDraw();
-    pbkBufferTarget->DrawBitmap(secondarybkbuffer, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, rect);
-    hr = pbkBufferTarget->EndDraw();
-    needToUpdateBkBuffer.store(false);
-    bkBufferMutex.unlock();
-    if (SUCCEEDED(hr) ){
+
+    if (SUCCEEDED(pbkBufferTarget->EndDraw()) ){
         std::cout << "Updated bkgrndBuffer \n";
     }
     else {
         std::cout << "Failed updating the bkgrndBuffer\n";
     }
-    
+    bkBufferMutex.unlock();
 }
 
 

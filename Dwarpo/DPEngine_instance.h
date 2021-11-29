@@ -36,9 +36,6 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         ID2D1Bitmap* bkbuffer;
         ID2D1BitmapRenderTarget* pbkBufferTarget;
 
-        ID2D1Bitmap* secondarybkbuffer;
-        ID2D1BitmapRenderTarget* psecondarybkBufferTarget;
-
         ID2D1Bitmap* debugbuffer;
         ID2D1BitmapRenderTarget* pdebugBufferTarget;
 
