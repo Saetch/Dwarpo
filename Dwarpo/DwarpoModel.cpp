@@ -5,6 +5,7 @@
 #include "MapGenerator.h"
 //remove this when debug is done! TODO
 #include <vector>
+#include <future>
 void initClasses() {
 	Dwarf_BaseHouse::init();
 	KnightD::initKnightDClass();
