@@ -3,6 +3,34 @@
 #include "QueueTypeLinkedList.h"
 #include "DPEngine_instance.h"
 
+
+void MapGenerator::generateGameField() {
+	//initialize background
+	*this->map = {};
+	(* this->map).reserve(DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
+	for (int i = 0; i < DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH; i++) {
+		baseTile* newT = new baseTile();
+		(*this->map).push_back(newT);
+	}
+
+	baseTile* curr;
+	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
+		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
+
+			//SEE model->getTileAt
+			curr = (*this->map)[w + h * DWARPO_GRID_WIDTH];
+			curr->init();
+
+
+
+
+
+
+
+		}
+	}
+}
+
 void MapGenerator::generateMountains(DPEngine_instance* engine)
 {
 	if (this->wallWidth > (this->chunkSize / 2)) {

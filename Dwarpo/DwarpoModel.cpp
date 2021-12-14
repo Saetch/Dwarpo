@@ -69,39 +69,16 @@ void DwarpoModel::placeDebugKnight() {
 
 void DwarpoModel::constructMap()
 {
-	MapGenerator* mapGen = new MapGenerator(this->map, DWARPO_GRID_WIDTH, DWARPO_GRID_HEIGHT, 10, 2);
-	//TODO move generation to dedicated generator class
+	MapGenerator* mapGen = new MapGenerator(&this->map, DWARPO_GRID_WIDTH, DWARPO_GRID_HEIGHT, 10, 2);
+	mapGen->generateGameField();
 
 
-
-	//initialize background
-	this->map = {};
-	this->map.reserve(DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
-	for (int i = 0; i < DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH; i++) {
-		baseTile* newT= new baseTile();
-		this->map.push_back(newT);
-	}
-
-	baseTile* curr;
-	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
-		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
-			curr = getTileAt(w, h);			
-			curr->init();
-			
-			
-
-			
-
-
-			
-		}
-	}
 
 
 	
 
 
-	mapGen->generateMountains(viewcontroller);
+	//mapGen->generateMountains(viewcontroller);
 
 
 
@@ -111,7 +88,7 @@ void DwarpoModel::constructMap()
 
 
 
-
+	delete mapGen;
 
 }
 
