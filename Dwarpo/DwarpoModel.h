@@ -68,8 +68,8 @@ public:
 
 	void createJob();
 
-	inline baseTile* getTileAt(int w, int h) {
-		return map[w + h * w];
+	inline baseTile* getTileAt(int wi, int he) {
+		return map[wi + he * WIDTH()];
 	}
 
 };
