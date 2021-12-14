@@ -112,14 +112,14 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
                 disX = -10.0f * tileSize();
             }
             else if (disX > -20*tileSize() + tileSize() * DWARPO_GRID_WIDTH) {
-                disX = -20 * tileSize() + tileSize() * DWARPO_GRID_WIDTH;
+                disX = -20.0f * tileSize() + tileSize() * DWARPO_GRID_WIDTH;
             }
             disY += camMovY * (float)DPENGINE_CAMSPEED * fElapsedTime;
             if (disY < -10.0f * tileSize()) {
                 disY = -10.0f * tileSize();
             }
-            else if (disY > -20 * tileSize() + tileSize() * DWARPO_GRID_HEIGHT) {
-                disY = -20 * tileSize() + tileSize() * DWARPO_GRID_HEIGHT;
+            else if (disY > -12.0f * tileSize() + tileSize() * DWARPO_GRID_HEIGHT) {
+                disY = -12.0f * tileSize() + tileSize() * DWARPO_GRID_HEIGHT;
             }
             camera_mutex.unlock();
         }
