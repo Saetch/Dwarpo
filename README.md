@@ -1,5 +1,5 @@
 # Dwarpo
-## Idee:
+## Idea:
 
 
 Dwarpo idea is being recreated
