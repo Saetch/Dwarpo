@@ -8,6 +8,7 @@
 #include <iostream>
 #include <thread>
 #include <tuple>
+
 //removeable after debug
 #define debugI(x) printf_s(#x": %d\n", x);
 #define debugF(x) printf_s(#x": %lf\n", x);

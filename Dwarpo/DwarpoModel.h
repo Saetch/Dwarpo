@@ -5,8 +5,7 @@
 #include "QueueTypeLinkedList_impl.h"
 #include <malloc.h>
 #include <vector>
-#define DWARPO_GRID_WIDTH 400
-#define DWARPO_GRID_HEIGHT 400
+
 
 class Dwarf;
 class DPEngine_instance;
@@ -26,6 +25,21 @@ public:
 	QueueTypeLinkedList<Dwarf**> dwarfs;
 
 	QueueTypeLinkedList<BaseCreature**> animals;
+	
+	const int w;
+	const int h;
+
+	constexpr int WIDTH() {
+		return w;
+	}
+	constexpr int HEIGHT() {
+		return h;
+	}
+
+	DwarpoModel(const int wi, const int he) : w(wi), h(he) {
+
+	}
+
 
 	int init();
 
@@ -55,7 +69,7 @@ public:
 	void createJob();
 
 	inline baseTile* getTileAt(int w, int h) {
-		return map[w + h * DWARPO_GRID_WIDTH];
+		return map[w + h * w];
 	}
 
 };

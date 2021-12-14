@@ -8,17 +8,18 @@
 #include "BaseCreature.h"
 #include <vector>
 #include "Structure.h"
-class DwarpoModel;
-class LinkedChunk;
+
 
 #define DPENGINE_LAYER_AMOUNT 3
 #define DPENGINE_OBJECTBUFFER_SIZE 500
 #define TILESIZE 35
-
+#define DWARPO_GRID_WIDTH 400
+#define DWARPO_GRID_HEIGHT 400
 
 #define DPENGINE_CAMSPEED 1
 
-
+class DwarpoModel;
+class LinkedChunk;
 class SpriteManager;
 
 class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
@@ -103,12 +104,23 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         void setModel(DwarpoModel* m) {
             model = m;
         }
-        void inline __thiscall updateCameraPos(float fElapsedTime) {
+        void inline __thiscall updateCameraPos(const float fElapsedTime) {
             camera_mutex.lock();
 
             disX += camMovX * (float)DPENGINE_CAMSPEED * fElapsedTime;
+            if (disX < -10.0f*tileSize()) {
+                disX = -10.0f * tileSize();
+            }
+            else if (disX > -20*tileSize() + tileSize() * DWARPO_GRID_WIDTH) {
+                disX = -20 * tileSize() + tileSize() * DWARPO_GRID_WIDTH;
+            }
             disY += camMovY * (float)DPENGINE_CAMSPEED * fElapsedTime;
-
+            if (disY < -10.0f * tileSize()) {
+                disY = -10.0f * tileSize();
+            }
+            else if (disY > -20 * tileSize() + tileSize() * DWARPO_GRID_HEIGHT) {
+                disY = -20 * tileSize() + tileSize() * DWARPO_GRID_HEIGHT;
+            }
             camera_mutex.unlock();
         }
 
