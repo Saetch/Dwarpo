@@ -1,5 +1,5 @@
 #pragma once
-#include "DwarPoEngine.h"
+#include "DwarPoEngine/DwarPoEngine.h"
 #include "DrawableEntity.h"
 #include "StaticEntity.h"
 #include "DwarpoModel.h"
@@ -12,11 +12,13 @@
 
 #define DPENGINE_LAYER_AMOUNT 3
 #define DPENGINE_OBJECTBUFFER_SIZE 500
-#define TILESIZE 35
-#define DWARPO_GRID_WIDTH 400
+//TILESIZE OF 35 can support a GRID_WIDTH OF UP TO 460
+//for more possible tiles, multiple background buffers need to be implemented
+#define TILESIZE 32
+#define DWARPO_GRID_WIDTH 460
 #define DWARPO_GRID_HEIGHT 400
-
-#define DPENGINE_CAMSPEED 1
+//this should be considered as a percentage
+#define DPENGINE_CAMSPEED 125.0f
 
 class DwarpoModel;
 class LinkedChunk;
@@ -107,14 +109,14 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         void inline __thiscall updateCameraPos(const float fElapsedTime) {
             camera_mutex.lock();
 
-            disX += camMovX * (float)DPENGINE_CAMSPEED * fElapsedTime;
+            disX += camMovX * DPENGINE_CAMSPEED /100.0f * fElapsedTime;
             if (disX < -10.0f*tileSize()) {
                 disX = -10.0f * tileSize();
             }
             else if (disX > -20*tileSize() + tileSize() * DWARPO_GRID_WIDTH) {
                 disX = -20.0f * tileSize() + tileSize() * DWARPO_GRID_WIDTH;
             }
-            disY += camMovY * (float)DPENGINE_CAMSPEED * fElapsedTime;
+            disY += camMovY * DPENGINE_CAMSPEED / 100.0f * fElapsedTime;
             if (disY < -10.0f * tileSize()) {
                 disY = -10.0f * tileSize();
             }

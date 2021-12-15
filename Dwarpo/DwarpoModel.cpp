@@ -71,21 +71,21 @@ void DwarpoModel::constructMap()
 {
 	MapGenerator* mapGen = new MapGenerator(&this->map, DWARPO_GRID_WIDTH, DWARPO_GRID_HEIGHT, 10, 2);
 	this->homeArea = mapGen->generateGameField();
-
+	
+	
+	
+	
+	
 
 
 
 	
 
 
+	
+	
+	//this is for debug purposes and just implemented a maze algorithm, that was originally supposed to be used for
 	//mapGen->generateMountains(viewcontroller);
-
-
-
-
-
-	
-
 
 
 	delete mapGen;

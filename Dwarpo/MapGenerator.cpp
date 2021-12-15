@@ -4,6 +4,11 @@
 #include "DPEngine_instance.h"
 
 
+#define CAVE_CHANCE 17
+
+//if the given algorithm runs over the field more than once, more interesting caves will form!
+#define CAVE_LAYERS 20
+
 baseTile* MapGenerator::generateGameField() {
 	//initialize background
 	*this->map = {};
@@ -14,46 +19,91 @@ baseTile* MapGenerator::generateGameField() {
 	}
 
 	baseTile* curr;
-	for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
-		for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
+	for (int h = 0; h < DWARPO_GRID_HEIGHT; h++) {
+		for (int w = 0; w < DWARPO_GRID_WIDTH; w++) {
 
 			//SEE model->getTileAt
 			curr = (*this->map)[w + h * DWARPO_GRID_WIDTH];
 			curr->init();
 
 
-
-
-        
-        unsigned int chunkOffset=0;
-        unsigned short chunkHeight;
-        //Generation of actual caves via simple method, by dividing into chunks 
-        for(unsigned int chunkY = 0; chunkY < DWARPO_GRID_HEIGHT ; ){
-                
-                for(
-                //chose a value from 5 to 15 for the height of the chunks and thus for the height of possible caves in these rows 
-                chunkHeight = (rand()%11)+5;
-
-                while(ch
-
-
-
-
-
-
-
-
-                chunkY += chunkHeight;
-                
-
-                
-        }
-
-
-
 		}
 	}
 
+		unsigned int y_dummy;
+        unsigned short chunkHeight;
+		unsigned short chunkWidth;
+		chunkWidth = (rand() % 31) + 20;
+		chunkHeight = (rand() % 11) + 5;
+		unsigned int xl;
+		unsigned int yl;
+		unsigned int startY;
+		baseTile** toOverride;
+
+
+
+		bool debug = true;
+		for (unsigned int algoLayer = 0; algoLayer < CAVE_LAYERS; ++algoLayer) {
+			//Generation of actual caves via simple method, by dividing into chunks
+			//TODO, this would look nicer, if they weren't just x*y sized!
+			for(unsigned int chunkY = 0; chunkY + chunkHeight < DWARPO_GRID_HEIGHT; chunkY += chunkHeight){
+
+				for (unsigned int chunkX = 0; chunkWidth + chunkX < DWARPO_GRID_WIDTH; chunkX += chunkWidth) {
+					//give a 1/CAVE_CHANCE chance of actually developing a cave in a given chunk
+					if (rand() % CAVE_CHANCE != 0) {
+						continue;
+					}
+
+					//randomize the height and width of the cave,somewhat
+					xl = 2+(rand() % (chunkWidth - 3));
+					yl = 2+ ( rand() % (chunkHeight - 2));
+					if (xl > chunkWidth / 2 && rand()%2 != 0) {
+						xl /= 2;
+					}
+						debug = false;
+						startY = chunkY + rand() % (chunkHeight + 1 - yl);
+						for (unsigned int actualX = chunkX +rand() % (chunkWidth + 1 - xl); xl > 0; --xl, ++actualX) {
+							y_dummy = yl;
+							for (unsigned int actualY = startY; y_dummy > 0; --y_dummy, ++actualY) {
+								toOverride = &(*this->map)[actualX + actualY * DWARPO_GRID_WIDTH];
+								delete *toOverride;
+								*toOverride = new caveBasic();
+
+
+							}
+					
+						}
+				
+
+
+
+
+
+					chunkWidth = (rand() % 31) + 20;
+
+					}
+					//chose a value from 5 to 15 for the height of the chunks and thus for the height of possible caves in these rows 
+
+
+
+
+				chunkHeight = (rand() % 11) + 5;
+
+
+
+
+
+                
+                
+
+                
+        
+
+
+
+		
+			}
+		}
 	baseTile* ret = (*this->map)[0];
 	return ret;
 }
@@ -83,6 +133,7 @@ void MapGenerator::generateMountains(DPEngine_instance* engine)
 	int bottom;
 	int chunkSize = chunkWidth * chunkHeight;
 
+	//connecting all the chunks to each other, so they know which chunk is top/left/right/bot of them!
 	for (int i = 0; i < chunkSize; i++) {
 		left = i - 1;
 		right = i + 1;
@@ -110,6 +161,7 @@ void MapGenerator::generateMountains(DPEngine_instance* engine)
 	//DBG
 	QueueTypeLinkedList<LinkedChunk>* allChunks = new QueueTypeLinkedList<LinkedChunk>();
 	LinkedChunk* curr = chunkMap;
+	//this pointer is used as an argument for clearRandomBorder and thus will be changed to point to the next reached Chunk
 	LinkedChunk* retChunk = 0;
 
 	int linkedChunks = 0;
@@ -130,7 +182,7 @@ void MapGenerator::generateMountains(DPEngine_instance* engine)
 		allChunks->pushBack(&chunkMap[i]);
 	}
 	DPEngine_instance* DwarpoEngine = engine;
-	//DwarpoEngine->drawDebugChunks(allChunks, chunkWidth, chunkHeight);
+	DwarpoEngine->drawDebugChunks(allChunks, chunkWidth, chunkHeight);
 
 	delete allChunks;
 	delete stack;

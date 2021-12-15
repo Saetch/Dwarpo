@@ -642,8 +642,8 @@ void DPEngine_instance::drawBkBuffer()
 
     this->pbkBufferTarget->BeginDraw();
     
-    for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
-        for (int y = 0; y < DWARPO_GRID_HEIGHT; y++) {
+    for (int y = 0; y < DWARPO_GRID_HEIGHT; y++) {
+        for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
             curr = model->getTileAt(x, y);
             xTar = x * tileSize();
             yTar = y * tileSize();

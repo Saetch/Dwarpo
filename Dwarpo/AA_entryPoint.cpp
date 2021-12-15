@@ -17,7 +17,7 @@ void frameCycle();
 void gameLoop();
 std::atomic_bool globalBool = TRUE;
 DPEngine_instance* viewCntrlr;
-DwarpoModel* model = new DwarpoModel(DWARPO_GRID_HEIGHT, DWARPO_GRID_WIDTH);
+DwarpoModel* model = new DwarpoModel(DWARPO_GRID_WIDTH, DWARPO_GRID_HEIGHT);
 
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PWSTR szCmdLine, int CmdShow)
