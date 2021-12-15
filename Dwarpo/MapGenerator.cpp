@@ -24,6 +24,30 @@ baseTile* MapGenerator::generateGameField() {
 
 
 
+        
+        unsigned int chunkOffset=0;
+        unsigned short chunkHeight;
+        //Generation of actual caves via simple method, by dividing into chunks 
+        for(unsigned int chunkY = 0; chunkY < DWARPO_GRID_HEIGHT ; ){
+                
+                for(
+                //chose a value from 5 to 15 for the height of the chunks and thus for the height of possible caves in these rows 
+                chunkHeight = (rand()%11)+5;
+
+                while(ch
+
+
+
+
+
+
+
+
+                chunkY += chunkHeight;
+                
+
+                
+        }
 
 
 
