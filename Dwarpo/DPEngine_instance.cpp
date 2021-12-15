@@ -549,16 +549,20 @@ HRESULT __stdcall DPEngine_instance::CreateD3DDevice(IDXGIAdapter* pAdapter, D3D
 
 void DPEngine_instance::WKey()
 {
-    
+       
     cameraKey_mutex.lock();
     if (camMovY >= 0) {
-        camMovY--;
+        if ((!(GetKeyState('S') & 0x8000)) || camMovY >0) {
+            camMovY--;
+
+        }
     }
     cameraKey_mutex.unlock();
 }
 
 void DPEngine_instance::WKeyUp()
 {
+
     cameraKey_mutex.lock();
     if (camMovY <= 0) {
         camMovY++;
@@ -570,7 +574,10 @@ void DPEngine_instance::AKey()
 {
     cameraKey_mutex.lock();
     if (camMovX >= 0) {
-        camMovX--;
+        if ((!(GetKeyState('D') & 0x8000)) || camMovX > 0) {
+            camMovX--;
+
+        }
     }
     cameraKey_mutex.unlock();
 }
@@ -586,9 +593,13 @@ void DPEngine_instance::AKeyUp()
 
 void DPEngine_instance::SKey()
 {
+
     cameraKey_mutex.lock();
     if (camMovY <= 0) {
-        camMovY++;
+        if ((!(GetKeyState('W') & 0x8000)) || camMovY < 0) {
+            camMovY++;
+
+        }
     }
     cameraKey_mutex.unlock();
 }
@@ -606,7 +617,10 @@ void DPEngine_instance::DKey()
 {
     cameraKey_mutex.lock();
     if (camMovX <= 0) {
-        camMovX++;
+        if ((!(GetKeyState('A') & 0x8000)) || camMovX < 0) {
+            camMovX++;
+
+        }
     }
     cameraKey_mutex.unlock();
 }

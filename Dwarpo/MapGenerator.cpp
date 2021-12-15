@@ -60,15 +60,20 @@ baseTile* MapGenerator::generateGameField() {
 					if (xl > chunkWidth / 2 && rand()%2 != 0) {
 						xl /= 2;
 					}
-						debug = false;
-						startY = chunkY + rand() % (chunkHeight + 1 - yl);
-						for (unsigned int actualX = chunkX +rand() % (chunkWidth + 1 - xl); xl > 0; --xl, ++actualX) {
+					debug = false;
+					startY = chunkY + rand() % (chunkHeight + 1 - yl);
+					for (unsigned int actualX = chunkX +rand() % (chunkWidth + 1 - xl); xl > 0; --xl, ++actualX) {
 							y_dummy = yl;
 							for (unsigned int actualY = startY; y_dummy > 0; --y_dummy, ++actualY) {
+								if (actualX + actualY * DWARPO_GRID_WIDTH > (DWARPO_GRID_WIDTH) * (DWARPO_GRID_HEIGHT-1)) {
+									continue;
+								}
 								toOverride = &(*this->map)[actualX + actualY * DWARPO_GRID_WIDTH];
 								delete *toOverride;
 								*toOverride = new caveBasic();
-
+								if (rand() % 70 == 0) {
+									startY += (rand() % 5) - 2;
+								}
 
 							}
 					
