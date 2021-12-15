@@ -16,6 +16,6 @@ public:
 
 	void generateMountains(DPEngine_instance* engine);
 
-	void generateGameField();
+	baseTile* generateGameField();
 };
 

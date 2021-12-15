@@ -4,7 +4,7 @@
 #include "DPEngine_instance.h"
 
 
-void MapGenerator::generateGameField() {
+baseTile* MapGenerator::generateGameField() {
 	//initialize background
 	*this->map = {};
 	(* this->map).reserve(DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
@@ -29,6 +29,9 @@ void MapGenerator::generateGameField() {
 
 		}
 	}
+
+	baseTile* ret = (*this->map)[0];
+	return ret;
 }
 
 void MapGenerator::generateMountains(DPEngine_instance* engine)

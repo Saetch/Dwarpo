@@ -53,7 +53,7 @@ void DwarpoModel::placeDebugKnight() {
 	this->viewcontroller->entityList.push_back(knuffte);
 	srand(10);
 
-	for (int i = 0; i < 400000; i++) {
+	for (int i = 0; i < 400; i++) {
 		knuffte = new KnightD();
 
 		knuffte->xPos = (rand()%3990)/10.0f;
@@ -70,7 +70,7 @@ void DwarpoModel::placeDebugKnight() {
 void DwarpoModel::constructMap()
 {
 	MapGenerator* mapGen = new MapGenerator(&this->map, DWARPO_GRID_WIDTH, DWARPO_GRID_HEIGHT, 10, 2);
-	mapGen->generateGameField();
+	this->homeArea = mapGen->generateGameField();
 
 
 
