@@ -190,12 +190,14 @@ int QueueTypeLinkedList<T>::removeElement(unsigned int index) {
 template <typename T>
 int QueueTypeLinkedList<T>::removeAndFreeElem(unsigned int index) {
 	ListElem<T>* ptr = firstElement;
+	ListElem<T>* ptr2;
+
 	if (index == 0) {
+		ptr = firstElement;
 		firstElement = firstElement->next;
 
 	}
 	else {
-		ListElem<T>* ptr2;
 		for (unsigned int i = 0; i < index - 1; i++) {
 			ptr = ptr->next;
 		}
@@ -203,6 +205,7 @@ int QueueTypeLinkedList<T>::removeAndFreeElem(unsigned int index) {
 		ptr = ptr2->next;
 		ptr2->next = ptr->next;
 	}
+	delete ptr;
 	free(ptr->element);
 	free(ptr);
 	size--;
@@ -257,8 +260,9 @@ T* QueueTypeLinkedList<T>::pop() {
 	}
 
 	size--;
-	T* ret = this->firstElement->element;
+	ListElem<T>* r = this->firstElement;
 	this->firstElement = this->firstElement->next;
-
+	T* ret = r->element;
+	delete r;
 	return ret;
 }

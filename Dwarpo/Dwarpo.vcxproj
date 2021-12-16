@@ -169,6 +169,7 @@
     <ClCompile Include="KnightD.cpp" />
     <ClCompile Include="LinkedChunk.cpp" />
     <ClCompile Include="MapGenerator.cpp" />
+    <ClCompile Include="MCave.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="SpriteWrapper.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="KnightD.h" />
     <ClInclude Include="LinkedChunk.h" />
     <ClInclude Include="MapGenerator.h" />
+    <ClInclude Include="MCave.h" />
     <ClInclude Include="QueueTypeLinkedList.h" />
     <ClInclude Include="QueueTypeLinkedList_impl.h" />
     <ClInclude Include="SpriteManager.h" />

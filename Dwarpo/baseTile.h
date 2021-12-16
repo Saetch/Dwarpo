@@ -14,7 +14,7 @@ public:
 
 	unsigned short graphicRect = 0;
 
-	bool isSolid = 1;
+	bool isSolid = true;
 
 
 

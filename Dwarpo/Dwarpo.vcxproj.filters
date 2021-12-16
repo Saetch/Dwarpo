@@ -82,6 +82,12 @@
     <Filter Include="Quelldateien\model\Structures\caveSystem">
       <UniqueIdentifier>{7b46f988-c6db-4b24-a5f3-be6952f6eb01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\meta">
+      <UniqueIdentifier>{5df2044b-377d-47f0-8ec2-c482f68e10f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\meta">
+      <UniqueIdentifier>{b6e680a8-c8cb-431e-96b9-827fb551272f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AA_entryPoint.cpp">
@@ -146,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="caveBasic.cpp">
       <Filter>Quelldateien\model\Structures\caveSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MCave.cpp">
+      <Filter>Quelldateien\meta</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="caveBasic.h">
       <Filter>Headerdateien\model\Structures\caveSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MCave.h">
+      <Filter>Headerdateien\meta</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

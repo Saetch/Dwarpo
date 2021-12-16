@@ -69,6 +69,7 @@ public:
 		this->size--;
 	}
 
+
 	QueueTypeLinkedList<T> operator++() {
 		this->firstElement = this->firstElement->next;
 		return *this;

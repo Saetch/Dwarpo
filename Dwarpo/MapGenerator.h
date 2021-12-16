@@ -14,7 +14,9 @@ public:
 
 	MapGenerator(std::vector<baseTile*>* grid, int gridWidth, int gridHeight, int chunkS, int wallW) : map(grid), width(gridWidth), height(gridHeight), chunkSize(chunkS), wallWidth(wallW) {};
 
-	bool canPlaceStartBase();
+
+
+	bool canPlaceStartBase(void* list);
 
 	void generateMountains(DPEngine_instance* engine);
 

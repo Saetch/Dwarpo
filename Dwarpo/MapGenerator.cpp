@@ -2,12 +2,12 @@
 #include "LinkedChunk.h"
 #include "QueueTypeLinkedList.h"
 #include "DPEngine_instance.h"
-
+#include "MCave.h"
 
 #define CAVE_CHANCE 17
 
 //if the given algorithm runs over the field more than once, more interesting caves will form!
-#define CAVE_LAYERS 20
+#define CAVE_LAYERS 21
 
 #define MAX_START_DEPTH 43
 
@@ -42,7 +42,7 @@ baseTile* MapGenerator::generateGameField() {
 		unsigned int startY;
 		baseTile** toOverride;
 
-
+		QueueTypeLinkedList<MCave>* caveList = new QueueTypeLinkedList<MCave>();
 
 		bool debug = true;
 		do {
@@ -59,7 +59,7 @@ baseTile* MapGenerator::generateGameField() {
 
 						//randomize the height and width of the cave,somewhat
 						xl = 2 + (rand() % (chunkWidth - 3));
-						yl = 2 + (rand() % (chunkHeight - 2));
+						yl = 3 + (rand() % (chunkHeight - 3));
 						if (xl > chunkWidth / 2 && rand() % 2 != 0) {
 							xl /= 2;
 						}
@@ -100,7 +100,7 @@ baseTile* MapGenerator::generateGameField() {
 
 					//chose a value from 5 to 15 for the height of the chunks and thus for the height of possible caves in these rows 
 
-					chunkHeight = (rand() % 11) + 5;
+					chunkHeight = (rand() % 7) + 5;
 
 
 
@@ -117,7 +117,7 @@ baseTile* MapGenerator::generateGameField() {
 
 				}
 			}
-		} while (!canPlaceStartBase());
+		} while (!canPlaceStartBase(&caveList));
 		
 	baseTile* ret = (*this->map)[0];
 	return ret;
@@ -138,10 +138,32 @@ bool MapGenerator::getAtChecked(int w, int h, baseTile*** toPoint) {
 }
 
 
-//TODO this is not yet implemented
-bool MapGenerator::canPlaceStartBase() {
+bool MapGenerator::canPlaceStartBase(void* l)
+{
+	QueueTypeLinkedList<MCave>* list = *(static_cast<QueueTypeLinkedList<MCave>**>(l));
+
+	if (!list->getSize()) {
+		printf_s("PossibleCaveList overwritten ... size: %d\n", list->getSize());
+
+		while (list->getSize() > 0) {
+			delete list->pop();
+		}
+	}
+	std::vector<TupleI> toCheck;
+	std::vector<TupleI> alreadyProcessedTiles;
+	baseTile** currentTile;
+	for (int y = 0; y < MAX_START_DEPTH; y++) {
+		for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
+			if (this->getAtChecked(x, y, &currentTile)) {
+				//TODO
+			}
+		}
+	}
+
 	return true;
 }
+
+
 
 void MapGenerator::generateMountains(DPEngine_instance* engine)
 {
