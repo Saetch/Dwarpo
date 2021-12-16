@@ -30,6 +30,16 @@ int DwarpoModel::init()
 	return 0;
 }
 
+//These do not need to be float values, but they will always be used to set/offset floats,
+//so by declaring them as float, we do not need to convert them later
+float DwarpoModel::getBaseX() {
+	return this->baseX;
+}
+
+float DwarpoModel::getBaseY() {
+	return this->baseY;
+}
+
 
 //debugging / example of placing a knight on screen
 void DwarpoModel::placeDebugKnight() {

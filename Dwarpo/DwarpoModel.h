@@ -12,6 +12,12 @@ class DPEngine_instance;
 
 class DwarpoModel
 {
+	//These do not need to be float values, but they will always be used to set/offset floats,
+	//so by declaring them as float, we do not need to convert them later
+	float baseX = 0.0f;
+	float baseY = 0.0f;
+
+
 public:
 	int INITIAL_DWARF_COUNT = 7;
 	int INITIAL_ANIMAL_COUNT = 10;
@@ -40,7 +46,8 @@ public:
 
 	}
 
-
+	float getBaseX();
+	float getBaseY();
 	int init();
 
 	void constructMap();

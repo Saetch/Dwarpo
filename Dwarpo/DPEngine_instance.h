@@ -64,6 +64,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         inline void __fastcall handleDrawObject(float x, float y, DrawObject* pDrawO);
         void __thiscall fillBuffer();
         inline void __fastcall drawDebugGridObject(float x, float y, DrawObject* pDrawO);
+        void BKey();
         HRESULT __stdcall CreateD3DDevice(
             IDXGIAdapter* pAdapter,
             D3D10_DRIVER_TYPE driverType,

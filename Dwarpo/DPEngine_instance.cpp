@@ -127,7 +127,7 @@ HRESULT DPEngine_instance::CreateGraphicsResources()
                 color = D2D1::ColorF(0.1f, 0.1f, 0.1f, 1.0f);
                 break;
             case DrawO_COLOR_LIGHTGREY:
-                color = D2D1::ColorF(0.5f, 0.5f, 0.5f, 1.0f);
+                color = D2D1::ColorF(0.15f, 0.15f, 0.15f, 1.0f);
             }
          
             printf_s("Created preconstructed Color %d \n", i);
@@ -507,6 +507,13 @@ inline void __fastcall DPEngine_instance::drawDebugGridObject(float x, float y, 
 
 }
 
+void DPEngine_instance::BKey() {
+    camera_mutex.lock();
+    this->disX = model->getBaseX();
+    this->disY = model->getBaseY();
+    camera_mutex.unlock();
+}
+
 HRESULT __stdcall DPEngine_instance::CreateD3DDevice(IDXGIAdapter* pAdapter, D3D10_DRIVER_TYPE driverType, UINT flags, ID3D10Device1** ppDevice)
 {
     {
@@ -552,6 +559,8 @@ void DPEngine_instance::WKey()
        
     cameraKey_mutex.lock();
     if (camMovY >= 0) {
+        //the first bit is the relevant one for isPressed. 
+        //  & is bitwise AND (which is one of the most effective CPU commands) -->    100000 & 100000 == 100000  / 000011 & 100000 == 000000
         if ((!(GetKeyState('S') & 0x8000)) || camMovY >0) {
             camMovY--;
 
@@ -800,6 +809,9 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
             break;
         case 0x44: //D
             this->DKey();
+            break;
+        case 'B':
+            this->BKey();
             break;
         }
         break;
