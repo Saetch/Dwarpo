@@ -24,7 +24,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 {
     //Initialisiere random function
     srand((int)time(NULL));
-
+    //srand(10);  //DEBUG
 	//initialisiere Engine
 	viewCntrlr = new DPEngine_instance();
 
@@ -170,7 +170,7 @@ void draw( HWND hwnd ) {
 
             if ( diffr >= 1000.0f) {
                 sec = (std::chrono::time_point_cast<std::chrono::milliseconds>)(std::chrono::steady_clock::now());
-                printf_s("FPS: %d\n", f_counter);
+                //printf_s("FPS: %d\n", f_counter);
                 f_counter = 0;
             }
    /*         //DEBUG to dynamically change the pointer to the frames ingame

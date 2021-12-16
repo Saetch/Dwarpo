@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 
+
+class baseTile;
 struct TupleI {
 	unsigned int x;
 	unsigned int y;
@@ -16,12 +18,18 @@ class MCave
 {
 
 public:
-	std::vector<TupleI> tiles;
+	std::vector<baseTile*> tiles;
 
+	inline void swallow(MCave* o) {
+		for (auto tile : o->tiles) {
+			this->tiles.push_back(tile);
+		}
+	}
 
-
-	MCave() {
-
+	MCave(baseTile* start = NULL) {
+		if (start) {
+			tiles.push_back(start);
+		}
 	}
 };
 

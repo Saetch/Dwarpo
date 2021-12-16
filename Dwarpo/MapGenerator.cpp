@@ -3,6 +3,7 @@
 #include "QueueTypeLinkedList.h"
 #include "DPEngine_instance.h"
 #include "MCave.h"
+#include "KnightD.h"
 
 #define CAVE_CHANCE 17
 
@@ -11,7 +12,9 @@
 
 #define MAX_START_DEPTH 43
 
-baseTile* MapGenerator::generateGameField() {
+bool vecContains(void* vecP,  baseTile** const elemP);
+
+baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 	//initialize background
 	*this->map = {};
 	(* this->map).reserve(DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
@@ -117,8 +120,18 @@ baseTile* MapGenerator::generateGameField() {
 
 				}
 			}
-		} while (!canPlaceStartBase(&caveList));
+		} while (!canPlaceStartBase(&caveList, viewcntrl));
 		
+
+		//TODO after initializing the field in such a way, that a baseHouse can be placed, it needs to be placed aswell
+		//implement chosing a correct spot, when the dwarf base house is updated. Also consider spawning a few workers
+		//therefor return the correct baseTile that represents the actual startPoint of the house!
+
+
+
+
+
+
 	baseTile* ret = (*this->map)[0];
 	return ret;
 }
@@ -126,41 +139,154 @@ baseTile* MapGenerator::generateGameField() {
 
 //safe method for getting the baseTile** at the index
 bool MapGenerator::getAtChecked(int w, int h, baseTile*** toPoint) {
-	if (w + h * DWARPO_GRID_WIDTH < 0 || w + h * DWARPO_GRID_WIDTH >= DWARPO_GRID_HEIGHT* DWARPO_GRID_WIDTH) {
+	if (w + h * DWARPO_GRID_WIDTH < 0 || w + h * DWARPO_GRID_WIDTH >= DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH) {
 		return false;
 	}
 
 
 
-		*toPoint =  &((*this->map)[w + h * DWARPO_GRID_WIDTH]);
+	*toPoint = &((*this->map)[w + h * DWARPO_GRID_WIDTH]);
 
-		return true;
+	return true;
 }
 
+MCave* completeCave(int x, int y, void* alreadyProcessedTilesVectorPointer, void* mapPointer, DPEngine_instance* viewcntrl);
 
-bool MapGenerator::canPlaceStartBase(void* l)
+
+bool MapGenerator::canPlaceStartBase(void* l, DPEngine_instance* viewcntrl)
 {
+	//TODO REFACTOR THIS. This should be a data field of viewcntrl, so it can be used in cave discovery in the future.
 	QueueTypeLinkedList<MCave>* list = *(static_cast<QueueTypeLinkedList<MCave>**>(l));
 
-	if (!list->getSize()) {
+	if (list->getSize()>0) {
 		printf_s("PossibleCaveList overwritten ... size: %d\n", list->getSize());
 
 		while (list->getSize() > 0) {
 			delete list->pop();
 		}
 	}
-	std::vector<TupleI> toCheck;
-	std::vector<TupleI> alreadyProcessedTiles;
+	std::vector<baseTile*> alreadyProcessedTiles;
 	baseTile** currentTile;
 	for (int y = 0; y < MAX_START_DEPTH; y++) {
 		for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
 			if (this->getAtChecked(x, y, &currentTile)) {
-				//TODO
+				//printf_s("%d / %d    SOLID: ",x,y);
+				//printf_s(((*currentTile)->isSolid) ? "true\n" : "false\n");
+				if (!((*currentTile)->isSolid) &&  !vecContains(&alreadyProcessedTiles, currentTile)) {
+
+
+
+					list->push(completeCave(x, y, &alreadyProcessedTiles, &(this->map), viewcntrl));
+					list->get(0).tiles.resize(list->get(0).tiles.size());
+
+
+					break;
+					if (rand() % 2 == 0) {
+						return true;
+					}
+				}
+
 			}
 		}
 	}
 
+
+
 	return true;
+}
+
+bool getAtCheckedFunc(int w, int h, baseTile** toPoint, void* mapPointer) {
+	if (w + h * DWARPO_GRID_WIDTH < 0 || w + h * DWARPO_GRID_WIDTH >= DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH || w >= DWARPO_GRID_WIDTH || h >= DWARPO_GRID_HEIGHT || w <0 || h < 0) {
+		return false;
+	}
+	std::vector<baseTile*>* map = *(static_cast<std::vector<baseTile*>**>(mapPointer));
+	*toPoint = ((*map)[w + h * DWARPO_GRID_WIDTH]);
+
+	return true;
+}
+
+MCave* completeCave(int x, int y, void* alreadyProcessedTilesVectorPointer, void* mapPointer, DPEngine_instance* viewcntrl) {
+	std::vector<baseTile*>* processedTiles = (static_cast<std::vector<baseTile*>*>(alreadyProcessedTilesVectorPointer));
+	std::vector<baseTile*>* map = *(static_cast<std::vector<baseTile*>**>(mapPointer));
+
+	baseTile* currentTile;
+	//add the 4 neighboring tiles to the list of Tiles to check
+	if (getAtCheckedFunc(x, y, &currentTile, &map)) {
+		MCave* ret = new MCave(currentTile);
+		if (vecContains(processedTiles, &currentTile)) {
+			return ret;
+		}
+
+
+		processedTiles->push_back(currentTile);
+		//use char to store 4 bools
+		byte con = 0b0000;
+		if (getAtCheckedFunc(x+1, y, &currentTile, &map)) {
+			if (!(currentTile->isSolid) && !vecContains(processedTiles, &currentTile)) {
+				con += 0b0001;
+			}
+		}
+		if (getAtCheckedFunc(x - 1, y, &currentTile, &map)) {
+			if (!(currentTile->isSolid) && !vecContains(processedTiles, &currentTile)) {
+				con += 0b0010;
+			}
+		}
+		if (getAtCheckedFunc(x, y+1, &currentTile, &map)) {
+			if (!(currentTile->isSolid) && !vecContains(processedTiles, &currentTile)) {
+				con += 0b0100;
+			}
+		}
+		if (getAtCheckedFunc(x , y -1, &currentTile, &map)) {
+			if (!(currentTile->isSolid) && !vecContains(processedTiles, &currentTile)) {
+				con += 0b1000;
+			}
+		}
+		if (con & 0b0001) {
+				ret->swallow(completeCave(x + 1, y, processedTiles, &map, viewcntrl));
+
+		}
+		if (con & 0b0010) {
+				ret->swallow(completeCave(x - 1, y, processedTiles, &map, viewcntrl));
+
+		}
+		if (con & 0b0100) {
+				ret->swallow(completeCave(x , y+1, processedTiles, &map, viewcntrl));
+
+		}
+		if (con & 0b1000) {
+				ret->swallow(completeCave(x , y-1, processedTiles, &map, viewcntrl));
+
+		}
+
+
+
+
+
+
+		return ret;
+	}
+	else {
+		printf_s("UNEXPECTED ACTION IN MAPGENERATOR->COMPLETECAVE!!\n");
+		return (new MCave());
+	}
+
+
+
+	
+	
+}
+
+
+bool vecContains(void* vecP, baseTile** elemP) {
+	std::vector<baseTile*>* vec = (static_cast<std::vector<baseTile*>*>(vecP));
+	
+	for (auto pInVec : *vec) {
+		if (pInVec == *elemP) {
+			return true;
+		}
+	}
+	return false;
+
 }
 
 

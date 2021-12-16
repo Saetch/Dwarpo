@@ -16,11 +16,11 @@ public:
 
 
 
-	bool canPlaceStartBase(void* list);
+	bool canPlaceStartBase(void* list, DPEngine_instance* viewcntrl);
 
 	void generateMountains(DPEngine_instance* engine);
 
-	baseTile* generateGameField();
+	baseTile* generateGameField(DPEngine_instance* viewcntrlr);
 	bool getAtChecked(int w, int h, baseTile***);
 };
 

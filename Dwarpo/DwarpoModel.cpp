@@ -80,7 +80,7 @@ void DwarpoModel::placeDebugKnight() {
 void DwarpoModel::constructMap()
 {
 	MapGenerator* mapGen = new MapGenerator(&this->map, DWARPO_GRID_WIDTH, DWARPO_GRID_HEIGHT, 10, 2);
-	this->homeArea = mapGen->generateGameField();
+	this->homeArea = mapGen->generateGameField(this->viewcontroller);
 	
 	
 	
