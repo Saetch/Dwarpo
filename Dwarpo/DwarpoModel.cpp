@@ -94,7 +94,7 @@ void DwarpoModel::constructMap()
 
 	
 	
-	//this is for debug purposes and just implemented a maze algorithm, that was originally supposed to be used for
+	//this is for debug purposes and just implements a maze algorithm, that was originally supposed to be used for
 	//mapGen->generateMountains(viewcontroller);
 
 

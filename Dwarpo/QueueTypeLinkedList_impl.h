@@ -207,7 +207,6 @@ int QueueTypeLinkedList<T>::removeAndFreeElem(unsigned int index) {
 	}
 	delete ptr;
 	free(ptr->element);
-	free(ptr);
 	size--;
 	if (size == 0) {
 		firstElement = NULL;
