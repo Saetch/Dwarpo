@@ -14,9 +14,10 @@
 
 //make sure, these are in the correct ranges!
 #define MIN_CAVE_WIDTH 2
+#define MIN_CAVE_HEIGHT 3
+//TODO
 //#define MAX_CAVE_WIDTH 
 //#define MAX_CAVE_HEIGHT
-#define MIN_CAVE_HEIGHT 3
 bool vecContains(void* vecP,  baseTile** const elemP);
 
 baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
