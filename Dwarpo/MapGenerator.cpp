@@ -12,6 +12,11 @@
 
 #define MAX_START_DEPTH 43
 
+//make sure, these are in the correct ranges!
+#define MIN_CAVE_WIDTH 2
+//#define MAX_CAVE_WIDTH 
+//#define MAX_CAVE_HEIGHT
+#define MIN_CAVE_HEIGHT 3
 bool vecContains(void* vecP,  baseTile** const elemP);
 
 baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
@@ -61,8 +66,8 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 						}
 
 						//randomize the height and width of the cave,somewhat
-						xl = 2 + (rand() % (chunkWidth - 3));
-						yl = 3 + (rand() % (chunkHeight - 3));
+						xl = MIN_CAVE_WIDTH + (rand() % ((chunkWidth - (MIN_CAVE_WIDTH + 3)) ));
+						yl = MIN_CAVE_HEIGHT + (rand() % ((chunkHeight -( MIN_CAVE_HEIGHT + 3))> 0 ? (chunkHeight - (MIN_CAVE_HEIGHT + 3)): 1)) ;
 						if (xl > chunkWidth / 2 && rand() % 2 != 0) {
 							xl /= 2;
 						}
@@ -167,8 +172,10 @@ bool MapGenerator::canPlaceStartBase(void* l, DPEngine_instance* viewcntrl)
 	}
 	std::vector<baseTile*> alreadyProcessedTiles;
 	baseTile** currentTile;
-	for (int y = 0; y < MAX_START_DEPTH; y++) {
-		for (int x = 0; x < DWARPO_GRID_WIDTH; x++) {
+
+	// +2 / +3, because that is the minimum caveSize, and thus less tiles need to be checked, but still all caves will be visited
+	for (int y = 0; y < MAX_START_DEPTH; y+= MIN_CAVE_HEIGHT){
+		for (int x = 0; x < DWARPO_GRID_WIDTH; x+= MIN_CAVE_WIDTH) {
 			if (this->getAtChecked(x, y, &currentTile)) {
 				//printf_s("%d / %d    SOLID: ",x,y);
 				//printf_s(((*currentTile)->isSolid) ? "true\n" : "false\n");
