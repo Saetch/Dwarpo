@@ -137,7 +137,8 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 		//add all other caves to the caveList
 
 
-		//this can be optimized, as this vector already exists at the end of canPLaceStartBase and thus could be returned via a pointer
+		//this can be optimized, as this vector already exists at the end of canPlaceStartBase and thus could be returned via a pointer.
+		//Consider, that canPlaceStartBase might be called multiple times
 		std::vector<baseTile*> alreadyProcessedTiles;
 		{
 			int size = caveList->getSize();
@@ -175,8 +176,7 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 		while (caveList->getSize() > 0) {
 			viewcntrl->caveVector.push_back((caveList->pop()));
 		}
-
-
+		delete caveList;
 	baseTile* ret = (*this->map)[0];
 	return ret;
 }
