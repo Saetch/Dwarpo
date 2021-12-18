@@ -20,13 +20,14 @@
 //#define MAX_CAVE_HEIGHT
 bool vecContains(void* vecP,  baseTile** const elemP);
 MCave* completeCave(int x, int y, void* alreadyProcessedTilesVectorPointer, void* mapPointer, DPEngine_instance* viewcntrl);
+float isDecentSpotForStarting(MCave* cave_p, MCave** cave_pp);
 
 baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 	//initialize background
 	*this->map = {};
 	(* this->map).reserve(DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH);
 	for (int i = 0; i < DWARPO_GRID_HEIGHT * DWARPO_GRID_WIDTH; i++) {
-		baseTile* newT = new baseTile();
+		baseTile* newT = new baseTile(i%DWARPO_GRID_WIDTH, i/DWARPO_GRID_WIDTH);
 		(*this->map).push_back(newT);
 	}
 
@@ -86,7 +87,7 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 								*toOverride = new caveBasic();*/
 								if (getAtChecked(actualX, actualY, &toOverride)) {
 									delete* toOverride;
-									*toOverride = new caveBasic();
+									*toOverride = new caveBasic(actualX, actualY);
 								}
 
 								if (rand() % 70 == 0) {
@@ -136,6 +137,19 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 
 		//add all other caves to the caveList
 
+		baseTile* ret;
+		{
+			MCave* retCave;
+			MCave* currentcave_p;
+			float maxVal = 0.0f;
+			float current;
+			for (int i = 0; i < caveList->getSize(); ++i) {
+				if (current = isDecentSpotForStarting(caveList->getP(i), &currentcave_p)) {
+					if(current >)
+				}
+			}
+		}
+
 
 		//this can be optimized, as this vector already exists at the end of canPlaceStartBase and thus could be returned via a pointer.
 		//Consider, that canPlaceStartBase might be called multiple times
@@ -152,7 +166,8 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 			}
 
 		}
-
+		//TODO: There might be considerable optimization possible, if the initialization of the MCave objects is done
+		//at the generation phase, at searching through the whole map(and through already existing caveTiles is not necessary
 		for (int y = MAX_START_DEPTH; y < DWARPO_GRID_HEIGHT; y += MIN_CAVE_HEIGHT) {
 			for (int x = 0; x < DWARPO_GRID_WIDTH; x += MIN_CAVE_WIDTH) {
 				if (this->getAtChecked(x, y, &toOverride)) {
@@ -164,8 +179,7 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 
 						caveList->push(completeCave(x, y, &alreadyProcessedTiles, &(this->map), viewcntrl));
 						caveList->get(0).tiles.resize(caveList->get(0).tiles.size());
-
-
+						
 					}
 
 				}
@@ -177,10 +191,14 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 			viewcntrl->caveVector.push_back((caveList->pop()));
 		}
 		delete caveList;
-	baseTile* ret = (*this->map)[0];
+	
 	return ret;
 }
 
+
+float isDecentSpotForStarting(MCave* cave_p) {
+	return false;
+}
 
 //safe method for getting the baseTile** at the index
 bool MapGenerator::getAtChecked(int w, int h, baseTile*** toPoint) {

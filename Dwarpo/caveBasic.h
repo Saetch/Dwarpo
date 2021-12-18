@@ -7,7 +7,7 @@ class caveBasic :
 public:
 
 
-    caveBasic(int type = NULL) {
+    caveBasic(int xVal, int yVal ,int type = NULL) : baseTile(xVal, yVal, type) {
         isSolid = false;
         init(type);
     }
