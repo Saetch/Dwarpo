@@ -11,7 +11,8 @@
 #include <stdio.h>
 #include <atomic>
 #include "Dwarf_BaseHouse.h"
-//
+
+
 void draw( HWND hwnd);
 void frameCycle();
 void gameLoop();

@@ -8,6 +8,7 @@
 #include "BaseCreature.h"
 #include <vector>
 #include "Structure.h"
+#include "MCave.h"
 
 
 #define DPENGINE_LAYER_AMOUNT 3
@@ -29,6 +30,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         std::mutex camera_mutex;
         std::mutex cameraKey_mutex;
         std::mutex bkBufferMutex;
+
         unsigned short int backgroundColor = DrawO_COLOR_BLACK;
         ID2D1Factory* pFactory;
         ID2D1HwndRenderTarget* pRenderTarget;
@@ -84,6 +86,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
     
 
     public:
+        std::vector<MCave*> caveVector;
 
         std::vector<Entity*> entityList;
         std::vector<Entity*> foregroundList;

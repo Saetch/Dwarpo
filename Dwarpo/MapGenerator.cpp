@@ -19,6 +19,7 @@
 //#define MAX_CAVE_WIDTH 
 //#define MAX_CAVE_HEIGHT
 bool vecContains(void* vecP,  baseTile** const elemP);
+MCave* completeCave(int x, int y, void* alreadyProcessedTilesVectorPointer, void* mapPointer, DPEngine_instance* viewcntrl);
 
 baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 	//initialize background
@@ -133,9 +134,47 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 		//implement chosing a correct spot, when the dwarf base house is updated. Also consider spawning a few workers
 		//therefor return the correct baseTile that represents the actual startPoint of the house!
 
+		//add all other caves to the caveList
+
+
+		//this can be optimized, as this vector already exists at the end of canPLaceStartBase and thus could be returned via a pointer
+		std::vector<baseTile*> alreadyProcessedTiles;
+		{
+			int size = caveList->getSize();
+			baseTile* p;
+			MCave* cave_p;
+			for (int i = 0; i < size; i++) {
+				cave_p = caveList->getP(0);
+				for (int j = 0; j < cave_p->tiles.size(); j++) {
+					p = cave_p->tiles[j];
+				}
+			}
+
+		}
+
+		for (int y = MAX_START_DEPTH; y < DWARPO_GRID_HEIGHT; y += MIN_CAVE_HEIGHT) {
+			for (int x = 0; x < DWARPO_GRID_WIDTH; x += MIN_CAVE_WIDTH) {
+				if (this->getAtChecked(x, y, &toOverride)) {
+					//printf_s("%d / %d    SOLID: ",x,y);
+					//printf_s(((*currentTile)->isSolid) ? "true\n" : "false\n");
+					if (!((*toOverride)->isSolid) && !vecContains(&alreadyProcessedTiles, toOverride)) {
 
 
 
+						caveList->push(completeCave(x, y, &alreadyProcessedTiles, &(this->map), viewcntrl));
+						caveList->get(0).tiles.resize(caveList->get(0).tiles.size());
+
+
+					}
+
+				}
+			}
+		}
+
+		//add all caves to the caveList of the Engine
+		while (caveList->getSize() > 0) {
+			viewcntrl->caveVector.push_back((caveList->pop()));
+		}
 
 
 	baseTile* ret = (*this->map)[0];
@@ -156,7 +195,6 @@ bool MapGenerator::getAtChecked(int w, int h, baseTile*** toPoint) {
 	return true;
 }
 
-MCave* completeCave(int x, int y, void* alreadyProcessedTilesVectorPointer, void* mapPointer, DPEngine_instance* viewcntrl);
 
 
 bool MapGenerator::canPlaceStartBase(void* l, DPEngine_instance* viewcntrl)
@@ -188,10 +226,6 @@ bool MapGenerator::canPlaceStartBase(void* l, DPEngine_instance* viewcntrl)
 					list->get(0).tiles.resize(list->get(0).tiles.size());
 
 
-					break;
-					if (rand() % 2 == 0) {
-						return true;
-					}
 				}
 
 			}
@@ -224,7 +258,14 @@ MCave* completeCave(int x, int y, void* alreadyProcessedTilesVectorPointer, void
 		if (vecContains(processedTiles, &currentTile)) {
 			return ret;
 		}
+		/*//DEBUG, this will put a single Knight on every caveTile!
+		KnightD* knuffte;
+		knuffte = new KnightD();
+		knuffte->xPos = (float)x;
+		knuffte->yPos = (float)y;
+		knuffte->init();
 
+		viewcntrl->entityList.push_back(knuffte);*/
 
 		processedTiles->push_back(currentTile);
 		//use char to store 4 bools
