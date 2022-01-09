@@ -137,16 +137,24 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 
 		//add all other caves to the caveList
 
-		baseTile* ret;
+		baseTile* ret = NULL;
 		{
-			MCave* retCave;
+			MCave* retCave = NULL;
 			MCave* currentcave_p;
 			float maxVal = 0.0f;
 			float current;
+
 			for (int i = 0; i < caveList->getSize(); ++i) {
 				if (current = isDecentSpotForStarting(caveList->getP(i), &currentcave_p)) {
-					if(current >)
+					if (current > maxVal) {
+						maxVal = current;
+						retCave = caveList->getP(i);
+					}
 				}
+			}
+			if (retCave != NULL) {
+				ret = retCave->tiles[0];
+
 			}
 		}
 
@@ -196,7 +204,11 @@ baseTile* MapGenerator::generateGameField(DPEngine_instance* viewcntrl) {
 }
 
 
-float isDecentSpotForStarting(MCave* cave_p) {
+float isDecentSpotForStarting(MCave* cave_p, MCave** cave_pp) {
+	//TODO this needs completion! Check the cave for a possible start position for the house AND give a return float that represents how qualified the spot (cave)
+	//is for starting
+
+
 	return false;
 }
 
