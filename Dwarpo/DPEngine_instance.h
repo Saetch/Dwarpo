@@ -55,7 +55,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         signed short camMovX = 0;
         signed short camMovY = 0;
         DrawObject drawObjectBuffer[491] = { 0 };
-
+        double zoom = 1.0f;
 
         SpriteManager* spriteManager;
 
@@ -95,7 +95,7 @@ class DPEngine_instance: public DwarPoEngine<DPEngine_instance>
         std::mutex entityListMutex;
         std::mutex foreGroundListMutex;
 
-
+        inline double zoomed_size();
         void drawBkBuffer();
 
 

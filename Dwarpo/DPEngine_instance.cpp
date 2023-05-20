@@ -16,7 +16,11 @@
 
 #define INITDEBUGBUFFER 1
 #define DWARPO_SHOWGRID 1
+#define SHOWSTATICBUFFER 0
 
+inline double DPEngine_instance::zoomed_size() {
+    return tileSize()* zoom;
+}
 
 void DPEngine_instance::CalculateLayout()
 {
@@ -200,7 +204,7 @@ void DPEngine_instance::addStructureToBkBuffer(Structure* const& struc)
 {
     pbkBufferTarget->BeginDraw();
 
-    auto rect = D2D1::RectF(struc->targetRect.left, tileSize() + struc->targetRect.top, struc->targetRect.right, tileSize() + struc->targetRect.bottom);
+    auto rect = D2D1::RectF(struc->targetRect.left, zoomed_size() * struc->targetRect.top, struc->targetRect.right, zoomed_size() * struc->targetRect.bottom);
     pbkBufferTarget->DrawBitmap(
 
         spriteManager->staticBuffer,
@@ -219,6 +223,8 @@ void DPEngine_instance::addStructureToBkBuffer(Structure* const& struc)
     }
 }
 
+
+//this will draw on the backgroundBuffer again but only on the necessary parts that should be updated upon destruction of this object
 void DPEngine_instance::destroyStructure(Structure* const& struc)
 {
     baseTile* curr;
@@ -230,9 +236,9 @@ void DPEngine_instance::destroyStructure(Structure* const& struc)
         for (int y = struc->yPos; y >= struc->yPos + std::get<1>(struc->getOffsets()); y--) {
 
              curr = model->getTileAt(x, y);
-             xTar = x * tileSize();
-             yTar = y * tileSize();
-             rect = D2D1::RectF(xTar, yTar, xTar + tileSize(), yTar + tileSize());
+             xTar = x * this->zoomed_size();
+             yTar = y * this->zoomed_size();
+             rect = D2D1::RectF(xTar, yTar, xTar + this->zoomed_size(), yTar + this->zoomed_size());
             //this was needed to reset a transformation that some other rendering method needed. Unnecessary if skipped.
 
             pbkBufferTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, curr->getRect());
@@ -279,7 +285,7 @@ int __fastcall DPEngine_instance::onUpdate()
             std::this_thread::yield();
             bkBufferMutex.lock();
         }
-        pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+        pRenderTarget->DrawBitmap(bkbuffer, D2D1::RectF(-cameraX, -cameraY, this->zoomed_size() * DWARPO_GRID_WIDTH - cameraX, this->zoomed_size() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
         bkBufferMutex.unlock();
         //drawYOrderedEntities
         D2D1_RECT_F actualRect;   
@@ -327,13 +333,16 @@ int __fastcall DPEngine_instance::onUpdate()
 
         }
 
-
+        
 
         //DEBUG: in Order to be able to correctly point Rectangles to Buffers, these will output the buffers (static and animation on top of the playing fields if unquotet)
+        if (SHOWSTATICBUFFER) {
+            pRenderTarget->DrawBitmap(spriteManager->staticBuffer, D2D1::RectF(), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0, 0, spriteManager->staticBuffer->GetSize().width, spriteManager->staticBuffer->GetSize().height));
+            pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+            pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
 
-        //pRenderTarget->DrawBitmap(spriteManager->staticBuffer, D2D1::RectF(), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, D2D1::RectF(0,0, spriteManager->staticBuffer->GetSize().width, spriteManager->staticBuffer->GetSize().height));
-        //pRenderTarget->DrawBitmap(spriteManager->getp_AnimationBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
-        //pRenderTarget->DrawBitmap(spriteManager->getp_StaticBitMap(), D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+
+        }
 
         if (INITDEBUGBUFFER) {
         pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-cameraX, -cameraY, tileSize() * DWARPO_GRID_WIDTH - cameraX, tileSize() * DWARPO_GRID_HEIGHT - cameraY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
@@ -355,6 +364,8 @@ int __fastcall DPEngine_instance::onUpdate()
     return 1;
 }
 
+
+//legacy rendering of simplistic shapes. Only used for the debug grid at this point
 inline void __fastcall DPEngine_instance::handleDrawObject(float x, float y, DrawObject* pDrawO) {
     float displayX;
     float displayY;
@@ -368,6 +379,7 @@ inline void __fastcall DPEngine_instance::handleDrawObject(float x, float y, Dra
     switch (pDrawO->drawType) {
 
     case DrawO_RECT_FILL:
+        
         pRenderTarget->SetTransform(
             D2D1::Matrix3x2F::Translation(displayX, displayY) * D2D1::Matrix3x2F::Rotation(pDrawO->getAngle(), D2D1::Point2F())
         );
@@ -404,51 +416,10 @@ inline void __fastcall DPEngine_instance::handleDrawObject(float x, float y, Dra
 
 }
 
+
+//this is a legacy version of rendering using simple shapes. This is essentially outclassed by the sprite rendering, but is still used to add the debug grid
 void __thiscall DPEngine_instance::fillBuffer()
 {
-    {
-        drawObjectBuffer[0].angle = 0.0f;
-        drawObjectBuffer[0].color = DrawO_COLOR_GREEN;
-        drawObjectBuffer[0].drawType = DrawO_RECT_FILL;
-        drawObjectBuffer[0].width = 1.0f;
-        drawObjectBuffer[0].x1 = 0.0f;
-        drawObjectBuffer[0].y1 = 0.0f;
-        drawObjectBuffer[0].x2 = 0.0f;
-        drawObjectBuffer[0].y2 = 0.0f;
-    }
-    {
-        //house(2x3) left
-        drawObjectBuffer[1].angle = 0.0f;
-        drawObjectBuffer[1].color = DrawO_COLOR_BLACK;
-        drawObjectBuffer[1].drawType = DrawO_LINE;
-        drawObjectBuffer[1].width = 1.0f;
-        drawObjectBuffer[1].x1 = 0.2f * tileSize();
-        drawObjectBuffer[1].y1 = 0.0f;
-        drawObjectBuffer[1].x2 = 0.2f * tileSize();
-        drawObjectBuffer[1].y2 = -0.6f * tileSize();
-    } 
-    {
-        //house(2x3) right
-        drawObjectBuffer[2].angle = 0.0f;
-        drawObjectBuffer[2].color = DrawO_COLOR_BLACK;
-        drawObjectBuffer[2].drawType = DrawO_LINE;
-        drawObjectBuffer[2].width = 1.0f;
-        drawObjectBuffer[2].x1 = 1.8f * tileSize();
-        drawObjectBuffer[2].y1 = 0.0f;
-        drawObjectBuffer[2].x2 = 1.8f * tileSize();
-        drawObjectBuffer[2].y2 = -0.6f * tileSize();
-    }
-    {
-        //house(2x3) bkgrnd
-        drawObjectBuffer[3].angle = 0.0f;
-        drawObjectBuffer[3].color = DrawO_COLOR_BROWN;
-        drawObjectBuffer[3].drawType = DrawO_RECT_FILL;
-        drawObjectBuffer[3].width = 1.0f;
-        drawObjectBuffer[3].x1 = 0.2f * tileSize();
-        drawObjectBuffer[3].y1 = 1.8f * tileSize();
-        drawObjectBuffer[3].x2 = 0.0f * tileSize();
-        drawObjectBuffer[3].y2 = 2.0f * tileSize();
-    }
     {
         //this is for debug purposes, to be removed later, maybe
         drawObjectBuffer[490].angle = 0.0f;
@@ -718,6 +689,9 @@ LRESULT DPEngine_instance::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
     int ret;
     switch (uMsg)
     {
+    case WM_MOUSEWHEEL:
+        //TODO compute mousewheel
+        break;
     case WM_CREATE:
         if (FAILED(CoInitializeEx(NULL, COINIT_MULTITHREADED))) {
             printf_s("FAILED initializing COM-Components");
@@ -865,7 +839,7 @@ void DPEngine_instance::drawDebugChunks(QueueTypeLinkedList<LinkedChunk>* &chunk
     }
 
     if (SUCCEEDED(hr)) {
-        float tileSiz = tileSize() * 0.7;
+        float tileSiz = this->zoomed_size() * 0.7;
        // if (w != 0 || h != 0) return;
         //if (w != 0) return;
         this->pdebugBufferTarget->BeginDraw();
@@ -902,7 +876,7 @@ void DPEngine_instance::drawDebugChunks(QueueTypeLinkedList<LinkedChunk>* &chunk
 
 
     this->pRenderTarget->BeginDraw();
-    pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-disX, -disY, tileSize() * DWARPO_GRID_WIDTH - disX, tileSize() * DWARPO_GRID_HEIGHT - disY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
+    pRenderTarget->DrawBitmap(this->debugbuffer, D2D1::RectF(-disX, -disY, this->zoomed_size() * DWARPO_GRID_WIDTH - disX, this->zoomed_size() * DWARPO_GRID_HEIGHT - disY), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, bkSrcRect);
     this->pRenderTarget->EndDraw();
     return;
 }
